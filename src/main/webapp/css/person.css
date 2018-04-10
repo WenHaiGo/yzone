@@ -1,0 +1,120 @@
+/*开始对于个人页面开始*/
+
+
+/*背景图片*/
+
+.user-cover {
+	background-color: #999999;
+	width: 1000px;
+	height: 240px;
+	margin-left: auto;
+	margin-right: auto;
+	border-radius: 2px;
+}
+
+
+/*上传视频*/
+
+.user-cover .button-tiny {
+	margin-left: 800px;
+	margin-top: 200px;
+	background-color: #C0C0C0;
+	width: 120px;
+}
+
+
+/*头像*/
+
+.user-avater {
+	display: inline-block;
+	overflow: hidden;
+	vertical-align: top;
+	border: 4px solid #fff;
+	border-radius: 8px;
+}
+
+
+/*背景图片以下区域*/
+
+
+/*设置居中*/
+
+#main-part {
+	text-align: center;
+}
+
+#main-part .ProfileHeader-wrapper {
+	background-color: #FFFFFF;
+	width: 1000px;
+	height: 100px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.ProfileHeader-wrapper .ProfileHeader-main {
+	width: 1000px;
+	height: 40px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+
+/*头像*/
+
+.ProfileHeader-wrapper .ProfileHeader-main .user-avater {
+	width: 140px;
+	height: 140px;
+	background-image: url(../img/yy.png);
+	background-size: 100% 100%;
+	margin-left: -800px;
+	margin-top: -60px;
+}
+
+
+/*个人信息简单街扫*/
+
+.ProfileHeader-content .ProfileHeader-title {
+	margin-left: -200px;
+	margin-top: -30px;
+}
+
+.ProfileHeader-content .ProfileHeader-headline {
+	font-size: 20px;
+}
+
+
+/*开始处理个人活动页面*/
+
+#main-part #user-action {
+	text-align: center;
+	width: 1000px;
+	height: 100px;
+	margin-left: auto;
+	margin-right: auto;
+}	
+
+#user-action #action-left {
+	float: left;
+	background-color: #FFFFFF;
+	width: 65%;
+	height: 100px;
+	margin-top: 20px;
+	margin-left: auto;
+	margin-right: 2%;
+}
+
+#user-action #action-right {
+	float: left;
+	background-color: #FFFFFF;
+	width:33%;
+	height: 100px;
+	margin-top: 20px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#user-action #action-left ul,li{
+	float: left;
+	list-style: none;
+	margin-right: ;
+}

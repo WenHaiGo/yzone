@@ -1,0 +1,292 @@
+body {
+	background-color: #e6e1e1;
+}
+
+
+/*定义导航栏*/
+
+
+/*导航栏宽度控制*/
+
+#header {
+	width: 1200px;
+}
+
+
+/*防止标题响应式*/
+
+.nav>li {
+	float: left;
+}
+
+.navbar:nth-child(1) {
+	background-color: #f6f6f6;
+	height: 55px;
+	
+}
+
+.navbar:nth-child(1)  .navbar-brand {
+	background-image: url(../img/logo4.png);
+	width: 150px;
+	background-size: 100%;
+	background-repeat: no-repeat;
+	background-position: center center;
+	margin-left: 12px;
+}
+
+.navbar:nth-child(1)  .navbar-nav {
+	font-size: 16px;
+}
+
+.navbar:nth-child(1)  .navbar-nav {
+	padding-left: 30px;
+	padding-right: 50px;
+}
+
+.navbar:nth-child(1)  .navbar-nav a:hover {
+	display: block;
+	color: cornflowerblue!important;
+}
+
+.navbar:nth-child(1)  .navbar-right img {
+	margin-left: 20px;
+	margin-right: 20px;
+	margin-top: 10px;
+	width: 30px;
+	height: 30px;
+}
+
+#header input {
+	margin-top: 10px;
+	margin-bottom: 5px;
+	margin-right: 10px;
+	width: 300px;
+	border-radius: 5px;
+	height: 35px;
+}
+
+
+/*不知道啥作用*/
+
+.row button {
+	width: 70px;
+	border-radius: 5px;
+	height: 35px;
+	background-color: #333333;
+	color: white;
+}
+
+
+/*把主体页面分成俩个部分*/
+
+#left {
+	float: left;
+	width: 800px;
+}
+
+#right {
+	float: left;
+	width: 300px;
+	margin-left: 30px;
+}
+
+#left .trans-io textarea {
+	display: inline-block;
+	width: 49.7%;
+	height: 80px;
+	margin-left: 0px;
+	margin-right: 0px;
+}
+
+#left .trans-io select {
+	display: inline-block;
+	width: 12%;
+	margin-right: 10%;
+	margin-left: 20%;
+	padding: 0 0%;
+	margin-bottom: 10px;
+	margin-top: auto;
+	background-color: #CCCCCC;
+}
+
+.trans-io select:nth-child(2) {
+	margin-left: 300px;
+	display: inline-block;
+	width: 12%;
+	margin-left: 20%;
+	margin-right: 30px;
+	padding: 0 0%;
+	margin-bottom: 10px;
+	margin-top: auto;
+}
+
+.trans-io option {
+	text-align: center;
+}
+
+.trans-io textarea {
+	border-radius: 5px;
+}
+
+.feed-list {}
+
+.feed-list-item {
+	background-color: #fff;
+	margin-bottom: 10px;
+}
+
+.topic-source {
+	font-size: 15px;
+	color: #aeb5c3;
+}
+
+.feed-info .portrait {
+	display: inline-block;
+	width: 27px;
+	height: 23px;
+	border-radius: 100%;
+}
+
+.feed-content {
+	margin-left: 20px;
+	margin-top: 20px;
+	border-radius: 3px;
+}
+
+.feed-content .nickname {
+	display: inline-block;
+	font-weight: bold;
+}
+
+.feed-content .userdesc {
+	display: inline-block;
+}
+
+.feed-content .feed-title {
+	font-size: 20px;
+	display: block;
+	font-weight: bold;
+}
+
+.feed-content .ContentItem-title {
+	font-weight: bold;
+	max-width: 700px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	margin-top: 10px;
+}
+
+.feed-content .voters,
+.voter-time {
+	color: #C0C0C0;
+	/*why  not  work*/
+	/*margin-top: 100px;*/
+}
+
+.feed-content .ContentItem-content {
+	display: block;
+	color: #C0C0C0;
+	font-size: 20px;
+	margin-top: 5px;
+}
+
+.feed-content .vote-up {
+	border: none;
+	background: #ccc;
+	background-color: #e5f2ff;
+	background-image: url(../img/vote-up.png);
+	background-size: 50% 100%;
+	background-repeat: no-repeat;
+	background-position: center;
+	width: 60px;
+	height: 30px;
+	display: inline-block;
+}
+
+.feed-content .vote-down {
+	border: none;
+	background: #ccc;
+	background-color: #e5f2ff;
+	background-image: url(../img/vote-down.png);
+	background-size: 100% 100%;
+	width: 30px;
+	height: 30px;
+	display: inline-block;
+}
+
+.feed-content .user-action {
+	display: inline-block;
+}
+
+.feed-content .user-action img {
+	display: inline-block;
+	width: 16px;
+	height: 18px;
+	margin-left: 50px;
+}
+
+.feed-content .ContentItem-content img {
+	border-radius: 5px;
+}
+
+.feed-content .user-action span {
+	margin-left: 10px;
+}
+
+a {
+	text-decoration: none;
+}
+
+.ad,
+.hot-topic {
+	background-color: #ffffff;
+	padding: 10px 10px 10px 10px;
+	margin-bottom: 10px;
+}
+
+.hot-topic span {
+	font-weight: bold;
+	font-size: 20px;
+	display: inline-block;
+}
+
+.hot-topic span img {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+}
+
+
+/*关于注册登陆页面*/
+
+.login-part {
+	text-align: center;
+}
+
+.login-part #loginForm {
+	display: inline-block;
+	margin-top: 50px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.login-part #loginForm table {
+	background-color: #FFFFFF;
+	width: 500px;
+	height: 500px;
+}
+
+.login-part #loginForm table input{
+	height: 50px;
+	width: 300px;
+}
+
+.login-part #loginForm table input:nth-child(3)
+{
+	width: 150px;
+}
+.login-part #loginForm table #veryCode{
+	width: 120px;
+
+}

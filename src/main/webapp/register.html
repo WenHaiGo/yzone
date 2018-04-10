@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" href="css/bootstrap.min.css" />
+		<link rel="stylesheet" href="css/buttons.css" />
+		<link rel="stylesheet" href="css/main.css" />
+		<script type="text/javascript" src="scripts/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="scripts/function.js"></script>
+		<title>译空间注册</title>
+	
+	</head>
+
+	<body>
+
+		<div class="navbar">
+			<div class="container" id="header">
+				<div class="row">
+					<a href="index.html" class="navbar-brand" id="aa"></a>
+					<ul class="nav navbar-nav">
+						<li>
+							<a href="#">首页</a>
+						</li>
+						<li>
+							<a href="#">发现</a>
+						</li>
+						<li>
+							<a href="#">话题</a>
+						</li>
+					</ul>
+
+					<input type="text">
+					<a href="" class="button button-primary button-rounded button-small">搜索</a>
+					<ul class="nav navbar-nav navbar-right ">
+						<li>
+							<img src="img/alert.png" />
+						</li>
+						<li>
+							<img src="img/chat.png" />
+						</li>
+						<li>
+							<a href="login.html ">登录</a>
+						</li>
+						<li>
+							<a href="register.html ">注册</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		
+		
+		<div class="login-part">
+			<form id="loginForm">
+				<table>
+					<tr>
+						<td colspan="2">
+							<img src="img/logo4.png"/>
+						</td>
+					</tr>
+					<tr>
+						<td class="field">用 户 名：</td>
+						<td><input class="text" type="text" name="username"  onblur="checkItem(this);" placeholder="手机号/邮箱/用户名" /><span id="regreminder"></span></td>
+					</tr>
+					<tr>
+						<td class="field">登录密码：</td>
+						<td><input class="text" type="password" id="password" name="password"  placeholder="输入密码" /><span></span></td>
+					</tr>
+					<tr>
+						<td class="field">确认密码：</td>
+						<td><input class="text" type="password" name="repassword" onblur="CheckItem(this);" placeholder="确认密码"/><span></span></td>
+					</tr>
+					<tr>
+						<td class="field">验 证 码：</td>
+						<td><input class="text verycode" type="text" name="veryCode" onfocus="FocusItem(this)" onblur="CheckItem(this);" /><img id="veryCode" src="" /><span></span></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><label class="ui-green"><input type="button" onclick="register()" value="提交注册" /></label></td>
+					</tr>
+				</table>
+			</form>
+		</div>
+		
+		
+	</body>
+
+</html>
