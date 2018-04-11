@@ -42,5 +42,12 @@ public class UserController {
         System.out.println(password);
         return userService.checkLogin(username,password)==1?"yes":"no";
     }
+    @RequestMapping("/register")
+    @ResponseBody
+    public String register(String username,String password){
+
+        return userService.register(username,password)==1?"yes":"no";
+    }
+
 
 }

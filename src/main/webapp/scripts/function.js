@@ -8,7 +8,7 @@ function checkItem(obj) {
         },
         dataType: "text",
         success: function (data) {
-           alert(data)
+            alert(data)
             if (data == "yes") {
                 $("#loginreminder").html("ok");
                 $("#regreminder").html("sorry");
@@ -50,8 +50,10 @@ function checkLogin() {
     })
 }
 
-//注册判断:
+//处理注册:
 function register() {
+    var username = $("input[name='username']").val();
+    var password = $("input[name='password']").val();
     $.ajax({
         url: '/yzone/user/register',
         type: 'post',
@@ -72,4 +74,16 @@ function register() {
             }
         }
     })
+}
+
+
+//点击发表 触发弹出层
+function deliver() {
+    newspanel = $("#newspanel");
+    newspanel.modal({
+        show: true,//显示弹出层
+        backdrop: 'static',//禁止位置关闭
+        keyboard: false//关闭键盘事件
+    });
+
 }

@@ -10,8 +10,13 @@
         WHERE username = #{username}
     </select>
     <select id="checkLogin" resultType="java.lang.Integer" parameterType="map">
-        SELECT count(*) FROM  user WHERE username = #{username} and password = #{password}
+        SELECT count(*)
+        FROM user
+        WHERE username = #{username} AND password = #{password}
     </select>
 
+    <insert id="register" parameterType="map">
+        INSERT INTO user (username, password) VALUES (#{username}, #{password});
+    </insert>
 </mapper>
 

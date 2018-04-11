@@ -14,4 +14,11 @@ public interface UserDao {
      * @return
      */
     int checkLogin(Map<String,String> map);
+
+    /**
+     * 注册
+     * @return
+     */
+    int register(Map<String,String> map);
+
 }

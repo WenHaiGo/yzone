@@ -28,4 +28,13 @@ public class UserServiceImpl implements UserService {
         int isExist = userDao.checkLogin(map);
         return isExist;
     }
+
+    @Override
+    public int register(String username, String password) {
+        Map<String,String> map = new HashMap<String, String>();
+        map.put("username",username);
+        map.put("password",password);
+        return  userDao.register(map);
+
+    }
 }

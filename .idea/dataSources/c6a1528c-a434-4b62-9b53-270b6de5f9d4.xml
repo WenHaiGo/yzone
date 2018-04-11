@@ -859,59 +859,64 @@
       <DataType>datetime|0</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="216" parent="208" name="PRIMARY">
+    <column id="216" parent="208" name="media">
+      <Position>7</Position>
+      <DataType>varchar(255)|0</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <key id="217" parent="208" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="217" parent="209" name="id">
+    <column id="218" parent="209" name="id">
       <Position>1</Position>
       <DataType>bigint(20)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="218" parent="209" name="password">
+    <column id="219" parent="209" name="password">
       <Position>2</Position>
       <DataType>varchar(255)|0</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="219" parent="209" name="username">
+    <column id="220" parent="209" name="username">
       <Position>3</Position>
       <DataType>varchar(255)|0</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="220" parent="209" name="sex">
+    <column id="221" parent="209" name="sex">
       <Position>4</Position>
       <DataType>tinyint(255)|0</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="221" parent="209" name="create_time">
+    <column id="222" parent="209" name="create_time">
       <Position>5</Position>
       <DataType>datetime|0</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="222" parent="209" name="address">
+    <column id="223" parent="209" name="address">
       <Position>6</Position>
       <DataType>varchar(255)|0</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="223" parent="209" name="modify_time">
+    <column id="224" parent="209" name="modify_time">
       <Position>7</Position>
       <DataType>datetime|0</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="224" parent="209" name="profession">
+    <column id="225" parent="209" name="profession">
       <Position>8</Position>
       <DataType>varchar(255)|0</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="225" parent="209" name="school">
+    <column id="226" parent="209" name="school">
       <Position>9</Position>
       <DataType>varchar(255)|0</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="226" parent="209" name="PRIMARY">
+    <key id="227" parent="209" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>

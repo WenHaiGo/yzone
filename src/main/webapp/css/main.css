@@ -1,5 +1,5 @@
 body {
-	background-color: #e6e1e1;
+	background-color: #eaeef7;
 }
 
 
@@ -131,8 +131,9 @@ body {
 .feed-list {}
 
 .feed-list-item {
-	background-color: #fff;
+	background-color: #ffffff;
 	margin-bottom: 10px;
+	border-radius: 10px;
 }
 
 .topic-source {
@@ -240,7 +241,7 @@ a {
 
 .ad,
 .hot-topic {
-	background-color: #ffffff;
+	background-color: #f0f0f0;
 	padding: 10px 10px 10px 10px;
 	margin-bottom: 10px;
 }
@@ -289,4 +290,14 @@ a {
 .login-part #loginForm table #veryCode{
 	width: 120px;
 
+}
+
+textarea{
+	resize: none;
+}
+
+/*发表框弹出层*/
+.modal-body textarea{
+	width: 100%;
+	border-radius: 5px;
 }

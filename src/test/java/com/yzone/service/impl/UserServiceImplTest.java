@@ -27,4 +27,9 @@ public class UserServiceImplTest {
     public void checkLogin() {
         System.out.println(userService.checkLogin("john","123"));
     }
+
+    @Test
+    public void register() {
+        userService.register("haha","123");
+    }
 }
