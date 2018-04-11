@@ -821,102 +821,152 @@
       <Charset>utf8mb4</Charset>
       <DefaultForCharset>0</DefaultForCharset>
     </collation>
-    <table id="208" parent="10" name="news">
+    <table id="208" parent="10" name="language">
       <Engine>InnoDB</Engine>
     </table>
-    <table id="209" parent="10" name="user">
+    <table id="209" parent="10" name="news">
       <Engine>InnoDB</Engine>
     </table>
-    <column id="210" parent="208" name="id">
+    <table id="210" parent="10" name="user">
+      <Engine>InnoDB</Engine>
+    </table>
+    <column id="211" parent="208" name="id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="211" parent="208" name="title">
+    <column id="212" parent="208" name="short_name">
       <Position>2</Position>
       <DataType>varchar(255)|0</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="212" parent="208" name="content">
+    <column id="213" parent="208" name="complete_name">
       <Position>3</Position>
       <DataType>varchar(255)|0</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="213" parent="208" name="create_time">
+    <column id="214" parent="208" name="create_time">
       <Position>4</Position>
       <DataType>datetime|0</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="214" parent="208" name="topic_id">
-      <Position>5</Position>
-      <DataType>int(11)|0</DataType>
-      <ColumnKind>normal</ColumnKind>
-    </column>
     <column id="215" parent="208" name="modify_time">
-      <Position>6</Position>
+      <Position>5</Position>
       <DataType>datetime|0</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="216" parent="208" name="media">
-      <Position>7</Position>
-      <DataType>varchar(255)|0</DataType>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <key id="217" parent="208" name="PRIMARY">
+    <key id="216" parent="208" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
+    <column id="217" parent="209" name="uid">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
     <column id="218" parent="209" name="id">
+      <Position>2</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="219" parent="209" name="title">
+      <Position>3</Position>
+      <DataType>varchar(255)|0</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="220" parent="209" name="trans_content">
+      <Position>4</Position>
+      <DataType>varchar(255)|0</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="221" parent="209" name="origin_content">
+      <Position>5</Position>
+      <DataType>varchar(255)|0</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="222" parent="209" name="create_time">
+      <Position>6</Position>
+      <DataType>datetime|0</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="223" parent="209" name="topic_id">
+      <Position>7</Position>
+      <DataType>int(11)|0</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="224" parent="209" name="modify_time">
+      <Position>8</Position>
+      <DataType>datetime|0</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="225" parent="209" name="media_url">
+      <Position>9</Position>
+      <DataType>varchar(255)|0</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="226" parent="209" name="addition">
+      <Position>10</Position>
+      <DataType>varchar(255)|0</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <key id="227" parent="209" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="228" parent="210" name="id">
       <Position>1</Position>
       <DataType>bigint(20)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="219" parent="209" name="password">
+    <column id="229" parent="210" name="password">
       <Position>2</Position>
       <DataType>varchar(255)|0</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="220" parent="209" name="username">
+    <column id="230" parent="210" name="username">
       <Position>3</Position>
       <DataType>varchar(255)|0</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="221" parent="209" name="sex">
+    <column id="231" parent="210" name="sex">
       <Position>4</Position>
       <DataType>tinyint(255)|0</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="222" parent="209" name="create_time">
+    <column id="232" parent="210" name="create_time">
       <Position>5</Position>
       <DataType>datetime|0</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="223" parent="209" name="address">
+    <column id="233" parent="210" name="address">
       <Position>6</Position>
       <DataType>varchar(255)|0</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="224" parent="209" name="modify_time">
+    <column id="234" parent="210" name="modify_time">
       <Position>7</Position>
       <DataType>datetime|0</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="225" parent="209" name="profession">
+    <column id="235" parent="210" name="profession">
       <Position>8</Position>
       <DataType>varchar(255)|0</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="226" parent="209" name="school">
+    <column id="236" parent="210" name="school">
       <Position>9</Position>
       <DataType>varchar(255)|0</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="227" parent="209" name="PRIMARY">
+    <key id="237" parent="210" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yzone.dao.NewsDao">
+
+    <select id="getAllLanguage" resultType="Language">
+        SELECT
+            complete_name,
+            short_name
+        FROM language
+    </select>
+    <select id="getShortByComplete" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT short_name
+        FROM language
+        WHERE complete_name = #{completeName}
+    </select>
+
+    <insert id="add" parameterType="News">
+        INSERT INTO news (origin_content, trans_content, addition, media_url)
+        VALUES (#{originContent}, #{transContent}, #{addition}, #{mediaUrl})
+    </insert>
+</mapper>
+    

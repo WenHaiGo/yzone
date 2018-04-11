@@ -7,10 +7,36 @@ public class News {
     private int id;
     private int topicId;
     private String title;
-    private String content;
+    private String originContent;
+    private String transContent;
     private Date createTime;
     private Date modifyTime;
-    private String media;
+    private String mediaUrl;
+    private String addition;
+
+    public String getAddition() {
+        return addition;
+    }
+
+    public void setAddition(String addition) {
+        this.addition = addition;
+    }
+
+    public String getOriginContent() {
+        return originContent;
+    }
+
+    public void setOriginContent(String originContent) {
+        this.originContent = originContent;
+    }
+
+    public String getTransContent() {
+        return transContent;
+    }
+
+    public void setTransContent(String transContent) {
+        this.transContent = transContent;
+    }
 
     public int getId() {
         return id;
@@ -36,13 +62,6 @@ public class News {
         this.title = title;
     }
 
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
 
     public Date getCreateTime() {
         return createTime;
@@ -60,11 +79,11 @@ public class News {
         this.modifyTime = modifyTime;
     }
 
-    public String getMedia() {
-        return media;
+    public String getMediaUrl() {
+        return mediaUrl;
     }
 
-    public void setMedia(String media) {
-        this.media = media;
+    public void setMediaUrl(String mediaUrl) {
+        this.mediaUrl = mediaUrl;
     }
 }
