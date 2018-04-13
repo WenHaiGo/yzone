@@ -6,13 +6,32 @@ public class User {
     private int id;
     private String password;
     private String username;
+
     private int sex;
     private String address;
     private Date createTime;
     private Date modifyTime;
     private String school;
     private String profession;
+    private String headPortait;
 
+    public String getHeadPortait() {
+        return headPortait;
+    }
+
+    public void setHeadPortait(String headPortait) {
+        this.headPortait = headPortait;
+    }
+
+    public String getHeadPortrait() {
+        return headPortrait;
+    }
+
+    public void setHeadPortrait(String headPortrait) {
+        this.headPortrait = headPortrait;
+    }
+
+    private String headPortrait;
     public int getId() {
         return id;
     }

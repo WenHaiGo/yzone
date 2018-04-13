@@ -13,7 +13,6 @@ public class News {
     private Date modifyTime;
     private String mediaUrl;
     private String addition;
-
     public String getAddition() {
         return addition;
     }

@@ -931,42 +931,47 @@
       <DataType>varchar(255)|0</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="230" parent="210" name="username">
+    <column id="230" parent="210" name="head_portrait">
       <Position>3</Position>
       <DataType>varchar(255)|0</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="231" parent="210" name="sex">
+    <column id="231" parent="210" name="username">
       <Position>4</Position>
+      <DataType>varchar(255)|0</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="232" parent="210" name="sex">
+      <Position>5</Position>
       <DataType>tinyint(255)|0</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="232" parent="210" name="create_time">
-      <Position>5</Position>
-      <DataType>datetime|0</DataType>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="233" parent="210" name="address">
+    <column id="233" parent="210" name="create_time">
       <Position>6</Position>
-      <DataType>varchar(255)|0</DataType>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="234" parent="210" name="modify_time">
-      <Position>7</Position>
       <DataType>datetime|0</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="235" parent="210" name="profession">
-      <Position>8</Position>
+    <column id="234" parent="210" name="address">
+      <Position>7</Position>
       <DataType>varchar(255)|0</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="236" parent="210" name="school">
+    <column id="235" parent="210" name="modify_time">
+      <Position>8</Position>
+      <DataType>datetime|0</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="236" parent="210" name="profession">
       <Position>9</Position>
       <DataType>varchar(255)|0</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="237" parent="210" name="PRIMARY">
+    <column id="237" parent="210" name="school">
+      <Position>10</Position>
+      <DataType>varchar(255)|0</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <key id="238" parent="210" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>

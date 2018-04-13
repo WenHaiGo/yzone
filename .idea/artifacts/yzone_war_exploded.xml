@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="exploded-war" name="yzone:war exploded">
-    <output-path>$PROJECT_DIR$/target/webapp</output-path>
+    <output-path>$PROJECT_DIR$/target/seckill</output-path>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">

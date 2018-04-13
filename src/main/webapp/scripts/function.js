@@ -8,7 +8,6 @@ function checkItem(obj) {
         },
         dataType: "text",
         success: function (data) {
-            alert(data)
             if (data == "yes") {
                 $("#loginreminder").html("ok");
                 $("#regreminder").html("sorry");
@@ -37,10 +36,10 @@ function checkLogin() {
         },
         dataType: 'text',
         success: function (data) {
-            alert(data)
+
 
             if (data == "yes") {
-                alert(1)
+
                 location.href = "index.html";
             }
             else {
@@ -123,3 +122,16 @@ function trans() {
 }
 
 
+//当用户登陆成功的时候显示用户头像
+$(function () {
+    var headPortait = $.cookie('headPortait');
+    if(headPortait!=null)
+    {
+
+        $("#head").attr("src",headPortait);
+        $("#head").show()
+        $("#login").remove()
+        $("#register").remove();
+
+    }
+})

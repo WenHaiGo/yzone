@@ -1,5 +1,7 @@
 package com.yzone.dao;
 
+import com.yzone.model.User;
+
 import java.util.Map;
 
 public interface UserDao {
@@ -21,4 +23,5 @@ public interface UserDao {
      */
     int register(Map<String,String> map);
 
+    User getUserByUsername(String username);
 }
