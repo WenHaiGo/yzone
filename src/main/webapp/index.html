@@ -118,6 +118,52 @@
                                 <textarea id="modalorigin" name="originContent"></textarea>
                                 译文
                                 <textarea id="modaltrans" name="transContent"></textarea>
+                                添加话题  <a  data-toggle='modal'  data-target="#addtopicpanel">没找到?创建话题</a>
+                                <script>
+                                    function addTopic() {
+                                        var topicName = $("#topicname").val();
+                                        var topicDesc =$("#topicdesc").val()
+                                        $.ajax({
+                                            url: '/yzone/topic/add',
+                                            type: 'post',
+                                            data:{
+                                                topicName:topicName,
+                                                description:topicDesc
+                                            },
+                                            dataType: 'text',
+                                            success:function(data){
+                                                if(data=="no"){
+                                                    alert("11111发生错误")
+                                                }
+                                                if(data=="yes")
+                                                {
+                                                $("#addtopicpanel").modal('hide');
+                                                }
+                                            },
+                                            error: function () {
+                                                alert("发生错误")
+                                                },
+
+                                        })
+                                    }
+                                </script>
+                                <!--自己添加话题的模态框-->
+                                <div  class="modal fade" data-backdrop="true" id="addtopicpanel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                                      aria-hidden="true">
+                                    <div class="modal-dialog" style="width: 500px;">
+                                        <div class="modal-content" align="center">
+                                            <div class="modal-header">
+                                            <textarea id="topicname" placeholder="话题名称"></textarea> <textarea id="topicdesc" placeholder="话题描述" ></textarea>
+                                                <button type="button" onclick="addTopic()">
+                                                    提交
+                                                </button>
+                                            </div>
+
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal -->
+                                </div>
+                                <textarea id="topic" name="topic" placeholder="添加话题"><div><a>nihao</a></div></textarea>
+
                                 问题描述(可选)
                                 <textarea name="addition"></textarea>
                                 添加图片或视频(可选)
@@ -270,7 +316,7 @@
 
         <div id="right">
             <div class="ad">
-                展示广告展示广告展示广告展示广告展示广告展示广告展示广告
+                展示广告展示广告展示广告展示广告展示广告展示广告展示
                 <img src="img/ad.jpg"/>
             </div>
 

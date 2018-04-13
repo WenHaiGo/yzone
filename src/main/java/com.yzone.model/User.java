@@ -13,15 +13,9 @@ public class User {
     private Date modifyTime;
     private String school;
     private String profession;
-    private String headPortait;
+    private String headPortrait;
 
-    public String getHeadPortait() {
-        return headPortait;
-    }
 
-    public void setHeadPortait(String headPortait) {
-        this.headPortait = headPortait;
-    }
 
     public String getHeadPortrait() {
         return headPortrait;
@@ -31,7 +25,6 @@ public class User {
         this.headPortrait = headPortrait;
     }
 
-    private String headPortrait;
     public int getId() {
         return id;
     }

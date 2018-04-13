@@ -51,8 +51,9 @@ public class UserController {
             System.out.println("已经保存");
             //通过username获取user实体类
             User user = userService.getUserByUsername(username);
-            String headPortait = user.getHeadPortait();
-            Cookie cookie = new Cookie("headPortait", user.getHeadPortait());
+            String headPortait =user.getHeadPortrait();
+            Cookie cookie = new Cookie("headPortait", user.getHeadPortrait());
+            System.out.println("打印粗来用户头像"+user.getHeadPortrait());
             Cookie cookie1 = new Cookie("username", username);
             cookie.setPath("/");
             cookie1.setPath("/");
