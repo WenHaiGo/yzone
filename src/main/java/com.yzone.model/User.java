@@ -6,7 +6,7 @@ public class User {
     private int id;
     private String password;
     private String username;
-
+    private String personSignature;
     private int sex;
     private String address;
     private Date createTime;
@@ -15,7 +15,12 @@ public class User {
     private String profession;
     private String headPortrait;
 
-
+    public String getPersonSignature() {
+        return personSignature;
+    }
+    public void setPersonSignature(String personSignature) {
+        this.personSignature = personSignature;
+    }
 
     public String getHeadPortrait() {
         return headPortrait;

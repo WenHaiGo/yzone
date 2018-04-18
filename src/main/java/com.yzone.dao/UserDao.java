@@ -24,4 +24,6 @@ public interface UserDao {
     int register(Map<String,String> map);
 
     User getUserByUsername(String username);
+
+    User getUserById(int uid);
 }

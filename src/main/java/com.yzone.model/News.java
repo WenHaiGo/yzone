@@ -4,7 +4,9 @@ import java.util.Date;
 
 public class News {
 
+
     private int id;
+    private int uid;
     private int topicId;
     private String title;
     private String originContent;
@@ -13,6 +15,15 @@ public class News {
     private Date modifyTime;
     private String mediaUrl;
     private String addition;
+
+    public int getUid() {
+        return uid;
+    }
+
+    public void setUid(int uid) {
+        this.uid = uid;
+    }
+
     public String getAddition() {
         return addition;
     }

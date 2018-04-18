@@ -11,4 +11,6 @@ public interface UserService {
     int register(String username,String password);
 
     User getUserByUsername(String username);
+
+    User getUserById(int uid);
 }

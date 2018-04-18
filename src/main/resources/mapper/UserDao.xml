@@ -27,5 +27,15 @@
         FROM user
         WHERE username = #{username};
     </select>
+
+
+    <select id="getUserById" parameterType="java.lang.Integer" resultType="User">
+        SELECT
+            head_portrait,
+            username,
+            person_signature
+        FROM user
+        WHERE id = #{uid}
+    </select>
 </mapper>
 

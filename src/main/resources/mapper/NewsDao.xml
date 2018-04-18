@@ -18,8 +18,25 @@
     </select>
 
     <insert id="add" parameterType="News">
-        INSERT INTO news (origin_content, trans_content, addition, media_url)
-        VALUES (#{originContent}, #{transContent}, #{addition}, #{mediaUrl})
+        <selectKey keyProperty="id" order="AFTER" resultType="int">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+        INSERT INTO news (uid,origin_content, trans_content, addition, media_url,create_time,topic_id)
+        VALUES (#{uid}, #{originContent}, #{transContent}, #{addition}, #{mediaUrl},now(),#{topicId})
     </insert>
+
+    <select id="getAllNews" resultType="News" parameterType="java.lang.Integer">
+        SELECT *
+        FROM news
+        WHERE topic_id
+              IN (SELECT topic_id
+                  FROM follow_topic
+                  WHERE uid = #{uid})
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        DELETE from news
+        WHERE id=#{newsId}
+    </delete>
 </mapper>
     

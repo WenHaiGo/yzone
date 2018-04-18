@@ -1,5 +1,6 @@
 package com.yzone.controller;
 
+import com.yzone.model.Topic;
 import com.yzone.model.User;
 import com.yzone.service.TopicService;
 import com.yzone.service.UserService;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Controller
 @RequestMapping("/topic")
@@ -33,7 +35,6 @@ public class TopicController {
                 Cookie temp = allCookies[i];
                 if (temp.getName().equals("username")) {
                     String userName =  temp.getValue();
-                    System.out.println("大萨达所多所多所多所多所多所多所多所多所多所多所多所多所多所多所"+userName);
                     User user = userService.getUserByUsername(userName);
                     System.out.println(user.getId());
                     if(user!=null){
@@ -44,8 +45,15 @@ public class TopicController {
             }
 
         }
-
-
         return isAdd == 1 ? "yes" : "no";
+    }
+
+
+    //话题智能提示
+    @RequestMapping("/pop")
+    @ResponseBody
+    public List<Topic> popTopic(String key){
+        List<Topic> readySet =  topicService.fuzzyQuery(key);
+        return readySet;
     }
 }

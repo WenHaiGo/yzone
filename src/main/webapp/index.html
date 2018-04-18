@@ -6,16 +6,17 @@
     <link rel="stylesheet" href="css/bootstrap.min.css"/>
     <link rel="stylesheet" href="css/buttons.css"/>
     <link rel="stylesheet" href="css/main.css"/>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <script type="text/javascript" src="scripts/jquery-3.3.1.min.js"></script>
     <script
             src="http://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
     <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
+    <script src="https://cdn.bootcss.com/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"></script>
     <script type="text/javascript" src="scripts/function.js"></script>
     <title>译空间注册</title>
 </head>
 
-<body onload="language()">
+<body onload="language()" onload="showAllNews()">
 
 <div class="navbar">
     <div class="container" id="header">
@@ -54,8 +55,9 @@
                         }
 
                     </style>
-                    <div  class="modal fade" data-backdrop="true" id="useraction" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-                          aria-hidden="true">
+                    <div class="modal fade" data-backdrop="true" id="useraction" tabindex="-1" role="dialog"
+                         aria-labelledby="myModalLabel"
+                         aria-hidden="true">
                         <div class="modal-dialog" style="width: 50px; left: 530px;top: 5%;">
                             <div class="modal-content" align="center">
                                 <p href="#">我的</p>
@@ -111,49 +113,22 @@
                                 发表到译空间
                             </h4>
                         </div>
-                        <form action="/yzone/news/send" method="post" enctype="multipart/form-data">
+                        <form id="uploadForm" method="post" enctype="multipart/form-data">
                             <div class="modal-body">
-
                                 原文
                                 <textarea id="modalorigin" name="originContent"></textarea>
                                 译文
                                 <textarea id="modaltrans" name="transContent"></textarea>
-                                添加话题  <a  data-toggle='modal'  data-target="#addtopicpanel">没找到?创建话题</a>
-                                <script>
-                                    function addTopic() {
-                                        var topicName = $("#topicname").val();
-                                        var topicDesc =$("#topicdesc").val()
-                                        $.ajax({
-                                            url: '/yzone/topic/add',
-                                            type: 'post',
-                                            data:{
-                                                topicName:topicName,
-                                                description:topicDesc
-                                            },
-                                            dataType: 'text',
-                                            success:function(data){
-                                                if(data=="no"){
-                                                    alert("11111发生错误")
-                                                }
-                                                if(data=="yes")
-                                                {
-                                                $("#addtopicpanel").modal('hide');
-                                                }
-                                            },
-                                            error: function () {
-                                                alert("发生错误")
-                                                },
-
-                                        })
-                                    }
-                                </script>
+                                添加话题 <a data-toggle='modal' data-target="#addtopicpanel">没找到?创建话题</a>
                                 <!--自己添加话题的模态框-->
-                                <div  class="modal fade" data-backdrop="true" id="addtopicpanel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-                                      aria-hidden="true">
+                                <div class="modal fade" data-backdrop="true" id="addtopicpanel" tabindex="-1"
+                                     role="dialog" aria-labelledby="myModalLabel"
+                                     aria-hidden="true">
                                     <div class="modal-dialog" style="width: 500px;">
                                         <div class="modal-content" align="center">
                                             <div class="modal-header">
-                                            <textarea id="topicname" placeholder="话题名称"></textarea> <textarea id="topicdesc" placeholder="话题描述" ></textarea>
+                                                <textarea id="topicname" name="topicName" placeholder="话题名称"></textarea>
+                                                <textarea id="topicdesc" placeholder="话题描述"></textarea>
                                                 <button type="button" onclick="addTopic()">
                                                     提交
                                                 </button>
@@ -162,17 +137,25 @@
                                         </div><!-- /.modal-content -->
                                     </div><!-- /.modal -->
                                 </div>
-                                <textarea id="topic" name="topic" placeholder="添加话题"><div><a>nihao</a></div></textarea>
-
+                                <!--添加话题-->
+                                <div id="topic-out">
+                                    <div id="topic-input-out">
+                                        <input type="text" id="topic-input" placeholder="填写话题">
+                                    </div>
+                                </div>
+                                <input name="allChosenTopics" hidden="hidden">
                                 问题描述(可选)
                                 <textarea name="addition"></textarea>
                                 添加图片或视频(可选)
-                                选择文件:<input type="file" name="file" width="120px">
+                                选择文件:<input type="file" name="file" width="120px"
+                                            onchange="document.getElementById('theFilePath').value=this.value"/>
+                                <input type="hidden" id="theFilePath" name="theFilePath" value="">
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary">
+                                <a type="button" onclick="sendNews()" class="btn btn-primary">
                                     提交
-                                </button>
+                                </a>
+
                             </div>
                         </form>
                     </div><!-- /.modal-content -->
@@ -180,147 +163,169 @@
             </div>
 
 
-            <div class="feed-list">
+            <div class="feed-list" id="feed-list">
                 <!--show each feed-->
-                <div class="feed-list-item clearfix">
-                    <div class="feed-content">
-                        <div class="topic-source">来自话题：纸牌屋</div>
-                        <div class="feed-info">
-                            <img src="img/yy.png" class="portrait"/>
-                            <span class="nickname">战斗你龙哥</span>，
-                            <span class="userdesc">不打倒帝国主义不回家娶媳妇</span>
-                            <h3 class="ContentItem-title">There are two kinds of pain.
-                                The sort of pain that makes you strong or
-                                useless pain...The sort of pain that's only suffering </h3>
-                            <span class="voters">42人赞了该回答</span> ·
-                            <span class="voter-time">3小时前</span>
-                            <span class="ContentItem-content">痛苦分两种。一种让你变得更强，另一种毫无价值，只是徒添折磨。
-									<img src="img/zpw.png"/>
-									</span>
-                            <button class="vote-up"></button>
-                            <button class="vote-down"></button>
-                            <div class="user-action">
-                                <a href="#"><img src="img/chat.png"/><span>评论</span></a>
-                                <a href="#"><img src="img/chat.png"/><span>收藏</span></a>
-                                <a href="#"><img src="img/chat.png"/><span>举报</span></a>
-                            </div>
+                <!--show each feed-->
+                <div class="feed-list-item clearfix" >
+                    <div class="feed-content" >
+                        <div class="topic-source">
+                            来自话题：纸牌屋
+                            <a style="margin-right: 600px"></a>
+                            <i class="fa fa-window-close icon-larger" ></i>
                         </div>
-                    </div>
-                </div>
 
-                <div class="feed-list-item clearfix">
-                    <div class="feed-content">
-                        <div class="topic-source">来自话题：纸牌屋</div>
                         <div class="feed-info">
-                            <img src="img/yy.png" class="portrait"/>
+                            <img src="img/yy.png" class="portrait" />
                             <span class="nickname">战斗你龙哥</span>，
                             <span class="userdesc">不打倒帝国主义不回家娶媳妇</span>
                             <h3 class="ContentItem-title">There are two kinds of pain.
                                 The sort of pain that makes you strong or
-                                useless pain...The sort of pain that's only suffering </h3>
+                                useless pain...The sort of pain that's only suffering  </h3>
                             <span class="voters">42人赞了该回答</span> ·
                             <span class="voter-time">3小时前</span>
                             <span class="ContentItem-content">痛苦分两种。一种让你变得更强，另一种毫无价值，只是徒添折磨。
-									<img src="img/zpw.png"/>
+									<img src="img/zpw.png" />
 									</span>
-                            <button class="vote-up"></button>
-                            <button class="vote-down"></button>
-                            <div class="user-action">
-                                <a href="#"><img src="img/chat.png"/><span>评论</span></a>
-                                <a href="#"><img src="img/chat.png"/><span>收藏</span></a>
-                                <a href="#"><img src="img/chat.png"/><span>举报</span></a>
-                            </div>
                         </div>
-                    </div>
-                </div>
-
-                <div class="feed-list-item clearfix">
-                    <div class="feed-content">
-                        <div class="topic-source">来自话题：纸牌屋</div>
-                        <div class="feed-info">
-                            <img src="img/yy.png" class="portrait"/>
-                            <span class="nickname">战斗你龙哥</span>，
-                            <span class="userdesc">不打倒帝国主义不回家娶媳妇</span>
-                            <h3 class="ContentItem-title">There are two kinds of pain.
-                                The sort of pain that makes you strong or
-                                useless pain...The sort of pain that's only suffering </h3>
-                            <span class="voters">42人赞了该回答</span> ·
-                            <span class="voter-time">3小时前</span>
-                            <span class="ContentItem-content">痛苦分两种。一种让你变得更强，另一种毫无价值，只是徒添折磨。
-									<img src="img/zpw.png"/>
-									</span>
-                            <button class="vote-up"></button>
-                            <button class="vote-down"></button>
-                            <div class="user-action">
-                                <a href="#"><img src="img/chat.png"/><span>评论</span></a>
-                                <a href="#"><img src="img/chat.png"/><span>收藏</span></a>
-                                <a href="#"><img src="img/chat.png"/><span>举报</span></a>
-                            </div>
+                        <div class="user-action">
+                            <a class="fa fa-thumbs-o-up icon-5x"></a>
+                            &nbsp;&nbsp;&nbsp;
+                            <a class="fa fa-thumbs-o-down"></a>
+                            <a href="#"><img src="img/chat.png" /><span>评论</span></a>
+                            <a href="#"><img src="img/chat.png" /><span>收藏</span></a>
+                            <a href="#"><img src="img/chat.png" /><span>举报</span></a>
                         </div>
-                    </div>
-                </div>
-
-                <div class="feed-list-item clearfix">
-                    <div class="feed-content">
-                        <div class="topic-source">来自话题：纸牌屋</div>
-                        <div class="feed-info">
-                            <img src="img/yy.png" class="portrait"/>
-                            <span class="nickname">战斗你龙哥</span>，
-                            <span class="userdesc">不打倒帝国主义不回家娶媳妇</span>
-                            <h3 class="ContentItem-title">There are two kinds of pain.
-                                The sort of pain that makes you strong or
-                                useless pain...The sort of pain that's only suffering </h3>
-                            <span class="voters">42人赞了该回答</span> ·
-                            <span class="voter-time">3小时前</span>
-                            <span class="ContentItem-content">痛苦分两种。一种让你变得更强，另一种毫无价值，只是徒添折磨。
-									<img src="img/zpw.png"/>
-									</span>
-                            <button class="vote-up"></button>
-                            <button class="vote-down"></button>
-                            <div class="user-action">
-                                <a href="#"><img src="img/chat.png"/><span>评论</span></a>
-                                <a href="#"><img src="img/chat.png"/><span>收藏</span></a>
-                                <a href="#"><img src="img/chat.png"/><span>举报</span></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="feed-list-item clearfix">
-                    <div class="feed-content">
-                        <div class="topic-source">来自话题：纸牌屋</div>
-                        <div class="feed-info">
-                            <img src="img/yy.png" class="portrait"/>
-                            <span class="nickname">战斗你龙哥</span>，
-                            <span class="userdesc">不打倒帝国主义不回家娶媳妇</span>
-                            <h3 class="ContentItem-title">There are two kinds of pain.
-                                The sort of pain that makes you strong or
-                                useless pain...The sort of pain that's only suffering </h3>
-                            <span class="voters">42人赞了该回答</span> ·
-                            <span class="voter-time">3小时前</span>
-                            <span class="ContentItem-content">痛苦分两种。一种让你变得更强，另一种毫无价值，只是徒添折磨。
-									<img src="img/hh.png"/>
-									</span>
-                            <button class="vote-up"></button>
-                            <button class="vote-down"></button>
-                            <div class="user-action">
-                                <a href="#"><img src="img/chat.png"/><span>评论</span></a>
-                                <a href="#"><img src="img/chat.png"/><span>收藏</span></a>
-                                <a href="#"><img src="img/chat.png"/><span>举报</span></a>
-                            </div>
-                        </div>
+                        <div style="float: right;" > <a class="button button-primary button-pill button-small">查看全部</a></div>
                     </div>
                 </div>
             </div>
+            <script>
+                /*加载登陆之后页面的news流*/
+                //加载所有动态
+                $(function () {
+                    $.ajax({
+                        url: '/yzone/news/all',
+                        type: 'post',
+                        dataType: 'json',
+                        success: function (data) {
+                            console.log("你买回到会" + data);
+                            for (var i = data.length-1; i >=0; i--) {
+                                console.log(data[i].topicName)
+                                var closeId = "close"+data[i].newsId;
+                                var news = '<div class="feed-list-item clearfix">\n' +
+                                    '\t\t\t\t\t\t\t<div class="feed-content"  >\n' +
+                                    '\t\t\t\t\t\t\t\t<div class="topic-source" >来自话题：'+ data[i].topicName +'<a  style="margin-right: 600px"></a>\n' +
+                                    '                             <i onclick="deleteNews(this)" id='+closeId+' style="display: none"  class="fa fa-window-close icon-larger"></i></div>\n' +
+                                    '\t\t\t\t\t\t\t\t<div class="feed-info" onmouseenter="showAll(this)" onmouseleave="hideNews(this)" >\n' +
+                                    '\t\t\t\t\t\t\t\t\t<img src="' + data[i].headPortrait + '" class="portrait" />\n' +
+                                    '\t\t\t\t\t\t\t\t\t<span class="nickname">' + data[i].userName + '</span>，\n' +
+                                    '\t\t\t\t\t\t\t\t\t<span class="userdesc">' + data[i].personSignature + '</span>\n' +
+                                    '\t\t\t\t\t\t\t\t\t<h3 class="ContentItem-title">' + data[i].originContent + '</h3>\n' +
+                                    '\t\t\t\t\t\t\t\t\t<span class="trans-content"  ><p>' + data[i].transContent + '</p>\n' +
+                                    '\t\t\t\t\t\t\t\t\t<img src="' + data[i].mediaUrl + '" />\n' +
+                                    '\t\t\t\t\t\t\t\t\t</span>\n' +
+                                    '\t\t\t\t\t\t\t\t\t\n' +
+                                    '\t\t\t\t\t\t\t\t\t\n' +
+                                    '\t\t\t\t\t\t\t\t</div>\n' +'<p></p>'+
+
+                                    '\t\t\t\t\t\t\t\t<div class="user-action"style="margin-top: 10px;" >\n' +
+                                    '\t\t\t\t\t\t\t\t\t<a class="fa fa-thumbs-o-up icon-5x"></a>\n' +
+                                    '\t\t\t\t\t\t\t\t\t&nbsp;&nbsp;&nbsp;\n' +
+                                    '\t\t\t\t\t\t\t\t\t<a class="fa fa-thumbs-o-down"></a>\n' +
+                                    '\t\t\t\t\t\t\t\t\t\t<a href="#"><img src="img/chat.png" /><span>评论</span></a>\n' +
+                                    '\t\t\t\t\t\t\t\t\t\t<a href="#"><img src="img/chat.png" /><span>收藏</span></a>\n' +
+                                    '\t\t\t\t\t\t\t\t\t\t<a href="#"><img src="img/chat.png" /><span>举报</span></a>\n' +'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
+                                    '<div  style="display: inline-block;" hidden="hidden" class="button button-rounded button-tiny">展示全部</div>'+
+                                    '\t\t\t\t\t\t\t\t</div>\n' +'<p></p>'+
+                                    '\t\t\t\t\t\t\t</div>\n' +
+                                    '\t\t\t\t\t\t</div>';
+                                $("#feed-list").append(news);
+                                //$('.feed-list').mouseover(showAll(document.getElementById(showAll())));
+                                if(data[i].canDelete==true)
+                                {
+                                    $("#"+closeId).show();
+                                }
+                            }
+                        },
+                        error: function () {
+                            alert("发生错误")
+                        },
+                    })
+                })
+
+                /*删除自己发的一条消息*/
+                function deleteNews(obj) {
+                     var r = confirm("确定删除吗?");
+                     if(r==true)
+                     {
+                       $(obj).parent().parent().parent().remove();
+                       //去除前面的close
+                        var  newsId=  $(obj).attr("id").replace("close","");
+
+                        $.ajax({
+                             url: '/yzone/news/delete',
+                             type: 'post',
+                             data: {
+                               newsId:newsId
+                             },
+                             dataType: 'text',
+                             success: function (data) {
+                                 if (data == "yes") {
+                                     console.log("删除成功")
+                                 }
+                                 else {
+                                     alert("删除失败");
+                                 }
+                             }
+                         })
+
+                     }
+
+                }
+
+                function showAll(obj) {
+                    /*var closeBtn = $($(obj).prev()).children("i");
+                    closeBtn.show();*/
+                    var total_height = obj.scrollHeight; //文章总高度
+                    var show_height = 300; //定义原始显示高度
+                    if (total_height > show_height) {
+                        obj.style.height = total_height + 'px';
+                    }
+                }
+
+              /*  function showAll(obj) {
+                    var btn = $(obj).find("div:eq(0)").find("div:eq(0)");
+                    var total_height = obj.scrollHeight; //文章总高度
+                    var show_height = 300; //定义原始显示高度
+                    if (total_height > show_height) {
+                        btn.show();
+                        btn.click(function () {
+                            obj.style.height = total_height + 'px';
+                            btn.hide();
+                        })
+                    }
+                }*/
+
+                function hideNews(obj) {
+                    console.log(1)
+                    obj.style.height = 300 + 'px';
+                }
+
+            </script>
+
+
+            <div style="display: none" href="#" onclick="showAll(this)" class="button button-pill button-tiny">显示全部
+            </div>
         </div>
 
-        <div id="right">
+        <div id="right" >
             <div class="ad">
+
                 展示广告展示广告展示广告展示广告展示广告展示广告展示
                 <img src="img/ad.jpg"/>
             </div>
 
-            <div class="hot-topic">
+            <div class="hot-topic"  >
                 <span>热译话题<img src="img/hot.png"/></span>
                 <p>纸牌屋</p>
                 <p>纸牌屋</p>

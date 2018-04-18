@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 @RequestMapping("/user")
 public class UserController {
+
     @Autowired
     private UserService userService;
 
@@ -28,8 +29,6 @@ public class UserController {
     @RequestMapping("/checkUserName")
     @ResponseBody
     public String isExist(String username) {
-        System.out.println("nsiaouhuidfshoids");
-        System.out.println(username + "============");
         System.out.println("dsdsd" + userService.isExist(username));
         return userService.isExist(username) == 1 ? "yes" : "no";
     }
@@ -44,8 +43,6 @@ public class UserController {
     @RequestMapping("/checkLogin")
     @ResponseBody
     public String checkLogin(HttpServletResponse response, String username, String password) {
-        System.out.println(username + "==============");
-        System.out.println(password);
         int isLogin = userService.checkLogin(username, password);
         if (isLogin == 1) {
             System.out.println("已经保存");

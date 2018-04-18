@@ -1,9 +1,10 @@
 package com.yzone.controller;
 
 import com.google.gson.Gson;
-import com.yzone.model.Language;
-import com.yzone.model.News;
+import com.yzone.model.*;
+import com.yzone.service.NewsAndTopicService;
 import com.yzone.service.NewsService;
+import com.yzone.service.TopicService;
 import com.yzone.service.UserService;
 import com.yzone.translate.TransApi;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLEncoder;
+import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 
@@ -52,14 +55,25 @@ public class NewsController {
     }
 
 
+    @Autowired
+    UserService userService;
+    @Autowired
+    TopicService topicService;
+    @Autowired
+    NewsAndTopicService newsAndTopicService;
+
     @RequestMapping("/send")
-    public String send(News news, MultipartFile file, HttpServletRequest request, String transContent, String originContent, String addition) throws IOException {
-        System.out.println("++++++++++++++++++++++" + transContent + originContent);
+    @ResponseBody
+    public String send(String theFilePath, News news, MultipartFile file, String allChosenTopics, HttpServletRequest request, String transContent, String originContent, String addition) throws IOException {
+        System.out.println("文件上传路径是" + theFilePath);
         String path = request.getSession().getServletContext().getRealPath("upload");
-        String name = file.getOriginalFilename();
-        String filetype = name.substring(name.lastIndexOf("."));
-        String mediaUrl = UUID.randomUUID().toString() + filetype;
-        File dir = new File(path, mediaUrl);
+
+        String fileName = file.getOriginalFilename();
+        String filetype = fileName.substring(fileName.lastIndexOf("."));
+
+        String media = UUID.randomUUID().toString() + filetype;
+        String mediaUrl = "upload" + "/" + media;
+        File dir = new File(path, media);
         if (!dir.exists()) {
             dir.mkdirs();
         }
@@ -67,13 +81,103 @@ public class NewsController {
         news.setOriginContent(originContent);
         news.setTransContent(transContent);
         news.setMediaUrl(mediaUrl);
+        //保存用户id
+        Cookie[] allCookies = request.getCookies();
+        int uid = 0;
+        if (allCookies != null) {
+            //从中取出cookie
+            for (int i = 0; i < allCookies.length; i++) {
+                //依次取出
+                Cookie temp = allCookies[i];
+                if (temp.getName().equals("username")) {
+                    String userName = temp.getValue();
+                    User user = userService.getUserByUsername(userName);
+                    if (user != null) {
+                        uid = user.getId();
+                        news.setUid(uid);
+                    }
+                }
+            }
+        }
+        String[] temptopics = allChosenTopics.split(",");
+        //为了去重
+        HashSet<String> topicsSet = new HashSet<String>();
+        for (String temp : temptopics) {
+            topicsSet.add(temp);
+        }
+
+        //TODO这里只是为了演示临时写的程序,没有做多都跳news和topic做关联,.只是取除了第一个话题记录到了new里面,其实news里面
+        //不应该存放topic_id的,,而是应该个news_toipc关联查询
+        Topic temptopic = topicService.getTopicByName(temptopics[0]);
+        if (temptopic != null) {
+            news.setTopicId(temptopic.getId());
+        }
+
+        System.out.println("目前的topic_id是" + news.getTopicId());
         newsService.save(news);
+        //这里话题和news是多对多的.
+        //这里还要根据topic的名字获取对应ID;插入到关联表中
+        for (String topicName : topicsSet) {
+            Topic topic = topicService.getTopicByName(topicName);
+            if (topic != null) {
+                newsAndTopicService.add(news.getId(), topic.getId());
+            }
+        }
         //MultipartFile自带的解析方法
         file.transferTo(dir);
-        //跳转到首页
-        return "redirect:/";
+        //不管多措直接跳转到首页
+        return "yes";
     }
 
+    //页面news流展示
+    @RequestMapping("/all")
+    @ResponseBody
+    public List<NewsFlow> getFlow(HttpServletRequest request) {
+        //得到当前用户
+        Cookie[] allCookies = request.getCookies();
+        int uid = 0;
+        //username在后面还是会用到
+        String userName = null;
+        if (allCookies != null) {
+            //从中取出cookie
+            for (int i = 0; i < allCookies.length; i++) {
+                //依次取出
+                Cookie temp = allCookies[i];
+                if (temp.getName().equals("username")) {
+                    userName = temp.getValue();
+                    User user = userService.getUserByUsername(userName);
+                    //得到当前用户的ID,
+                    uid = user.getId();
+                }
+            }
+        }
+
+        Gson gson = new Gson();
+
+        System.out.println(gson.toJson(newsService.getAllNews(uid)));
+
+        //不知道怎么把topic name 加到json里面, 只好新建一个类作为展示到信息流的实体
+        //返回用户自己的消息和   TODO已经关注人以及比较热门的消息
+        List<NewsFlow> list = newsService.getAllNews(uid);
+        //遍历每一条消息,把是自己发的消息挑选出来,然后加上可以删除的属性.
+        for (NewsFlow aNews : list
+                ) {
+
+            if (aNews.getUserName().equals(userName)) {
+                aNews.setCanDelete(true);
+                System.out.println("当前用户是" + userName);
+            } else {
+                aNews.setCanDelete(false);
+            }
+        }
+        return list;
+    }
+
+    @RequestMapping("/delete")
+    public String delete(String newsId) {
+           return newsService.deleteById(newsId)==1?"yes":"no";
+
+    }
 
     /**
      * 文件下载功能

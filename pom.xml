@@ -182,8 +182,8 @@
 
 	</dependencies>
 
-	<build>
-		<finalName>seckill</finalName>
+	<!--<build>
+		<finalName>webapp</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -194,5 +194,5 @@
 				</configuration>
 			</plugin>
 		</plugins>
-	</build>
+	</build>-->
 </project>

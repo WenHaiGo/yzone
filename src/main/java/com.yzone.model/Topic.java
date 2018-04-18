@@ -11,8 +11,13 @@ public class Topic
     private Date createTime;
     private Date modifyTime;
 
+    public static void main(){
+        
+    }
     public int getId() {
         return id;
+
+
     }
 
     public void setId(int id) {

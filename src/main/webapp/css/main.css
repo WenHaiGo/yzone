@@ -1,5 +1,5 @@
 body {
-	background-color: #eaeef7;
+	background-color: #e6e1e1;
 }
 
 
@@ -22,10 +22,9 @@ body {
 .navbar:nth-child(1) {
 	background-color: #f6f6f6;
 	height: 55px;
-	
 }
 
-.navbar:nth-child(1)  .navbar-brand {
+.navbar:nth-child(1) .navbar-brand {
 	background-image: url(../img/logo4.png);
 	width: 150px;
 	background-size: 100%;
@@ -34,21 +33,21 @@ body {
 	margin-left: 12px;
 }
 
-.navbar:nth-child(1)  .navbar-nav {
+.navbar:nth-child(1) .navbar-nav {
 	font-size: 16px;
 }
 
-.navbar:nth-child(1)  .navbar-nav {
+.navbar:nth-child(1) .navbar-nav {
 	padding-left: 30px;
 	padding-right: 50px;
 }
 
-.navbar:nth-child(1)  .navbar-nav a:hover {
+.navbar:nth-child(1) .navbar-nav a:hover {
 	display: block;
 	color: cornflowerblue!important;
 }
 
-.navbar:nth-child(1)  .navbar-right img {
+.navbar:nth-child(1) .navbar-right img {
 	margin-left: 20px;
 	margin-right: 20px;
 	margin-top: 10px;
@@ -131,9 +130,9 @@ body {
 .feed-list {}
 
 .feed-list-item {
-	background-color: #ffffff;
+	background-color: #fff;
 	margin-bottom: 10px;
-	border-radius: 10px;
+	border-radius:10px ;
 }
 
 .topic-source {
@@ -146,6 +145,12 @@ body {
 	width: 27px;
 	height: 23px;
 	border-radius: 100%;
+}
+
+.feed-info{
+	height: 300px;
+	overflow-x:hidden;
+	overflow-y: hidden;
 }
 
 .feed-content {
@@ -172,9 +177,6 @@ body {
 .feed-content .ContentItem-title {
 	font-weight: bold;
 	max-width: 700px;
-	overflow: hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis;
 	margin-top: 10px;
 }
 
@@ -185,14 +187,15 @@ body {
 	/*margin-top: 100px;*/
 }
 
-.feed-content .ContentItem-content {
+.feed-content .trans-content {
 	display: block;
-	color: #C0C0C0;
+	color: #000000;
 	font-size: 20px;
 	margin-top: 5px;
 }
 
-.feed-content .vote-up {
+.vote-up {
+
 	border: none;
 	background: #ccc;
 	background-color: #e5f2ff;
@@ -205,7 +208,7 @@ body {
 	display: inline-block;
 }
 
-.feed-content .vote-down {
+.vote-down {
 	border: none;
 	background: #ccc;
 	background-color: #e5f2ff;
@@ -216,22 +219,21 @@ body {
 	display: inline-block;
 }
 
-.feed-content .user-action {
+.user-action {
 	display: inline-block;
 }
 
-.feed-content .user-action img {
+.user-action img {
 	display: inline-block;
 	width: 16px;
 	height: 18px;
 	margin-left: 50px;
 }
 
-.feed-content .ContentItem-content img {
+.feed-content .trans-content img {
 	border-radius: 5px;
 }
-
-.feed-content .user-action span {
+.user-action span {
 	margin-left: 10px;
 }
 
@@ -241,7 +243,7 @@ a {
 
 .ad,
 .hot-topic {
-	background-color: #f0f0f0;
+	background-color: #ffffff;
 	padding: 10px 10px 10px 10px;
 	margin-bottom: 10px;
 }
@@ -278,20 +280,18 @@ a {
 	height: 500px;
 }
 
-.login-part #loginForm table input{
+.login-part #loginForm table input {
 	height: 50px;
 	width: 300px;
 }
 
-.login-part #loginForm table input:nth-child(3)
-{
+.login-part #loginForm table input:nth-child(3) {
 	width: 150px;
 }
-.login-part #loginForm table #veryCode{
+
+.login-part #loginForm table #veryCode {
 	width: 120px;
-
 }
-
 textarea{
 	resize: none;
 }
@@ -303,4 +303,39 @@ textarea{
 }
 #head{
 	border-radius: 5px;
+}
+
+
+/*负责提交模态框的样式*/
+
+#topic-out {
+	border: 1px solid #a9a9a9;
+	height: 50px;
+	border-radius: 5px;
+}
+
+#topic-out div {
+	float: left;
+}
+
+#topic-input {
+	border: 1px;
+	outline: none;
+	height: 40px;
+}
+
+#topic-ready {
+	height: 30px;
+	margin-top: 10px;
+	border-radius: 5px;
+	background-color: #1B9AF7;
+}
+
+#topic-ready ul {
+	padding-left: 0px;
+	list-style: none;
+}
+
+#topic-ready ul li {
+	float: left;
 }

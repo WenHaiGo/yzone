@@ -4,7 +4,26 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yzone.dao.TopicDao">
     <insert id="add" parameterType="map">
-        INSERT INTO topic (uid,topic_name, description, create_time)
+        INSERT INTO topic (uid, topic_name, description, create_time)
         VALUES (#{uid}, #{topicName}, #{description}, now())
     </insert>
+
+    <select id="fuzzyQuery" resultType="Topic" parameterType="java.lang.String">
+
+        SELECT topic_name
+        FROM topic
+        WHERE topic_name LIKE '%' #{key} '%';
+    </select>
+
+    <select id="getTopicByName" resultType="Topic">
+        SELECT *
+        FROM topic
+        WHERE topic_name = #{topicName}
+    </select>
+
+    <select id="getNameById" parameterType="java.lang.Integer" resultType="java.lang.String">
+        SELECT topic_name
+        FROM topic
+        WHERE id = #{topicId}
+    </select>
 </mapper>

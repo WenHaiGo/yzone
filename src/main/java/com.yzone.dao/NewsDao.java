@@ -10,4 +10,8 @@ public interface NewsDao {
     String getShortByComplete(String completeName);
 
     int add(News news);
+
+    List<News> getAllNews(int uid);
+
+    int deleteById(int delteNewsId);
 }
