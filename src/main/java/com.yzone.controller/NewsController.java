@@ -133,7 +133,7 @@ public class NewsController {
     @RequestMapping("/all")
     @ResponseBody
     public List<NewsFlow> getFlow(HttpServletRequest request) {
-        //得到当前用户
+        ////TODO抽象为工具得到当前用户
         Cookie[] allCookies = request.getCookies();
         int uid = 0;
         //username在后面还是会用到
@@ -172,13 +172,10 @@ public class NewsController {
         }
         return list;
     }
-
     @RequestMapping("/delete")
     public String delete(String newsId) {
            return newsService.deleteById(newsId)==1?"yes":"no";
-
     }
-
     /**
      * 文件下载功能
      *

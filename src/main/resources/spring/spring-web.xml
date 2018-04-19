@@ -27,15 +27,13 @@
         2:允许使用“/”做整体映射
     -->
     <mvc:default-servlet-handler/>
-
-    <!-- 配置jsp 显示viewResolver-->
+    <!-- 配置html 显示viewResolver-->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
-        <property name="prefix" value="/WEB-INF/jsp/"/>
-        <property name="suffix" value=".jsp"/>
+        <property name="prefix" value="/"/>
+        <property name="suffix" value=".html"/>
     </bean>
-
-    <!-- 定义文件解释器 -->
+    <mvc:resources mapping="/**" location="/" />
+        <!-- 定义文件解释器 -->
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <!-- 设置默认编码 -->
         <property name="defaultEncoding" value="utf-8"></property>

@@ -1,6 +1,9 @@
 package com.yzone.service;
 
 import com.yzone.model.User;
+import com.yzone.utils.PersonPage;
+
+import java.util.List;
 
 public interface UserService {
 
@@ -13,4 +16,10 @@ public interface UserService {
     User getUserByUsername(String username);
 
     User getUserById(int uid);
+
+    PersonPage getPersonInfo(String userName);
+
+    List<User> fuzzyTuery(String key);
+
+    int followByUserName(int uid,int followUid);
 }

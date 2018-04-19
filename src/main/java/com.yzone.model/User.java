@@ -14,6 +14,15 @@ public class User {
     private String school;
     private String profession;
     private String headPortrait;
+    private String bgPicture;
+
+    public String getBgPicture() {
+        return bgPicture;
+    }
+
+    public void setBgPicture(String bgPicture) {
+        this.bgPicture = bgPicture;
+    }
 
     public String getPersonSignature() {
         return personSignature;

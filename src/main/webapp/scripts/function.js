@@ -83,8 +83,10 @@ function deliver() {
     });
 }
 
-//读取所有支持的语言
+//读取所有支持的语言  因为onload不支持同时加载俩个方法,只好放在一起
 function  language() {
+
+    loadAllNews()
     $.ajax({
         url: '/yzone/news/language',
         type: 'post',
@@ -224,7 +226,7 @@ function addTopic() {
             }
         },
         error: function () {
-            alert("发生错误")
+            alert("网络发生错误")
         },
     })
 }
@@ -256,7 +258,68 @@ function sendNews() {
             }
         },
         error: function () {
-            alert("发生错误")
+            alert("网络发生错误")
         },
     })
+}
+
+
+/*以下是对于首页消息的处理函数*/
+
+/*删除自己发的一条消息*/
+function deleteNews(obj) {
+    var r = confirm("确定删除吗?");
+    if(r==true)
+    {
+        $(obj).parent().parent().parent().remove();
+        //去除前面的close
+        var  newsId=  $(obj).attr("id").replace("close","");
+
+        $.ajax({
+            url: '/yzone/news/delete',
+            type: 'post',
+            data: {
+                newsId:newsId
+            },
+            dataType: 'text',
+            success: function (data) {
+                if (data == "yes") {
+                    console.log("删除成功")
+                }
+                else {
+                    alert("删除失败");
+                }
+            }
+        })
+
+    }
+
+}
+
+function showAll(obj) {
+    /*var closeBtn = $($(obj).prev()).children("i");
+    closeBtn.show();*/
+    var total_height = obj.scrollHeight; //文章总高度
+    var show_height = 200; //定义原始显示高度
+    if (total_height > show_height) {
+        obj.style.height = total_height + 'px';
+    }
+}
+
+/*  function showAll(obj) {
+      var btn = $(obj).find("div:eq(0)").find("div:eq(0)");
+      var total_height = obj.scrollHeight; //文章总高度
+      var show_height = 300; //定义原始显示高度
+      if (total_height > show_height) {
+          btn.show();
+          btn.click(function () {
+              obj.style.height = total_height + 'px';
+              btn.hide();
+          })
+      }
+  }*/
+
+function hideNews(obj) {
+    console.log(1)
+    obj.style.height = 200 + 'px';
 }

@@ -7,15 +7,93 @@
     <link rel="stylesheet" href="css/buttons.css"/>
     <link rel="stylesheet" href="css/main.css"/>
     <link rel="stylesheet" href="css/person.css"/>
-    <title>爱英语爱美剧-译空间</title>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script type="text/javascript" src="scripts/jquery-3.3.1.min.js"></script>
+    <script
+            src="http://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"></script>
+    <script type="text/javascript" src="scripts/function.js"></script>
+    <title>译空间个人</title>
+
+</head>
+
+<script>
+    $(function() {
+        //获取页面传过来的cid
+        var url = window.location.href;
+        var c = url.split("?")[1];
+
+        //分割出用户名
+        var userName = c.split("=")[1];
+        console.log(userName);
+        //根据cid得到该类下的所有商品
+        $.ajax({
+            url : '/yzone/user/personpage',
+            type : 'post',
+            data : {
+                userName:userName
+            },
+            dataType : 'json',
+            success : function(data) {
+                console.log(data)
+                var personInfo = '<div id="main-part">\n' +
+                    '    <div class="user-cover">\n' +
+                    '        <a href="#" class="button button-rounded button-tiny">上传图片</a>\n' +
+                    '    </div>\n' +
+                    '    <div class="ProfileHeader-wrapper">\n' +
+                    '        <div class="ProfileHeader-main">\n' +
+                    '            <div class="user-avater">\n' +
+                    '                <!--css设置背景-->\n' +
+                    '                <img src="'+data.headPortrait+'" style="width: 140px;height: 140px" />\n' +
+                    '            </div>\n' +
+                    '        </div>\n' +
+                    '        <div class="ProfileHeader-content">\n' +
+                    '            <div class="ProfileHeader-contentHead">\n' +
+                    '                <h1 class="ProfileHeader-title">\n' +
+                    '                    <span class="ProfileHeader-name">'+data.username+'</span>\n' +
+                    '                    <span class="RichText ProfileHeader-headline">'+data.personSignature+'</span>\n' +
+                    '                </h1>\n' +
+                    '                <p>'+data.profession+'</p>\n' +
+                    '            </div>\n' +
+                    '        </div>\n' +
+                    '        <!--显然是上不去-->\n' +
+
+                    '        <!--个人活动区域-->\n' +
+                    '\n' +
+                    '        <div id="user-action">\n' +
+                    '            <div id="action-left">\n' +
+                    '                <div class="navbar">\n' +
+                    '\n' +
+                    '                    <ul class="nav navbar-nav">\n' +
+                    '                        <li>动态</li>\n' +
+                    '                        <li>发表</li>\n' +
+                    '                    </ul>\n' +
+                    '                </div>\n' +
+                    '\n' +
+                    '            </div>\n' +
+                    '\n' +
+                    '            <div id="action-right">\n' +
+                    '\n' +
+                    '            </div>\n' +
+                    '        </div>\n' +
+                    '    </div>\n' +
+                    '</div>'
+                $("#navbar").append(personInfo);
+
+            }
+        })
+
+    })
+
+</script>
 </head>
 
 <body>
-
-<div class="navbar">
+<div class="navbar" id="navbar">
     <div class="container" id="header">
         <div class="row">
-            <a href="index.html" class="navbar-brand" id="aa"></a>
+            <a href="../../index.html" class="navbar-brand" id="aa"></a>
             <ul class="nav navbar-nav">
                 <li>
                     <a href="#">首页</a>
@@ -32,13 +110,13 @@
             <a href="" class="button button-primary button-rounded button-small">搜索</a>
             <ul class="nav navbar-nav navbar-right ">
                 <li>
-                    <img src="img/alert.png"/>
+                    <img src="img/alert.png" />
                 </li>
                 <li>
-                    <img src="img/chat.png"/>
+                    <img src="img/chat.png" />
                 </li>
                 <li>
-                    <a href="login.html ">登录</a>
+                    <a href="../../login.html ">登录</a>
                 </li>
                 <li>
                     <a href="signup.html ">注册</a>
@@ -48,58 +126,7 @@
     </div>
 </div>
 
-<!--开始个人展示页面-->
-<div id="main-part">
-    <div class="user-cover">
-        <a href="#" class="button button-rounded button-tiny">上传图片</a>
-    </div>
-    <div class="ProfileHeader-wrapper">
-        <div class="ProfileHeader-main">
 
-            <style>
-                .ProfileHeader-main input{
-
-                }
-            </style>
-
-            <a href="">
-                <input type="file">
-                <div class="user-avater">
-                    <!--css设置背景-->
-                </div>
-            </a>
-        </div>
-        <div class="ProfileHeader-content">
-            <div class="ProfileHeader-contentHead">
-                <h1 class="ProfileHeader-title">
-                    <span class="ProfileHeader-name">常胜将军</span>
-                    <span class="RichText ProfileHeader-headline">不打倒帝国主义不回家娶媳妇</span>
-                </h1>
-                <p>暂无个人资料</p>
-            </div>
-
-        </div>
-
-        <!--个人活动区域-->
-
-        <div id="user-action">
-            <div id="action-left">
-                <div class="navbar">
-
-                    <ul class="nav navbar-nav">
-                        <li>动态</li>
-                        <li>发表</li>
-                    </ul>
-                </div>
-
-            </div>
-
-            <div id="action-right">
-
-            </div>
-        </div>
-    </div>
-</div>
 </body>
 
 </html>

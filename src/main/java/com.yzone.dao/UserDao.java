@@ -2,6 +2,7 @@ package com.yzone.dao;
 
 import com.yzone.model.User;
 
+import java.util.List;
 import java.util.Map;
 
 public interface UserDao {
@@ -26,4 +27,8 @@ public interface UserDao {
     User getUserByUsername(String username);
 
     User getUserById(int uid);
+
+    List<User> fuzzyQuery(String key);
+
+    int followByUserName(Map<String,Integer> map);
 }

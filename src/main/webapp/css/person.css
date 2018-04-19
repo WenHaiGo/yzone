@@ -44,7 +44,7 @@
 }
 
 #main-part .ProfileHeader-wrapper {
-	background-color: #FFFFFF;
+	background-color: #eeeae9;
 	width: 1000px;
 	height: 100px;
 	margin-left: auto;
@@ -64,7 +64,7 @@
 .ProfileHeader-wrapper .ProfileHeader-main .user-avater {
 	width: 140px;
 	height: 140px;
-	background-image: url(../img/yy.png);
+
 	background-size: 100% 100%;
 	margin-left: -800px;
 	margin-top: -60px;
@@ -81,10 +81,7 @@
 .ProfileHeader-content .ProfileHeader-headline {
 	font-size: 20px;
 }
-
-
 /*开始处理个人活动页面*/
-
 #main-part #user-action {
 	text-align: center;
 	width: 1000px;
@@ -116,5 +113,5 @@
 #user-action #action-left ul,li{
 	float: left;
 	list-style: none;
-	margin-right: ;
+
 }

@@ -15,8 +15,13 @@
     <script type="text/javascript" src="scripts/function.js"></script>
     <title>译空间注册</title>
 </head>
-
-<body onload="language()" onload="showAllNews()">
+<script>
+    /*用于影藏搜索智能提示*/
+    function hideSearchRecom() {
+        $("#searchRecom").hide()
+    }
+</script>
+<body onload="language()" onclick="hideSearchRecom()">
 
 <div class="navbar">
     <div class="container" id="header">
@@ -34,7 +39,46 @@
                 </li>
             </ul>
 
-            <input type="text">
+            <script>
+                function showSerachRecom() {
+                    $("#userrecom").children("div").remove();
+                    $("#topicrecom").children("div").remove();
+                    $("#contentrecom").children("div").remove();
+                    $("#searchRecom").show()
+                    /*清空上一次的*/
+
+                    var key = $("#searchtext").val();
+                    if (key != null && key != "") {
+                        $.ajax({
+                            url: '/yzone/search/recom',
+                            type: 'post',
+                            data: {
+                                key: key
+                            },
+                            dataType: 'json',
+                            success: function (data) {
+                                var user = data.user;
+                                if (user != null) {
+                                    for (var i = 0; i < user.length; i++) {
+                                        var userrecom = '<div  style="cursor: pointer;" onclick="toPersonPage(\'' + user[i].username + '\')">' + user[i].username + '</div>'
+                                        $("#userrecom").append(userrecom);
+                                    }
+                                }
+                                /*实现话题的提示*/
+                                var topic = data.topic;
+                                if (topic != null) {
+
+                                }
+
+                            }
+                        })
+                    }
+
+                }
+            </script>
+
+
+            <input type="text" id="searchtext" oninput="showSerachRecom(this)">
             <a href="" class="button button-primary button-rounded button-small">搜索</a>
             <ul class="nav navbar-nav navbar-right ">
                 <li>
@@ -49,11 +93,10 @@
                          data-target="#useraction">
                     <!--这里应该有一个登陆ok的模态框-->
                     <style>
-                        /*TODO 只设置登陆模态框不显示背景*/
+                        /*TODO 只设置点击用户模态框不显示背景*/
                         .modal-backdrop {
                             opacity: 0 !important;
                         }
-
                     </style>
                     <div class="modal fade" data-backdrop="true" id="useraction" tabindex="-1" role="dialog"
                          aria-labelledby="myModalLabel"
@@ -72,7 +115,31 @@
             </ul>
         </div>
     </div>
+    <div id="searchRecom" hidden
+         style="height: 300px; width: 300px; margin: 0px auto; position:relative; background-color: #EEEEEE;">
+        <table class="table table-striped">
+            <tr>
+                <div id="userrecom">
+                    <B>用户</B><br>
+                    <div>test</div>
+                </div>
+            </tr>
+            <tr>
+                <div id="topicrecom">
+                    <B>话题</B><br>
+                    <div>test</div>
+                </div>
+            </tr>
+            <tr>
+                <div id="contentrecom">
+                    <B>内容</B><br>
+                    <div>test</div>
+                </div>
+            </tr>
+        </table>
+    </div>
 </div>
+
 <!--main part-->
 
 <div class="container">
@@ -166,58 +233,80 @@
             <div class="feed-list" id="feed-list">
                 <!--show each feed-->
                 <!--show each feed-->
-                <div class="feed-list-item clearfix" >
-                    <div class="feed-content" >
+                <div class="feed-list-item clearfix" hidden="hidden">
+                    <div class="feed-content">
                         <div class="topic-source">
                             来自话题：纸牌屋
                             <a style="margin-right: 600px"></a>
-                            <i class="fa fa-window-close icon-larger" ></i>
+                            <i class="fa fa-window-close icon-larger"></i>
                         </div>
 
                         <div class="feed-info">
-                            <img src="img/yy.png" class="portrait" />
+                            <img src="img/yy.png" class="portrait"/>
                             <span class="nickname">战斗你龙哥</span>，
                             <span class="userdesc">不打倒帝国主义不回家娶媳妇</span>
                             <h3 class="ContentItem-title">There are two kinds of pain.
                                 The sort of pain that makes you strong or
-                                useless pain...The sort of pain that's only suffering  </h3>
+                                useless pain...The sort of pain that's only suffering </h3>
                             <span class="voters">42人赞了该回答</span> ·
                             <span class="voter-time">3小时前</span>
                             <span class="ContentItem-content">痛苦分两种。一种让你变得更强，另一种毫无价值，只是徒添折磨。
-									<img src="img/zpw.png" />
+									<img src="img/zpw.png"/>
 									</span>
                         </div>
                         <div class="user-action">
                             <a class="fa fa-thumbs-o-up icon-5x"></a>
                             &nbsp;&nbsp;&nbsp;
                             <a class="fa fa-thumbs-o-down"></a>
-                            <a href="#"><img src="img/chat.png" /><span>评论</span></a>
-                            <a href="#"><img src="img/chat.png" /><span>收藏</span></a>
-                            <a href="#"><img src="img/chat.png" /><span>举报</span></a>
+                            <a href="#"><img src="img/chat.png"/><span>评论</span></a>
+                            <a href="#"><img src="img/chat.png"/><span>收藏</span></a>
+                            <a href="#"><img src="img/chat.png"/><span>举报</span></a>
                         </div>
-                        <div style="float: right;" > <a class="button button-primary button-pill button-small">查看全部</a></div>
+                        <div style="float: right;"><a class="button button-primary button-pill button-small">查看全部</a>
+                        </div>
                     </div>
                 </div>
             </div>
             <script>
+                function toPersonPage(userName) {
+                    $.ajax({
+                        url: '/yzone/user/person',
+                        type: 'post',
+                        data: {
+                            userName: userName
+                        },
+                        success: function (data) {
+                            if (data == "my") {
+                                location.href = "/yzone/mypage.html?username=" + userName;
+                            }
+                            else if (data = "other") {
+                                location.href = "/yzone/otherpage.html?username=" + userName;
+                            }
+                        },
+                        error: function () {
+                            alert("发生错误")
+                        },
+                    })
+                }
+
                 /*加载登陆之后页面的news流*/
                 //加载所有动态
-                $(function () {
+                function loadAllNews() {
                     $.ajax({
                         url: '/yzone/news/all',
                         type: 'post',
                         dataType: 'json',
                         success: function (data) {
                             console.log("你买回到会" + data);
-                            for (var i = data.length-1; i >=0; i--) {
+                            for (var i = data.length - 1; i >= 0; i--) {
                                 console.log(data[i].topicName)
-                                var closeId = "close"+data[i].newsId;
+                                var closeId = "close" + data[i].newsId;
                                 var news = '<div class="feed-list-item clearfix">\n' +
                                     '\t\t\t\t\t\t\t<div class="feed-content"  >\n' +
-                                    '\t\t\t\t\t\t\t\t<div class="topic-source" >来自话题：'+ data[i].topicName +'<a  style="margin-right: 600px"></a>\n' +
-                                    '                             <i onclick="deleteNews(this)" id='+closeId+' style="display: none"  class="fa fa-window-close icon-larger"></i></div>\n' +
+                                    '\t\t\t\t\t\t\t\t<div class="topic-source" >来自话题：' + data[i].topicName + '<a  style="margin-right: 600px"></a>\n' +
+                                    '                             <i onclick="deleteNews(this)" id=' + closeId + ' style="display: none"  class="fa fa-window-close icon-larger"></i></div>\n' +
                                     '\t\t\t\t\t\t\t\t<div class="feed-info" onmouseenter="showAll(this)" onmouseleave="hideNews(this)" >\n' +
-                                    '\t\t\t\t\t\t\t\t\t<img src="' + data[i].headPortrait + '" class="portrait" />\n' +
+                                    '\t\t\t\t\t\t\t\t\t<a onclick="toPersonPage(\'' + data[i].userName + '\')" ><img src="' + data[i].headPortrait + '" class="portrait" /></a>\n' +
                                     '\t\t\t\t\t\t\t\t\t<span class="nickname">' + data[i].userName + '</span>，\n' +
                                     '\t\t\t\t\t\t\t\t\t<span class="userdesc">' + data[i].personSignature + '</span>\n' +
                                     '\t\t\t\t\t\t\t\t\t<h3 class="ContentItem-title">' + data[i].originContent + '</h3>\n' +
@@ -226,7 +315,7 @@
                                     '\t\t\t\t\t\t\t\t\t</span>\n' +
                                     '\t\t\t\t\t\t\t\t\t\n' +
                                     '\t\t\t\t\t\t\t\t\t\n' +
-                                    '\t\t\t\t\t\t\t\t</div>\n' +'<p></p>'+
+                                    '\t\t\t\t\t\t\t\t</div>\n' + '<p></p>' +
 
                                     '\t\t\t\t\t\t\t\t<div class="user-action"style="margin-top: 10px;" >\n' +
                                     '\t\t\t\t\t\t\t\t\t<a class="fa fa-thumbs-o-up icon-5x"></a>\n' +
@@ -234,16 +323,15 @@
                                     '\t\t\t\t\t\t\t\t\t<a class="fa fa-thumbs-o-down"></a>\n' +
                                     '\t\t\t\t\t\t\t\t\t\t<a href="#"><img src="img/chat.png" /><span>评论</span></a>\n' +
                                     '\t\t\t\t\t\t\t\t\t\t<a href="#"><img src="img/chat.png" /><span>收藏</span></a>\n' +
-                                    '\t\t\t\t\t\t\t\t\t\t<a href="#"><img src="img/chat.png" /><span>举报</span></a>\n' +'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
-                                    '<div  style="display: inline-block;" hidden="hidden" class="button button-rounded button-tiny">展示全部</div>'+
-                                    '\t\t\t\t\t\t\t\t</div>\n' +'<p></p>'+
+                                    '\t\t\t\t\t\t\t\t\t\t<a href="#"><img src="img/chat.png" /><span>举报</span></a>\n' + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
+                                    '<div  style="display: inline-block;" hidden="hidden" class="button button-rounded button-tiny">展示全部</div>' +
+                                    '\t\t\t\t\t\t\t\t</div>\n' + '<p></p>' +
                                     '\t\t\t\t\t\t\t</div>\n' +
                                     '\t\t\t\t\t\t</div>';
                                 $("#feed-list").append(news);
                                 //$('.feed-list').mouseover(showAll(document.getElementById(showAll())));
-                                if(data[i].canDelete==true)
-                                {
-                                    $("#"+closeId).show();
+                                if (data[i].canDelete == true) {
+                                    $("#" + closeId).show();
                                 }
                             }
                         },
@@ -251,64 +339,6 @@
                             alert("发生错误")
                         },
                     })
-                })
-
-                /*删除自己发的一条消息*/
-                function deleteNews(obj) {
-                     var r = confirm("确定删除吗?");
-                     if(r==true)
-                     {
-                       $(obj).parent().parent().parent().remove();
-                       //去除前面的close
-                        var  newsId=  $(obj).attr("id").replace("close","");
-
-                        $.ajax({
-                             url: '/yzone/news/delete',
-                             type: 'post',
-                             data: {
-                               newsId:newsId
-                             },
-                             dataType: 'text',
-                             success: function (data) {
-                                 if (data == "yes") {
-                                     console.log("删除成功")
-                                 }
-                                 else {
-                                     alert("删除失败");
-                                 }
-                             }
-                         })
-
-                     }
-
-                }
-
-                function showAll(obj) {
-                    /*var closeBtn = $($(obj).prev()).children("i");
-                    closeBtn.show();*/
-                    var total_height = obj.scrollHeight; //文章总高度
-                    var show_height = 300; //定义原始显示高度
-                    if (total_height > show_height) {
-                        obj.style.height = total_height + 'px';
-                    }
-                }
-
-              /*  function showAll(obj) {
-                    var btn = $(obj).find("div:eq(0)").find("div:eq(0)");
-                    var total_height = obj.scrollHeight; //文章总高度
-                    var show_height = 300; //定义原始显示高度
-                    if (total_height > show_height) {
-                        btn.show();
-                        btn.click(function () {
-                            obj.style.height = total_height + 'px';
-                            btn.hide();
-                        })
-                    }
-                }*/
-
-                function hideNews(obj) {
-                    console.log(1)
-                    obj.style.height = 300 + 'px';
                 }
 
             </script>
@@ -318,21 +348,21 @@
             </div>
         </div>
 
-        <div id="right" >
+        <div id="right">
             <div class="ad">
 
                 展示广告展示广告展示广告展示广告展示广告展示广告展示
                 <img src="img/ad.jpg"/>
             </div>
 
-            <div class="hot-topic"  >
+            <div class="hot-topic">
                 <span>热译话题<img src="img/hot.png"/></span>
-                <p>纸牌屋</p>
-                <p>纸牌屋</p>
-                <p>纸牌屋</p>
-                <p>纸牌屋</p>
-                <p>纸牌屋</p>
-                <p>纸牌屋</p>
+                <p>英语</p>
+                <p>法语</p>
+                <p>韩语</p>
+                <p>日语</p>
+                <p>德语</p>
+                <p>方言</p>
             </div>
 
             <div class="panel-footer">

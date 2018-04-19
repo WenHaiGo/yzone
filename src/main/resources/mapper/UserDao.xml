@@ -20,10 +20,18 @@
     </insert>
 
     <select id="getUserByUsername" parameterType="java.lang.String" resultType="User">
+        /*最后发现随着业务的需要所需要的字段越来越多*/
         SELECT
             id,
             username,
-            head_portrait
+            head_portrait,
+            address,
+            bg_picture,
+            profession,
+            school,
+            sex,
+            person_signature
+
         FROM user
         WHERE username = #{username};
     </select>
@@ -37,5 +45,17 @@
         FROM user
         WHERE id = #{uid}
     </select>
+
+    <select id="fuzzyQuery" resultType="user" parameterType="java.lang.String">
+        SELECT
+            username,
+            head_portrait
+        FROM user
+        WHERE username LIKE '%' #{key} '%';
+    </select>
+
+    <insert id="followByUserName" parameterType="map">
+        INSERT INTO follow_person (uid, follow_uid, create_time) VALUES (#{uid},#{followUid},now());
+    </insert>
 </mapper>
 
