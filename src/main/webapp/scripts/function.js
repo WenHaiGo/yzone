@@ -83,9 +83,39 @@ function deliver() {
     });
 }
 
-//读取所有支持的语言  因为onload不支持同时加载俩个方法,只好放在一起
-function  language() {
+//加载所有未读消息
+function loadAllUnreadMessage() {
+    var username = $.cookie("username")
+    $.ajax({
+        url: '/yzone/message/unread',
+        type: 'post',
+        data: {
+            userName: username
+        },
+        success: function (data) {
+            $("#chatBadge").html(data.length);
+alert(data[0].send)
+            for(var i = 0 ;i<data.length;i++)
+            {
+                var abstract = '\n' +
+                    '                            <li>\n' +
+                    '                                <h4><a href="/yzone/chat.html?name='+data[i].userName+'">'+data[i].userName+'</a></h4>\n' +
+                    '                                <span>'+data[i].send+'</span>\n' +
+                    '                            </li>';
+                $("#chatAbstract").append(abstract);
+            }
 
+        }
+    })
+}
+
+
+//读取所有支持的语言  因为onload不支持同时加载俩个方法,只好放在一起
+function language() {
+
+    //加载所有未处理消息
+    loadAllUnreadMessage()
+//加载所有news
     loadAllNews()
     $.ajax({
         url: '/yzone/news/language',
@@ -111,14 +141,15 @@ function trans() {
     $.ajax({
         url: '/yzone/news/trans',
         type: 'post',
-        data:{
-            transLanguage:translanguage,
-            originLanguage:originlanguage,
-            originContent:origincontent
+        data: {
+            transLanguage: translanguage,
+            originLanguage: originlanguage,
+            originContent: origincontent
         },
         dataType: 'json',
         success: function (data) {
-            $("#transcontent").val(data.trans_result[0].dst);/*TODO这里最好是传过来一个单纯的结果*/
+            $("#transcontent").val(data.trans_result[0].dst);
+            /*TODO这里最好是传过来一个单纯的结果*/
         }
     })
 }
@@ -127,10 +158,9 @@ function trans() {
 //当用户登陆成功的时候显示用户头像
 $(function () {
     var headPortait = $.cookie('headPortait');
-    if(headPortait!=null)
-    {
+    if (headPortait != null) {
 
-        $("#head").attr("src",headPortait);
+        $("#head").attr("src", headPortait);
         $("#head").show()
         $("#login").remove()
         $("#register").remove();
@@ -139,15 +169,13 @@ $(function () {
 })
 
 
-
-
 /*负责模态框话题的操作*/
 //智能补全
 $(document).ready(function () {
     var objects = {};
     $("#topic-input").typeahead({
         source: function (query, process) { //query是输入框输入的文本内容, process是一个回调函数
-           console.log(query)
+            console.log(query)
             $.ajax({
                 url: "/yzone/topic/pop",
                 type: 'post',
@@ -176,7 +204,7 @@ $(document).ready(function () {
             var readytopic = '<div id="topic-ready" >\n' +
                 '                                       <ul>\n' +
                 '                                           <li>\n' +
-                '                                               <span class="topic-ready-name">'+item+'</span>\n' +
+                '                                               <span class="topic-ready-name">' + item + '</span>\n' +
                 '                                           </li>\n' +
                 '                                           <li>\n' +
                 '                                               <!--TODO 这里不应该写样式代码.-->\n' +
@@ -200,27 +228,23 @@ function removeTopicTag() {
 }
 
 
-
-
-
 //发表新建的话题
 function addTopic() {
     var topicName = $("#topicname").val();
-    var topicDesc =$("#topicdesc").val()
+    var topicDesc = $("#topicdesc").val()
     $.ajax({
         url: '/yzone/topic/add',
         type: 'post',
-        data:{
-            topicName:topicName,
-            description:topicDesc
+        data: {
+            topicName: topicName,
+            description: topicDesc
         },
         dataType: 'text',
-        success:function(data){
-            if(data=="no"){
+        success: function (data) {
+            if (data == "no") {
                 alert("11111发生错误")
             }
-            if(data=="yes")
-            {
+            if (data == "yes") {
                 //隐藏添加话题的弹出层
                 $("#addtopicpanel").modal('hide');
             }
@@ -269,17 +293,16 @@ function sendNews() {
 /*删除自己发的一条消息*/
 function deleteNews(obj) {
     var r = confirm("确定删除吗?");
-    if(r==true)
-    {
+    if (r == true) {
         $(obj).parent().parent().parent().remove();
         //去除前面的close
-        var  newsId=  $(obj).attr("id").replace("close","");
+        var newsId = $(obj).attr("id").replace("close", "");
 
         $.ajax({
             url: '/yzone/news/delete',
             type: 'post',
             data: {
-                newsId:newsId
+                newsId: newsId
             },
             dataType: 'text',
             success: function (data) {

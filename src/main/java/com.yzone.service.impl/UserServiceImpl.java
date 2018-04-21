@@ -77,7 +77,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int followByUserName(int uid,int followUid) {
-        HashMap<String,Integer> map = new HashMap<>();
+        HashMap<String,Integer> map = new HashMap();
         map.put("uid",uid);
         map.put("followUid",followUid);
         System.out.println("wode id"+uid+"别人的Id"+followUid);

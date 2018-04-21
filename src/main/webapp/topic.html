@@ -14,129 +14,12 @@
     <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdn.bootcss.com/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"></script>
     <script type="text/javascript" src="scripts/function.js"></script>
-    <title>译空间他人</title>
+    <title>译空间话题</title>
+
 </head>
 
-<script>
-    $(function () {
-        //首先保持用户登录信息
-
-
-        var headPortait = $.cookie('headPortait');
-
-        var username = $.cookie('username');
-        //然后将这个用户名放在一个隐藏域中
-        $("#hide4username").val(username);
-        if (headPortait != null) {
-
-            $("#head").attr("src", headPortait);
-            $("#head").show()
-            $("#login").remove()
-            $("#register").remove();
-
-        }
-
-
-        //获取页面传过来的cid
-        var url = window.location.href;
-        var c = url.split("?")[1];
-
-        //分割出用户名
-        var userName = c.split("=")[1];
-        console.log(userName);
-        //根据cid得到该类下的所有商品
-        $.ajax({
-            url: '/yzone/user/personpage',
-            type: 'post',
-            data: {
-                userName: userName
-            },
-            dataType: 'json',
-            success: function (data) {
-                console.log(data)
-                //var chatjump = '/yzone/chat.html?myname='+$("#hide4username").val()+'&otherusername='+data.username
-                var personInfo = '<div id="main-part">\n' +
-                    '    <div class="user-cover">\n' +
-                    '        <a href="#" class="button button-rounded button-tiny">上传图片</a>\n' +
-                    '    </div>\n' +
-                    '    <div class="ProfileHeader-wrapper">\n' +
-                    '        <div class="ProfileHeader-main">\n' +
-                    '            <div class="user-avater">\n' +
-                    '                <!--css设置背景-->\n' +
-                    '                <img src="' + data.headPortrait + '" style="width: 140px;height: 140px" />\n' +
-                    '            </div>\n' +
-                    '        </div>\n' +
-                    '        <div class="ProfileHeader-content">\n' +
-                    '            <div class="ProfileHeader-contentHead">\n' +
-                    '                <h1 class="ProfileHeader-title">\n' +
-                    '                    <span class="ProfileHeader-name">' + data.username + '</span>\n' +
-                    '                    <span class="RichText ProfileHeader-headline">' + data.personSignature + '</span>\n' +
-                    '                </h1>\n' +
-                    '                <p>' + data.profession + '</p>\n' +
-                    '            </div>\n' +
-                    '        </div>\n' +
-                    '        <!--显然是上不去-->\n' +
-                    '        <div style="margin-top: -25px;">\n' +
-                    '            <span style="margin-right: 700px; "></span> <button  class="button button-primary button-rounded button-small" onclick="followPerson(\'' + data.username + '\')">关注</button>\n' +
-                    '            <button   onclick="chatjump(\'' + data.username + '\')"   class="button button-primary button-rounded button-small">发消息</button>\n' +
-                    '        </div>\n' +
-                    '        <!--个人活动区域-->\n' +
-                    '\n' +
-                    '        <div id="user-action">\n' +
-                    '            <div id="action-left">\n' +
-                    '                <div class="navbar">\n' +
-                    '\n' +
-                    '                    <ul class="nav navbar-nav">\n' +
-                    '                        <li>动态</li>\n' +
-                    '                        <li>发表</li>\n' +
-                    '                    </ul>\n' +
-                    '                </div>\n' +
-                    '\n' +
-                    '            </div>\n' +
-                    '\n' +
-                    '            <div id="action-right">\n' +
-                    '\n' +
-                    '            </div>\n' +
-                    '        </div>\n' +
-                    '    </div>\n' +
-                    '</div>'
-                $("#navbar").append(personInfo);
-
-            }
-        })
-
-    })
-/*更加方便的处理页面跳转*/
-    function chatjump(otherusername) {
-        window.location.href='/yzone/chat.html?otherusername='+otherusername;
-    }
-
-
-    function followPerson(username) {
-        $.ajax({
-            url: '/yzone/user/follow',
-            type: 'post',
-            data: {
-                userName: username
-            },
-            dataType: 'text',
-            success: function (data) {
-                if (data == "no") {
-                    alert("11111发生错误")
-                }
-            },
-            error: function () {
-                alert("网络发生错误")
-            },
-        })
-    }
-
-</script>
-</head>
 
 <body>
-
-
 <div class="navbar" id="navbar">
     <div class="container" id="header">
         <div class="row">
@@ -254,8 +137,8 @@
     </div>
 </div>
 
+
+
 </body>
-<!--一个隐藏域保存用户名 放了body首部还会导致页面布局乱掉-->
-<input type="text" id="hide4username" hidden>
 
 </html>

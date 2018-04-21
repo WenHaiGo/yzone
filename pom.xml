@@ -1,17 +1,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.yzone</groupId>
-	<artifactId>yzone</artifactId>
+	<groupId>yzone</groupId>
+	<artifactId>com.yzone</artifactId>
 	<packaging>war</packaging>
 	<version>1.0-SNAPSHOT</version>
 	<name>yzone_Maven_Webapp</name>
 	<url>http://maven.apache.org</url>
 	<dependencies>
-
-
 		<!--补全项目依赖 -->
-		<!--1.日志 java日志有:slf4j,log4j,logback,common-logging slf4j:是规范/接口 日志实现:log4j,logback,common-logging 
+		<!--1.日志 java日志有:slf4j,log4j,logback,common-logging slf4j:是规范/接口 日志实现:log4j,logback,common-logging
 			使用:slf4j+logback -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -205,22 +203,34 @@
 			<version>1.7.6.RELEASE</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/javax.websocket/javax.websocket-api -->
+		<dependency>
+		<groupId>javax.websocket</groupId>
+		<artifactId>javax.websocket-api</artifactId>
+		<version>1.1</version>
+		<scope>provided</scope>
+		</dependency>
 
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-websocket</artifactId>
+			<version>4.2.5.RELEASE</version>
+		</dependency>
 
 
 	</dependencies>
 
-	<!--<build>
-		<finalName>webapp</finalName>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>-->
+	<!--<build>-->
+		<!--<finalName>seckill</finalName>-->
+		<!--<plugins>-->
+			<!--<plugin>-->
+				<!--<groupId>org.apache.maven.plugins</groupId>-->
+				<!--<artifactId>maven-compiler-plugin</artifactId>-->
+				<!--<configuration>-->
+					<!--<source>1.6</source>-->
+					<!--<target>1.6</target>-->
+				<!--</configuration>-->
+			<!--</plugin>-->
+		<!--</plugins>-->
+	<!--</build>-->
 </project>

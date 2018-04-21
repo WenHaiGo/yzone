@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yzone.dao.MessageDao">
+    <insert id="save" parameterType="Message">
+        INSERT INTO message (uid, other_uid, send,  is_read, create_time)
+        VALUES (#{uid}, #{otherUid}, #{send},0,now())
+
+    </insert>
+
+    <update id="updateReadStateByUid" parameterType="java.lang.Integer">
+        UPDATE message SET is_read = 1 WHERE uid=#{uid}
+    </update>
+
+    <select id="checkUnreadByUid" parameterType="java.lang.Integer" resultType="Message">
+        SELECT other_uid,uid,send,create_time from message WHERE other_uid=#{otherUid} AND is_read=0
+    </select>
+
+</mapper>

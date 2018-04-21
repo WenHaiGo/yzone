@@ -29,4 +29,7 @@
 	<tx:annotation-driven transaction-manager="transactionManager" />
 
 
+	<!--注入自己的工具类-->
+	<bean id="springContextUtil" class="com.yzone.utils.SpringContextUtil"></bean>
+
 </beans>	

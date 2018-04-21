@@ -8,12 +8,13 @@
     <link rel="stylesheet" href="css/main.css"/>
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <script type="text/javascript" src="scripts/jquery-3.3.1.min.js"></script>
-    <script
-            src="http://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
+    <script src="http://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
     <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdn.bootcss.com/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"></script>
     <script type="text/javascript" src="scripts/function.js"></script>
     <title>译空间注册</title>
+    <script src="css/chat.js"></script>
 </head>
 <script>
     /*用于影藏搜索智能提示*/
@@ -82,15 +83,55 @@
             <a href="" class="button button-primary button-rounded button-small">搜索</a>
             <ul class="nav navbar-nav navbar-right ">
                 <li>
-                    <img src="img/alert.png"/>
+
+
+                    <div  onclick="hideAlertBadge()" style="cursor:pointer;" class="dropdown">
+                        <script>
+
+
+                            function hideAlertBadge() {
+                                $("#alertBadge").hide();
+                            }
+
+                            function hideChatBadge() {
+                                $("#chatBadge").hide();
+                            }
+                        </script>
+                        <img src="img/alert.png" class="dropdown-toggle" data-toggle="dropdown" >
+                        <span   id="alertBadge" style="margin-left: -40px; background-color: red" class="badge">50</span>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">我的提醒</a></li>
+
+                        </ul>
+                    </div>
+
+
                 </li>
                 <li>
-                    <img src="img/chat.png"/>
+
+                    <div onclick="hideChatBadge()" style="cursor:pointer;" class="dropdown">
+                        <img  src="img/chat.png" class="dropdown-toggle" data-toggle="dropdown" >
+                        <span id="chatBadge"  style="margin-left: -40px; background-color: red" class="badge"></span>
+                        <ul id="chatAbstract" class="dropdown-menu">
+                            <li>
+                                <a href="#">我的消息</a>
+                            </li>
+
+                        </ul>
+                    </div>
+
+
                 </li>
                 <li>
                     <a id="login" href="login.html ">登录</a>
-                    <img id="head" hidden="hidden" src="" data-toggle="modal"
-                         data-target="#useraction">
+                    <div style="cursor:pointer;" class="dropdown">
+                            <img id="head" hidden="hidden" src="" class="dropdown-toggle" data-toggle="dropdown" >
+                        <ul class="dropdown-menu">
+                            <li><a href="#">我的</a></li>
+                            <li><a href="/yzone/user/quit">退出</a></li>
+                        </ul>
+                    </div>
+
                     <!--这里应该有一个登陆ok的模态框-->
                     <style>
                         /*TODO 只设置点击用户模态框不显示背景*/
@@ -98,16 +139,7 @@
                             opacity: 0 !important;
                         }
                     </style>
-                    <div class="modal fade" data-backdrop="true" id="useraction" tabindex="-1" role="dialog"
-                         aria-labelledby="myModalLabel"
-                         aria-hidden="true">
-                        <div class="modal-dialog" style="width: 50px; left: 530px;top: 5%;">
-                            <div class="modal-content" align="center">
-                                <p href="#">我的</p>
-                                <a href="/yzone/user/quit">退出</a>
-                            </div><!-- /.modal-content -->
-                        </div><!-- /.modal -->
-                    </div>
+
                 </li>
                 <li>
                     <a id="register" href="signup.html ">注册</a>
