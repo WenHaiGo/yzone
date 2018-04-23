@@ -15,8 +15,28 @@ public class NewsFlow {
     private String personSignature;
     private String headPortrait;
     private boolean canDelete;
-//为了让用户删除自己的news 需要提供newsid;
+    private boolean hate;
+    private boolean like;
+    //为了让用户删除自己的news 需要提供newsid;
     private int newsId;
+    public boolean isHate() {
+        return hate;
+    }
+
+    public void setHate(boolean hate) {
+        this.hate = hate;
+    }
+
+    public boolean isLike() {
+        return like;
+    }
+
+    public void setLike(boolean like) {
+        this.like = like;
+    }
+
+
+
 
     public int getNewsId() {
         return newsId;

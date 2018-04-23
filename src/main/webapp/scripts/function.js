@@ -94,7 +94,7 @@ function loadAllUnreadMessage() {
         },
         success: function (data) {
             $("#chatBadge").html(data.length);
-alert(data[0].send)
+
             for(var i = 0 ;i<data.length;i++)
             {
                 var abstract = '\n' +
@@ -319,13 +319,18 @@ function deleteNews(obj) {
 
 }
 
-function showAll(obj) {
+function showAll(tempObj) {
     /*var closeBtn = $($(obj).prev()).children("i");
     closeBtn.show();*/
-    var total_height = obj.scrollHeight; //文章总高度
+    var tobj = $(tempObj).parent();
+    //获取内容div
+    var obj = $(tobj).prev().prev()
+
+    var total_height = obj[0].scrollHeight; //文章总高度
     var show_height = 200; //定义原始显示高度
     if (total_height > show_height) {
-        obj.style.height = total_height + 'px';
+        obj[0].style.height = total_height + 'px';
+        $(tempObj).hide()
     }
 }
 
@@ -341,8 +346,8 @@ function showAll(obj) {
           })
       }
   }*/
-
+/*
 function hideNews(obj) {
     console.log(1)
     obj.style.height = 200 + 'px';
-}
+}*/

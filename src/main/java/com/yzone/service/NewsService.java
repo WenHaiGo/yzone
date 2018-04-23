@@ -1,5 +1,6 @@
 package com.yzone.service;
 
+import com.yzone.model.Comment;
 import com.yzone.model.Language;
 import com.yzone.model.News;
 import com.yzone.model.NewsFlow;
@@ -15,4 +16,15 @@ public interface NewsService {
     List<NewsFlow> getAllNews(int uid);
 
     int deleteById(String newsId);
+
+
+    String likeById(String userName,int newsId);
+
+
+
+    int getIsLike(int newsId, String userName);
+
+    String commentNews(String userName, int newsId, String content);
+
+    List<Comment> getCommentById(int newsId);
 }

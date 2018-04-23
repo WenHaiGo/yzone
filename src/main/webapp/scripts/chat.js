@@ -22,8 +22,8 @@ $('.sendBtn').on('click', function () {
     $('.RightCont').scrollTop($('.RightCont')[0].scrollHeight);
 })
 
-function answers(obj) {
-    alert(obj+"1212")
+function answers(obj){
+
     var answer = "";
      answer += '<li>' +
         '<div class="nesHead"><img src="img/6.jpg"/></div>' +

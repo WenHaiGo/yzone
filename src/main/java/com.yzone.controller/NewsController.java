@@ -25,7 +25,6 @@ import java.util.UUID;
 @Controller
 @RequestMapping("/news")
 public class NewsController {
-
     @Autowired
     NewsService newsService;
 
@@ -163,19 +162,55 @@ public class NewsController {
         for (NewsFlow aNews : list
                 ) {
 
+            int isLike = newsService.getIsLike(aNews.getNewsId(), aNews.getUserName());
+            if (isLike == 1) {
+                aNews.setLike(true);
+            } else {
+                aNews.setLike(false);
+            }
+
             if (aNews.getUserName().equals(userName)) {
                 aNews.setCanDelete(true);
-                System.out.println("当前用户是" + userName);
             } else {
                 aNews.setCanDelete(false);
             }
         }
         return list;
     }
+
+
+    //TODO 这里可以返回一个字符串吗,不会被视图解析器捕获吗
     @RequestMapping("/delete")
     public String delete(String newsId) {
-           return newsService.deleteById(newsId)==1?"yes":"no";
+        return newsService.deleteById(newsId) == 1 ? "yes" : "no";
     }
+
+
+    //处理点赞
+    @RequestMapping("/like")
+    @ResponseBody
+    public String like(String userName, int newsId) {
+        return newsService.likeById(userName, newsId);
+    }
+
+
+    @RequestMapping("/comment")
+    @ResponseBody
+    public String comment(String userName, int newsId, String content) {
+        System.out.println("进俩了");
+        return newsService.commentNews(userName,newsId,content);
+    }
+
+
+
+    @RequestMapping("/getComment")
+    @ResponseBody
+    public List<Comment> getComment(int newsId){
+        System.out.println("sasasasasasas");
+        List<Comment> list =newsService.getCommentById(newsId);
+        return newsService.getCommentById(newsId);
+    }
+
     /**
      * 文件下载功能
      *
@@ -205,4 +240,6 @@ public class NewsController {
         }
         out.close();
     }
+
+
 }

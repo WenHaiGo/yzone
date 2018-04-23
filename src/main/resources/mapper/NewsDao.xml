@@ -35,8 +35,47 @@
     </select>
 
     <delete id="deleteById" parameterType="java.lang.Integer">
-        DELETE from news
-        WHERE id=#{newsId}
+        DELETE FROM news
+        WHERE id = #{newsId}
     </delete>
+
+    <insert id="likeById" parameterType="map">
+        INSERT INTO like_hate (uid, news_id, like_todo, create_time)
+        VALUES (#{uid}, #{newsId}, 1, now())
+    </insert>
+
+    <select id="isClickLike" parameterType="map" resultType="java.lang.Integer">
+        SELECT count(*)
+        FROM like_hate
+        WHERE news_id = #{newsId} AND uid = #{uid};
+    </select>
+
+    <!--如果是1就修改为0  如果是0就修改为1-->
+    <update id="changeLikeById" parameterType="map">
+        UPDATE like_hate
+        SET like_todo = (like_todo + 1) % 2
+        WHERE news_id = #{newsId} AND uid = #{uid}
+    </update>
+
+    <!--查询用户是否对这个news点过赞-->
+    <select id="getIsLike" parameterType="map" resultType="java.lang.Object">
+        SELECT like_todo
+        FROM like_hate
+        WHERE news_id = #{newsId} AND uid = #{uid}
+    </select>
+
+    <insert id="commentNews" parameterType="Comment">
+        INSERT INTO comment (uid, news_id, content, create_time)
+        VALUES (#{uid}, #{newsId}, #{content}, now())
+    </insert>
+
+    <select id="getCommentById" parameterType="java.lang.Integer" resultType="Comment">
+        SELECT
+            uid,
+            content
+        FROM comment
+        WHERE news_id = #{newsId};
+    </select>
+
 </mapper>
     

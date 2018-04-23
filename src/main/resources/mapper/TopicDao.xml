@@ -26,4 +26,9 @@
         FROM topic
         WHERE id = #{topicId}
     </select>
+
+    <insert id="addFollower" parameterType="FollowTopic">
+    INSERT INTO  follow_topic(uid, topic_id,create_time)
+            VALUES (#{uid},#{topicId},now())
+    </insert>
 </mapper>

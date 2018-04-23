@@ -35,8 +35,6 @@
 
         }
 
-
-
         //获取页面传过来的cid
         var url = window.location.href;
         var c = url.split("?")[1];
@@ -54,7 +52,7 @@
             dataType : 'json',
             success : function(data) {
                 console.log(data)
-                var personInfo = '<div id="main-part">\n' +
+                var personInfo = '<div style="margin-top: 5px" id="main-part">\n' +
                     '    <div class="user-cover">\n' +
                     '        <a href="#" class="button button-rounded button-tiny">上传图片</a>\n' +
                     '    </div>\n' +
@@ -83,8 +81,8 @@
                     '                <div class="navbar">\n' +
                     '\n' +
                     '                    <ul class="nav navbar-nav">\n' +
-                    '                        <li>动态</li>\n' +
-                    '                        <li>发表</li>\n' +
+                    '                        <li>我的所有动态</li>\n' +
+                    '                        <li>我的发表</li>\n' +
                     '                    </ul>\n' +
                     '                </div>\n' +
                     '\n' +
@@ -100,7 +98,6 @@
 
             }
         })
-
     })
 
 </script>

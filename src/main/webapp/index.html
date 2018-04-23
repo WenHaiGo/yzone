@@ -83,12 +83,8 @@
             <a href="" class="button button-primary button-rounded button-small">搜索</a>
             <ul class="nav navbar-nav navbar-right ">
                 <li>
-
-
-                    <div  onclick="hideAlertBadge()" style="cursor:pointer;" class="dropdown">
+                    <div onclick="hideAlertBadge()" style="cursor:pointer;" class="dropdown">
                         <script>
-
-
                             function hideAlertBadge() {
                                 $("#alertBadge").hide();
                             }
@@ -97,8 +93,8 @@
                                 $("#chatBadge").hide();
                             }
                         </script>
-                        <img src="img/alert.png" class="dropdown-toggle" data-toggle="dropdown" >
-                        <span   id="alertBadge" style="margin-left: -40px; background-color: red" class="badge">50</span>
+                        <img src="img/alert.png" class="dropdown-toggle" data-toggle="dropdown">
+                        <span id="alertBadge" style="margin-left: -40px; background-color: red" class="badge">50</span>
                         <ul class="dropdown-menu">
                             <li><a href="#">我的提醒</a></li>
 
@@ -110,8 +106,8 @@
                 <li>
 
                     <div onclick="hideChatBadge()" style="cursor:pointer;" class="dropdown">
-                        <img  src="img/chat.png" class="dropdown-toggle" data-toggle="dropdown" >
-                        <span id="chatBadge"  style="margin-left: -40px; background-color: red" class="badge"></span>
+                        <img src="img/chat.png" class="dropdown-toggle" data-toggle="dropdown">
+                        <span id="chatBadge" style="margin-left: -40px; background-color: red" class="badge"></span>
                         <ul id="chatAbstract" class="dropdown-menu">
                             <li>
                                 <a href="#">我的消息</a>
@@ -125,9 +121,15 @@
                 <li>
                     <a id="login" href="login.html ">登录</a>
                     <div style="cursor:pointer;" class="dropdown">
-                            <img id="head" hidden="hidden" src="" class="dropdown-toggle" data-toggle="dropdown" >
+                        <img id="head" hidden="hidden" src="" class="dropdown-toggle" data-toggle="dropdown">
                         <ul class="dropdown-menu">
-                            <li><a href="#">我的</a></li>
+                            <script>
+                                function navToPerson() {
+                                    var username = $.cookie("username");
+                                    location.href = "/yzone/mypage.html?username=" + username;
+                                }
+                            </script>
+                            <li onclick="navToPerson()"><a>我的</a></li>
                             <li><a href="/yzone/user/quit">退出</a></li>
                         </ul>
                     </div>
@@ -329,15 +331,21 @@
                         type: 'post',
                         dataType: 'json',
                         success: function (data) {
-                            console.log("你买回到会" + data);
                             for (var i = data.length - 1; i >= 0; i--) {
                                 console.log(data[i].topicName)
+                                //处理是否有权利删除
                                 var closeId = "close" + data[i].newsId;
+                                //处理是否有赞过
+                                var likeId = "like" + data[i].newsId;
+                                //处理是否踩过
+                                var hateId = "hate" + data[i].newsId;
+                                var commentId = "comment"+data[i].newsId;
+                                var comment = data[i].userName + ',' + data[i].newsId;
                                 var news = '<div class="feed-list-item clearfix">\n' +
                                     '\t\t\t\t\t\t\t<div class="feed-content"  >\n' +
                                     '\t\t\t\t\t\t\t\t<div class="topic-source" >来自话题：' + data[i].topicName + '<a  style="margin-right: 600px"></a>\n' +
                                     '                             <i onclick="deleteNews(this)" id=' + closeId + ' style="display: none"  class="fa fa-window-close icon-larger"></i></div>\n' +
-                                    '\t\t\t\t\t\t\t\t<div class="feed-info" onmouseenter="showAll(this)" onmouseleave="hideNews(this)" >\n' +
+                                    '\t\t\t\t\t\t\t\t<div class="feed-info"  \n' +
                                     '\t\t\t\t\t\t\t\t\t<a onclick="toPersonPage(\'' + data[i].userName + '\')" ><img src="' + data[i].headPortrait + '" class="portrait" /></a>\n' +
                                     '\t\t\t\t\t\t\t\t\t<span class="nickname">' + data[i].userName + '</span>，\n' +
                                     '\t\t\t\t\t\t\t\t\t<span class="userdesc">' + data[i].personSignature + '</span>\n' +
@@ -348,42 +356,161 @@
                                     '\t\t\t\t\t\t\t\t\t\n' +
                                     '\t\t\t\t\t\t\t\t\t\n' +
                                     '\t\t\t\t\t\t\t\t</div>\n' + '<p></p>' +
-
                                     '\t\t\t\t\t\t\t\t<div class="user-action"style="margin-top: 10px;" >\n' +
-                                    '\t\t\t\t\t\t\t\t\t<a class="fa fa-thumbs-o-up icon-5x"></a>\n' +
+                                    '\t\t\t\t\t\t\t\t\t<a  onclick="like(this)" id=' + likeId + ' class="fa fa-thumbs-o-up icon-5x"></a>\n' +
                                     '\t\t\t\t\t\t\t\t\t&nbsp;&nbsp;&nbsp;\n' +
-                                    '\t\t\t\t\t\t\t\t\t<a class="fa fa-thumbs-o-down"></a>\n' +
-                                    '\t\t\t\t\t\t\t\t\t\t<a href="#"><img src="img/chat.png" /><span>评论</span></a>\n' +
-                                    '\t\t\t\t\t\t\t\t\t\t<a href="#"><img src="img/chat.png" /><span>收藏</span></a>\n' +
+                                    '\t\t\t\t\t\t\t\t\t<a onclick="hate(this)" id=' + hateId + ' class="fa fa-thumbs-o-down"></a>\n' +
+                                    '\t\t\t\t\t\t\t\t\t\t<a onclick="loadCommetById('+data[i].newsId+')" ><img src="img/chat.png" /><span >评论</span></a>\n' +
+                                    '\t\t\t\t\t\t\t\t\t\t<a><img src="img/chat.png" /><span>收藏</span></a>\n' +
                                     '\t\t\t\t\t\t\t\t\t\t<a href="#"><img src="img/chat.png" /><span>举报</span></a>\n' + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
-                                    '<div  style="display: inline-block;" hidden="hidden" class="button button-rounded button-tiny">展示全部</div>' +
+                                    '<div  style="display: inline-block;" onclick="showAll(this)" hidden="hidden" class="button button-rounded button-tiny">展示全部</div>' +
                                     '\t\t\t\t\t\t\t\t</div>\n' + '<p></p>' +
-                                    '\t\t\t\t\t\t\t</div>\n' +
+                                    '\t\t\t\t\t\t\t</div>\n   <div id="'+commentId+'" style="margin-bottom: 20px;margin-left: 20px; " ></div>' +
+                                    '<input  placeholder="写下你的评论" style=" margin-left: 80px; margin-right: 10px;margin-bottom: 10px; width:600px;" type="text">' +
+                                    '<a onclick="sendComment(\'' + data[i].newsId + '\',\'' + data[i].userName + '\',this)">发表</a></div>' +
                                     '\t\t\t\t\t\t</div>';
                                 $("#feed-list").append(news);
                                 //$('.feed-list').mouseover(showAll(document.getElementById(showAll())));
+                                //判断是否有删除的权利,如果有就显示删除按钮
                                 if (data[i].canDelete == true) {
                                     $("#" + closeId).show();
+                                }
+                                //判断是否为这个news点击过赞或者踩
+                                if (data[i].like == true) {
+                                    $("#" + likeId).css("color", "red");
+                                }
+                                if (data[i].hate == true) {
+                                    $("#" + hateId).css("color", "red");
                                 }
                             }
                         },
                         error: function () {
+
                             alert("发生错误")
                         },
                     })
                 }
 
+
+                /*处理评论*/
+
+                //加载评论
+
+                function loadCommetById(newsId)
+
+                {
+                    $(this).next("input").show()
+                    $.ajax({
+                        url: '/yzone/news/getComment',
+                        type: 'post',
+                        data: {
+                            newsId: newsId
+                        },
+                        dataType: "json",
+                        success: function (data) {
+                            for(var  i = 0;i<data.length;i++) {
+                                var com = '<div><a>' + data[i].userName + '</a>:<span>' + data[i].content + '</span></div>';
+                                $("#comment"+newsId).append(com);
+                            }
+                        },
+                        //表示失败 则不要修改颜色
+                        error: function () {
+                            alert("加载失败")
+                        }
+                    })
+                }
+
+                //发表评论
+                function sendComment(newsId, userName, content) {
+                    $.ajax({
+                        url: '/yzone/news/comment',
+                        type: 'post',
+
+                        data: {
+                            userName: userName,
+                            newsId: newsId,
+                            content: $(content).prev().val()
+                        },
+                        success: function (data) {
+                            alert(data)
+                            $(content).prev().val("");
+                        },
+                        //表示失败 则不要修改颜色
+                        error: function () {
+                            alert("评论失败")
+                        }
+                    })
+                }
+
+                /*点赞或者点踩来触发 TODO 其实这里的逻辑非常复杂,点击之后马上要出现效果,但是如果网络环境不好的话就再次把颜色退回去*/
+                function like(obj) {
+                    if ($(obj).css("color") == "rgb(255, 0, 0)") {
+                        $(obj).css("color", "")
+                    }
+                    else {
+                        $(obj).css("color", "red")
+                    }
+                    $.ajax({
+                        url: '/yzone/news/like',
+                        type: 'post',
+                        data: {
+                            userName: "john",
+                            newsId: $(obj).attr("id").replace("like", "")
+                        },
+                        dataType: "json",
+                        //TODO 答辩完就来修改
+                        success: function (data) {
+                            //表示失败 则不要修改颜色
+                            /*if(data==no)
+                            {
+
+                            }*/
+                        },
+                        //表示失败 则不要修改颜色
+                        error: function () {
+
+                        }
+                    })
+                }
+
+                function hate(obj) {
+                    if ($(obj).css("color") == "rgb(255, 0, 0)") {
+                        $(obj).css("color", "")
+                    }
+                    else {
+                        $(obj).css("color", "red")
+                    }
+                    $.ajax({
+                        url: '/yzone/news/hate',
+                        type: 'post',
+                        data: {
+                            userName: "john",
+                            newsId: $(obj).attr("id").replace("hate", "")
+                        },
+                        dataType: "json",
+                        //TODO 答辩完就来修改
+                        success: function (data) {
+                            //表示失败 则不要修改颜色
+                            /*if(data==no)
+                            {
+
+                            }*/
+                        },
+                        //表示失败 则不要修改颜色
+                        error: function () {
+
+                        }
+                    })
+                }
+
             </script>
-
-
             <div style="display: none" href="#" onclick="showAll(this)" class="button button-pill button-tiny">显示全部
             </div>
         </div>
 
         <div id="right">
             <div class="ad">
-
-                展示广告展示广告展示广告展示广告展示广告展示广告展示
+                大家好我是渣渣辉
                 <img src="img/ad.jpg"/>
             </div>
 

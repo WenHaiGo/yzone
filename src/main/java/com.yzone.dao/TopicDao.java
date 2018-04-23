@@ -1,6 +1,7 @@
 package com.yzone.dao;
 
 
+import com.yzone.model.FollowTopic;
 import com.yzone.model.Topic;
 
 import java.util.List;
@@ -15,4 +16,6 @@ public interface TopicDao {
     Topic getTopicByName(String topicName);
 
     String getNameById(int topicId);
+
+    int addFollower(FollowTopic followTopic);
 }
