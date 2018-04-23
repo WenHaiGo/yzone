@@ -16,16 +16,21 @@
 <body>
 <script>
 
-
+    $.ajax({
+        url: '/yzone/search/all',
+        type: 'post',
+        data: {
+            pageNo:1
+        },
+        dataType: 'json',
+        success: function (data) {
+            alert(data)
+        }
+    })
 </script>
-<div >
-    <a href="#"> 购物车 <span class="badge">3</span></a>
-    <ul class="nav nav-pills">
-        <li class="active"> <a href="#"> 购物车 <span class="badge">3</span></a> </li>
-        <li> <a href="#"> 消息 <span class="badge">3</span></a> </li>
-    </ul>
 
 
-</div>
+
+{"pageNo":1,"pageSize":4,"recordCount":11,"time":0.168,"datas":[{"id":0,"uid":0,"topicId":0,"title":null,"originContent":null,"transContent":"<span style='color:red'>我</span>是学生。","createTime":null,"modifyTime":null,"mediaUrl":null,"addition":null},{"id":0,"uid":0,"topicId":0,"title":null,"originContent":"<span style='color:red'>我</span>是谁","transContent":null,"createTime":null,"modifyTime":null,"mediaUrl":null,"addition":null},{"id":0,"uid":0,"topicId":0,"title":null,"originContent":"无法惹<span style='color:red'>我</span>","transContent":null,"createTime":null,"modifyTime":null,"mediaUrl":null,"addition":null},{"id":0,"uid":0,"topicId":0,"title":null,"originContent":"<span style='color:red'>我</span>是中国人","transContent":null,"createTime":null,"modifyTime":null,"mediaUrl":null,"addition":null}],"stratNo":1,"endNo":4,"keyword":"我"}
 </body>
 </html>

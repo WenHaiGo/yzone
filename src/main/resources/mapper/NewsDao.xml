@@ -77,5 +77,11 @@
         WHERE news_id = #{newsId};
     </select>
 
+    <select id="getAllNews4S" resultType="News">
+        SELECT
+            origin_content,trans_content,addition
+        FROM news
+    </select>
+
 </mapper>
     
