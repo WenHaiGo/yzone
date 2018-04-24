@@ -83,5 +83,13 @@
         FROM news
     </select>
 
+    <select id="getPageNews" parameterType="map" resultType="News">
+        select *
+        from news  WHERE topic_id
+        IN (SELECT topic_id
+        FROM follow_topic
+        WHERE uid = #{uid}) LIMIT #{pageNo},#{pageSize} ;
+    </select>
+
 </mapper>
     

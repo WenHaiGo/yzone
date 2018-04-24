@@ -3,6 +3,7 @@ package com.yzone.dao;
 import com.yzone.model.Comment;
 import com.yzone.model.Language;
 import com.yzone.model.News;
+import com.yzone.model.NewsFlow;
 
 import java.util.List;
 import java.util.Map;
@@ -32,4 +33,6 @@ public interface NewsDao {
     int commentNews(Comment comment);
 
     List<Comment> getCommentById(int newsId);
+
+    List<News> getPageNews(Map<String,Integer> map);
 }

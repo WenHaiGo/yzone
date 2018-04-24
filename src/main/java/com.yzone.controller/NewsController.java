@@ -7,6 +7,7 @@ import com.yzone.service.NewsService;
 import com.yzone.service.TopicService;
 import com.yzone.service.UserService;
 import com.yzone.translate.TransApi;
+import com.yzone.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,9 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLEncoder;
-import java.util.HashSet;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Controller
 @RequestMapping("/news")
@@ -170,7 +169,35 @@ public class NewsController {
                 aNews.setLike(false);
             }
 
-                if (aNews.getUserName().equals(userName)) {
+            if (aNews.getUserName().equals(userName)) {
+                aNews.setCanDelete(true);
+            } else {
+                aNews.setCanDelete(false);
+            }
+        }
+        return list;
+    }
+
+    @RequestMapping("/pageNews")
+    @ResponseBody
+    //这里直接固定了每一页展示多少个数据,所以就不传参数了
+    public List<NewsFlow> getPageNews(int pageNo, HttpServletRequest request) {
+        int pageSize = 5;
+        String userName = UserUtils.getCurrentUserName(request);
+        //不知道怎么把topic name 加到json里面, 只好新建一个类作为展示到信息流的实体
+        //返回用户自己的消息和   TODO已经关注人以及比较热门的消息
+        List<NewsFlow> list = newsService.getPageNews(pageNo, pageSize,userService.getUserByUsername(userName).getId());
+        ;
+        //遍历每一条消息,把是自己发的消息挑选出来,然后加上可以删除的属性.
+        for (NewsFlow aNews : list
+                ) {
+            int isLike = newsService.getIsLike(aNews.getNewsId(), aNews.getUserName());
+            if (isLike == 1) {
+                aNews.setLike(true);
+            } else {
+                aNews.setLike(false);
+            }
+            if (aNews.getUserName().equals(userName)) {
                 aNews.setCanDelete(true);
             } else {
                 aNews.setCanDelete(false);
@@ -199,16 +226,15 @@ public class NewsController {
     @ResponseBody
     public String comment(String userName, int newsId, String content) {
         System.out.println("进俩了");
-        return newsService.commentNews(userName,newsId,content);
+        return newsService.commentNews(userName, newsId, content);
     }
-
 
 
     @RequestMapping("/getComment")
     @ResponseBody
-    public List<Comment> getComment(int newsId){
+    public List<Comment> getComment(int newsId) {
         System.out.println("sasasasasasas");
-        List<Comment> list =newsService.getCommentById(newsId);
+        List<Comment> list = newsService.getCommentById(newsId);
         return newsService.getCommentById(newsId);
     }
 

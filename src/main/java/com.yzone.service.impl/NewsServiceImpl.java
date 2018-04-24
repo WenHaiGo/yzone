@@ -49,6 +49,29 @@ public class NewsServiceImpl implements NewsService {
         assignNewsFlow(list, newsFlows);
         return newsFlows;
     }
+    @Override
+    public List<NewsFlow> getAllNews4S() {
+
+        List<News> list = newsDao.getAllNews4S();
+        //将news转换为NewsFlow,直接传递给前面
+        List<NewsFlow> newsFlows = new ArrayList<NewsFlow>();
+        assignNewsFlow(list, newsFlows);
+        return newsFlows;
+    }
+
+    @Override
+    public List<NewsFlow> getPageNews(int pageNo, int pageSize,int uid) {
+        int startNo = (pageNo -1)*pageSize;
+        Map<String,Integer> map = new HashMap<>();
+        map.put("pageNo",pageNo);
+        map.put("pageSize",pageSize);
+        map.put("uid",uid);
+        List<News> list =  newsDao.getPageNews(map);
+        List<NewsFlow> newsFlow = new ArrayList<>();
+        assignNewsFlow(list,newsFlow);
+        return newsFlow;
+
+    }
 
     @Override
     public int deleteById(String newsId) {
@@ -113,17 +136,6 @@ public class NewsServiceImpl implements NewsService {
          return list;
     }
 
-    @Override
-    public List<NewsFlow> getAllNews4S() {
-
-        List<News> list = newsDao.getAllNews4S();
-        //将news转换为NewsFlow,直接传递给前面
-        List<NewsFlow> newsFlows = new ArrayList<NewsFlow>();
-        assignNewsFlow(list, newsFlows);
-
-
-        return newsFlows;
-    }
 
     private void assignNewsFlow(List<News> list, List<NewsFlow> newsFlows) {
         for (News temp : list) {

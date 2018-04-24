@@ -29,4 +29,6 @@ public interface NewsService {
     List<Comment> getCommentById(int newsId);
 
     List<NewsFlow> getAllNews4S();
+
+    List<NewsFlow> getPageNews(int pageNo, int pageSize,int uid);
 }

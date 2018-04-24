@@ -22,6 +22,7 @@
         $("#searchRecom").hide()
     }
 </script>
+
 <body onload="language()" onclick="hideSearchRecom()">
 
 <div class="navbar">
@@ -83,9 +84,9 @@
                         url: '/yzone/search/search.action',
                         type: 'post',
                         data: {
-                            keyword:$("#searchtext").val(),
-                            pageNo:1,
-                            pageSize:5
+                            keyword: $("#searchtext").val(),
+                            pageNo: 1,
+                            pageSize: 5
                         },
                         success: function (data) {
                             if (data == "my") {
@@ -104,7 +105,7 @@
 
 
             <input type="text" id="searchtext" oninput="showSerachRecom(this)">
-            <a  onclick="showSearchResult()"   class="button button-primary button-rounded button-small">搜索</a>
+            <a onclick="showSearchResult()" class="button button-primary button-rounded button-small">搜索</a>
             <ul class="nav navbar-nav navbar-right ">
                 <li>
                     <div onclick="hideAlertBadge()" style="cursor:pointer;" class="dropdown">
@@ -363,7 +364,7 @@
                                 var likeId = "like" + data[i].newsId;
                                 //处理是否踩过
                                 var hateId = "hate" + data[i].newsId;
-                                var commentId = "comment"+data[i].newsId;
+                                var commentId = "comment" + data[i].newsId;
                                 var comment = data[i].userName + ',' + data[i].newsId;
                                 var news = '<div class="feed-list-item clearfix">\n' +
                                     '\t\t\t\t\t\t\t<div class="feed-content"  >\n' +
@@ -384,12 +385,12 @@
                                     '\t\t\t\t\t\t\t\t\t<a  onclick="like(this)" id=' + likeId + ' class="fa fa-thumbs-o-up icon-5x"></a>\n' +
                                     '\t\t\t\t\t\t\t\t\t&nbsp;&nbsp;&nbsp;\n' +
                                     '\t\t\t\t\t\t\t\t\t<a onclick="hate(this)" id=' + hateId + ' class="fa fa-thumbs-o-down"></a>\n' +
-                                    '\t\t\t\t\t\t\t\t\t\t<a onclick="loadCommetById('+data[i].newsId+')" ><img src="img/chat.png" /><span >评论</span></a>\n' +
+                                    '\t\t\t\t\t\t\t\t\t\t<a onclick="loadCommetById(' + data[i].newsId + ')" ><img src="img/chat.png" /><span >评论</span></a>\n' +
                                     '\t\t\t\t\t\t\t\t\t\t<a><img src="img/chat.png" /><span>收藏</span></a>\n' +
                                     '\t\t\t\t\t\t\t\t\t\t<a href="#"><img src="img/chat.png" /><span>举报</span></a>\n' + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
                                     '<div  style="display: inline-block;" onclick="showAll(this)" hidden="hidden" class="button button-rounded button-tiny">展示全部</div>' +
                                     '\t\t\t\t\t\t\t\t</div>\n' + '<p></p>' +
-                                    '\t\t\t\t\t\t\t</div>\n   <div id="'+commentId+'" style="margin-bottom: 20px;margin-left: 20px; " ></div>' +
+                                    '\t\t\t\t\t\t\t</div>\n   <div id="' + commentId + '" style="margin-bottom: 20px;margin-left: 20px; " ></div>' +
                                     '<input  placeholder="写下你的评论" style=" margin-left: 80px; margin-right: 10px;margin-bottom: 10px; width:600px;" type="text">' +
                                     '<a onclick="sendComment(\'' + data[i].newsId + '\',\'' + data[i].userName + '\',this)">发表</a></div>' +
                                     '\t\t\t\t\t\t</div>';
@@ -416,13 +417,98 @@
                 }
 
 
+                function loadPageNews() {
+                    $.ajax({
+                        url: '/yzone/news/pageNews',
+                        type: 'post',
+                        data: {
+                            pageNo: $("#currentPage").val()
+                        },
+                        dataType: 'json',
+                        success: function (data) {
+                            for (var i = data.length - 1; i >= 0; i--) {
+                                console.log(data[i].topicName)
+                                //处理是否有权利删除
+                                var closeId = "close" + data[i].newsId;
+                                //处理是否有赞过
+                                var likeId = "like" + data[i].newsId;
+                                //处理是否踩过
+                                var hateId = "hate" + data[i].newsId;
+                                var commentId = "comment" + data[i].newsId;
+                                var comment = data[i].userName + ',' + data[i].newsId;
+                                var news = '<div class="feed-list-item clearfix">\n' +
+                                    '\t\t\t\t\t\t\t<div class="feed-content"  >\n' +
+                                    '\t\t\t\t\t\t\t\t<div class="topic-source" >来自话题：' + data[i].topicName + '<a  style="margin-right: 600px"></a>\n' +
+                                    '                             <i onclick="deleteNews(this)" id=' + closeId + ' style="display: none"  class="fa fa-window-close icon-larger"></i></div>\n' +
+                                    '\t\t\t\t\t\t\t\t<div class="feed-info"  \n' +
+                                    '\t\t\t\t\t\t\t\t\t<a onclick="toPersonPage(\'' + data[i].userName + '\')" ><img src="' + data[i].headPortrait + '" class="portrait" /></a>\n' +
+                                    '\t\t\t\t\t\t\t\t\t<span class="nickname">' + data[i].userName + '</span>，\n' +
+                                    '\t\t\t\t\t\t\t\t\t<span class="userdesc">' + data[i].personSignature + '</span>\n' +
+                                    '\t\t\t\t\t\t\t\t\t<h3 class="ContentItem-title">' + data[i].originContent + '</h3>\n' +
+                                    '\t\t\t\t\t\t\t\t\t<span class="trans-content"  ><p>' + data[i].transContent + '</p>\n' +
+                                    '\t\t\t\t\t\t\t\t\t<img src="' + data[i].mediaUrl + '" />\n' +
+                                    '\t\t\t\t\t\t\t\t\t</span>\n' +
+                                    '\t\t\t\t\t\t\t\t\t\n' +
+                                    '\t\t\t\t\t\t\t\t\t\n' +
+                                    '\t\t\t\t\t\t\t\t</div>\n' + '<p></p>' +
+                                    '\t\t\t\t\t\t\t\t<div class="user-action"style="margin-top: 10px;" >\n' +
+                                    '\t\t\t\t\t\t\t\t\t<a  onclick="like(this)" id=' + likeId + ' class="fa fa-thumbs-o-up icon-5x"></a>\n' +
+                                    '\t\t\t\t\t\t\t\t\t&nbsp;&nbsp;&nbsp;\n' +
+                                    '\t\t\t\t\t\t\t\t\t<a onclick="hate(this)" id=' + hateId + ' class="fa fa-thumbs-o-down"></a>\n' +
+                                    '\t\t\t\t\t\t\t\t\t\t<a onclick="loadCommetById(' + data[i].newsId + ')" ><img src="img/chat.png" /><span >评论</span></a>\n' +
+                                    '\t\t\t\t\t\t\t\t\t\t<a><img src="img/chat.png" /><span>收藏</span></a>\n' +
+                                    '\t\t\t\t\t\t\t\t\t\t<a href="#"><img src="img/chat.png" /><span>举报</span></a>\n' + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
+                                    '<div  style="display: inline-block;" onclick="showAll(this)" hidden="hidden" class="button button-rounded button-tiny">展示全部</div>' +
+                                    '\t\t\t\t\t\t\t\t</div>\n' + '<p></p>' +
+                                    '\t\t\t\t\t\t\t</div>\n   <div id="' + commentId + '" style="margin-bottom: 20px;margin-left: 20px; " ></div>' +
+                                    '<input  placeholder="写下你的评论" style=" margin-left: 80px; margin-right: 10px;margin-bottom: 10px; width:600px;" type="text">' +
+                                    '<a onclick="sendComment(\'' + data[i].newsId + '\',\'' + data[i].userName + '\',this)">发表</a></div>' +
+                                    '\t\t\t\t\t\t</div>';
+                                $("#feed-list").append(news);
+                                //$('.feed-list').mouseover(showAll(document.getElementById(showAll())));
+                                //判断是否有删除的权利,如果有就显示删除按钮
+                                if (data[i].canDelete == true) {
+                                    $("#" + closeId).show();
+                                }
+                                //判断是否为这个news点击过赞或者踩
+                                if (data[i].like == true) {
+                                    $("#" + likeId).css("color", "red");
+                                }
+                                if (data[i].hate == true) {
+                                    $("#" + hateId).css("color", "red");
+                                }
+                            }
+
+
+                            //到这里表示加载成功了,改变当前页数
+                            $("#currentPage").val(parseInt($("#currentPage").val())+1)
+                        },
+                        error: function () {
+
+                            alert("发生错误")
+                        },
+                    })
+                }
+
+
+                //页面加载到尾部自动加载其他数据
+                $(window).scroll(
+                    function () {
+                        var scrollTop = $(this).scrollTop();
+                        var scrollHeight = $(document).height();
+                        var windowHeight = $(this).height();
+                        if (scrollTop + windowHeight == scrollHeight) {
+                            //自动加载下一页..
+                            loadPageNews()
+                        }
+                    });
+
+
                 /*处理评论*/
 
                 //加载评论
 
-                function loadCommetById(newsId)
-
-                {
+                function loadCommetById(newsId) {
                     $(this).next("input").show()
                     $.ajax({
                         url: '/yzone/news/getComment',
@@ -432,9 +518,9 @@
                         },
                         dataType: "json",
                         success: function (data) {
-                            for(var  i = 0;i<data.length;i++) {
+                            for (var i = 0; i < data.length; i++) {
                                 var com = '<div><a>' + data[i].userName + '</a>:<span>' + data[i].content + '</span></div>';
-                                $("#comment"+newsId).append(com);
+                                $("#comment" + newsId).append(com);
                             }
                         },
                         //表示失败 则不要修改颜色
@@ -559,5 +645,6 @@
     </div>
 </div>
 </body>
-
+<!--隐藏-->
+<input id="currentPage" value="1" hidden="hidden">
 </html>

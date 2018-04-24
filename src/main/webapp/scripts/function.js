@@ -116,7 +116,7 @@ function language() {
     //加载所有未处理消息
     loadAllUnreadMessage()
 //加载所有news
-    loadAllNews()
+    loadPageNews()
     $.ajax({
         url: '/yzone/news/language',
         type: 'post',
