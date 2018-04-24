@@ -1,6 +1,7 @@
 package com.yzone.controller;
 
 
+import com.yzone.model.NewsFlow;
 import com.yzone.utils.AllSearchResult;
 import com.yzone.model.News;
 import com.yzone.service.SearchService;
@@ -45,12 +46,12 @@ public class SearchController {
 
     //ajax调用这个方法
     @RequestMapping("/search.action")
-    public @ResponseBody AllSearchResult<News> search() throws UnsupportedEncodingException {
-     /*   keyword = new String(keyword.getBytes("ISO-8859-1"),"UTF-8");
-        System.out.println(" =====  " + keyword);*/
+    public @ResponseBody AllSearchResult<NewsFlow> search() throws UnsupportedEncodingException {
+//        keyword = new String(keyword.getBytes("ISO-8859-1"),"UTF-8");
+//        System.out.println(" =====  " + keyword);
         //ModelAndView mv = new ModelAndView() ;
         //对结果进行了分页处理,但是如何来调用这是个问题
-        AllSearchResult<News> lr = searchService.doSeacher("我", 1, 4) ;
+        AllSearchResult<NewsFlow> lr = searchService.doSeacher("我", 2,8) ;
 //        mv.addObject("lr", lr) ;
 //        mv.setViewName("goodslist");
         return lr ;

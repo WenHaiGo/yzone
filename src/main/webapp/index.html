@@ -76,11 +76,35 @@
                     }
 
                 }
+
+
+                function showSearchResult() {
+                    $.ajax({
+                        url: '/yzone/search/search.action',
+                        type: 'post',
+                        data: {
+                            keyword:$("#searchtext").val(),
+                            pageNo:1,
+                            pageSize:5
+                        },
+                        success: function (data) {
+                            if (data == "my") {
+                                location.href = "/yzone/mypage.html?username=" + userName;
+                            }
+                            else if (data = "other") {
+                                location.href = "/yzone/otherpage.html?username=" + userName;
+                            }
+                        },
+                        error: function () {
+                            alert("发生错误")
+                        },
+                    })
+                }
             </script>
 
 
             <input type="text" id="searchtext" oninput="showSerachRecom(this)">
-            <a href="" class="button button-primary button-rounded button-small">搜索</a>
+            <a  onclick="showSearchResult()"   class="button button-primary button-rounded button-small">搜索</a>
             <ul class="nav navbar-nav navbar-right ">
                 <li>
                     <div onclick="hideAlertBadge()" style="cursor:pointer;" class="dropdown">

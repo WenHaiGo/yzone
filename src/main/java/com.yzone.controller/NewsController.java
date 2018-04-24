@@ -159,6 +159,7 @@ public class NewsController {
         //返回用户自己的消息和   TODO已经关注人以及比较热门的消息
         List<NewsFlow> list = newsService.getAllNews(uid);
         //遍历每一条消息,把是自己发的消息挑选出来,然后加上可以删除的属性.
+        /* TODO 这里是否点赞或者点踩一定要在Controler里面完成,因为在全文检索里面会用到这个方法*/
         for (NewsFlow aNews : list
                 ) {
 
@@ -169,7 +170,7 @@ public class NewsController {
                 aNews.setLike(false);
             }
 
-            if (aNews.getUserName().equals(userName)) {
+                if (aNews.getUserName().equals(userName)) {
                 aNews.setCanDelete(true);
             } else {
                 aNews.setCanDelete(false);

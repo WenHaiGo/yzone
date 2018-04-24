@@ -27,4 +27,6 @@ public interface NewsService {
     String commentNews(String userName, int newsId, String content);
 
     List<Comment> getCommentById(int newsId);
+
+    List<NewsFlow> getAllNews4S();
 }

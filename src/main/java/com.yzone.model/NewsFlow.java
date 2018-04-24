@@ -52,6 +52,7 @@ public class NewsFlow {
 
     public void setCanDelete(boolean canDelete) {
         this.canDelete = canDelete;
+
     }
 
     public String getHeadPortrait() {

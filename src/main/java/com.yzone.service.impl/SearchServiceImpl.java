@@ -2,6 +2,7 @@ package com.yzone.service.impl;
 
 import com.yzone.dao.NewsDao;
 import com.yzone.model.News;
+import com.yzone.model.NewsFlow;
 import com.yzone.service.NewsService;
 import com.yzone.service.SearchService;
 import com.yzone.service.TopicService;
@@ -89,18 +90,41 @@ public class SearchServiceImpl implements SearchService {
     }
 
     /** 对文件的指定属性映射成域,返回文件文档对象 */
-    public Document createForumuploadDocument(News news) {
+    public Document createForumuploadDocument(NewsFlow news) {
         Document doc = new Document(); // 创建一个文档对象
-
-        // 翻译域
         Field field1 = new Field(FIELD_transContent, String.valueOf(news.getTransContent()),TextField.TYPE_STORED);
-        doc.add(field1);
         // 原文域
         Field field2 = new Field(FIELD_originContent, String.valueOf(news.getOriginContent()),TextField.TYPE_STORED);
-        doc.add(field2);
         // addition域
         Field field3 = new Field(FIELD_addition, String.valueOf(news.getAddition()),TextField.TYPE_STORED);
+        Field field4 = new Field(FIELD_mediaUrl, String.valueOf(news.getMediaUrl()),TextField.TYPE_STORED);
+        Field field5 = new Field(FIELD_topicName, String.valueOf(news.getTopicName()),TextField.TYPE_STORED);
+        Field field6 = new Field(FIELD_personSignature, String.valueOf(news.getPersonSignature()),TextField.TYPE_STORED);
+        Field field7 = new Field(FIELD_userName, String.valueOf(news.getUserName()),TextField.TYPE_STORED);
+        Field field9 = new Field(FIELD_ID, String.valueOf(news.getNewsId()),TextField.TYPE_STORED);
+        Field field10 = new Field(FIELD_headPortrait, String.valueOf(news.getHeadPortrait()),TextField.TYPE_STORED);
+        Field field11= new Field(FIELD_hate, String.valueOf(news.isHate()),TextField.TYPE_STORED);
+        Field field12= new Field(FIELD_like, String.valueOf(news.isLike()),TextField.TYPE_STORED);
+        Field field13= new Field(FIELD_canDelete, String.valueOf(news.isCanDelete()),TextField.TYPE_STORED);
+
+        /*不知道如何使用这个来实现
+        for(int i = 1;i<14;i++){
+            doc.add(field);
+        }
+        */
+        /*注意没有8*/
+        doc.add(field1);
+        doc.add(field2);
         doc.add(field3);
+        doc.add(field4);
+        doc.add(field5);
+        doc.add(field6);
+        doc.add(field7);
+        doc.add(field9);
+        doc.add(field10);
+        doc.add(field11);
+        doc.add(field12);
+        doc.add(field13);
         return doc;
     }
 
@@ -117,7 +141,7 @@ public class SearchServiceImpl implements SearchService {
         } else {
             file.mkdirs();
         }
-        List<News> newsList = newsDao.getAllNews4S();
+        List<NewsFlow> newsList = newsService.getAllNews4S();
         System.out.println(newsList.size()+"sasasasasasa");
         IndexWriter indexWriter = null;
         try {
@@ -126,7 +150,7 @@ public class SearchServiceImpl implements SearchService {
             // indexWriter.setUseCompoundFile(true);
             int size = newsList == null ? 0 : newsList.size();
             for (int i = 0; i < size; i++) {
-                News n = newsList.get(i);
+                NewsFlow n = newsList.get(i);
                 Document doc = createForumuploadDocument(n);
                 indexWriter.addDocument(doc);
                 // if (i % 20 == 0) {
@@ -155,9 +179,9 @@ public class SearchServiceImpl implements SearchService {
     }
 
     @Override
-    public AllSearchResult<News> doSeacher(String keyword, int pageNo, int pageSize) {
+    public AllSearchResult<NewsFlow> doSeacher(String keyword, int pageNo, int pageSize) {
         //新建一个搜索结果集
-        AllSearchResult<News> lsr = new AllSearchResult<>();
+        AllSearchResult<NewsFlow> lsr = new AllSearchResult<>();
         /*给结果集添加页数标志*/
         lsr.setPageNo(pageNo);
         lsr.setPageSize(pageSize);
@@ -191,7 +215,7 @@ public class SearchServiceImpl implements SearchService {
 
             // 获取匹配到的结果集
             ScoreDoc[] hits = ts.scoreDocs;
-            List<News> ais = new ArrayList<>();
+            List<NewsFlow> ais = new ArrayList<>();
 
             //表示总页数int totalPages = totalNumData % pageSize == 0 ? totalNumData / pageSize : totalNumData / pageSize + 1;
 
@@ -223,14 +247,42 @@ public class SearchServiceImpl implements SearchService {
                 // 通过内部编号从已经命中得获取文档
                 Document doc = searcher.doc(hits[i].doc);
                 /*把文档的数据放在news里面,就是为了可以把搜索到的数据存储起来*/
-                News news = new News();
+                NewsFlow news = new NewsFlow();
                 // 处理文件名称的高亮显示问题
                String originContent = highlighter.getBestFragment(getAnalyzer(), FIELD_originContent,doc.getField(FIELD_originContent).stringValue());
                String transContent =  highlighter.getBestFragment(getAnalyzer(),FIELD_transContent,doc.getField(FIELD_transContent).stringValue());
                String addtion = highlighter.getBestFragment(getAnalyzer(),FIELD_addition,doc.getField(FIELD_addition).stringValue());
-               news.setTransContent(transContent);
-               news.setOriginContent(originContent);
-               news.setAddition(addtion);
+
+               if(originContent!=null){
+                   news.setOriginContent(originContent);
+               }
+               else {
+                   news.setOriginContent(doc.getField(FIELD_originContent).stringValue());
+               }
+               if(transContent!=null){
+                   news.setTransContent(transContent);
+
+               }
+               else {
+                   news.setTransContent(doc.getField(FIELD_transContent).stringValue());
+               }
+               if(addtion!=null){
+                   news.setAddition(addtion);
+               }
+               else {
+                   news.setAddition(doc.getField(FIELD_addition).stringValue());
+               }
+
+               news.setLike(doc.getField(FIELD_like).stringValue().equals("true")?true:false);
+               news.setNewsId(Integer.parseInt(doc.getField(FIELD_ID).stringValue()));
+               news.setCanDelete(doc.getField(FIELD_canDelete).stringValue().equals("true")?true:false);
+               news.setUserName(doc.getField(FIELD_userName).stringValue());
+               news.setHeadPortrait(doc.getField(FIELD_headPortrait).stringValue());
+               news.setPersonSignature(doc.getField(FIELD_personSignature).stringValue());
+               news.setTopicName(doc.getField(FIELD_topicName).stringValue());
+               news.setMediaUrl(doc.getField(FIELD_mediaUrl).stringValue());
+               //时间这里不好转换  先不管了,
+               /*news.setCreateTime(doc.getField(FIELD_createTime).stringValue().);*/
                ais.add(news); // 把符合条件的数据添加到List
             }
             lsr.setTime((System.currentTimeMillis() - begin) / 1000.0); // 计算搜索耗时秒数  

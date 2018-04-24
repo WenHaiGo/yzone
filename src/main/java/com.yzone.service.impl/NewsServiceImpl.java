@@ -46,23 +46,7 @@ public class NewsServiceImpl implements NewsService {
         List<News> list = newsDao.getAllNews(uid);
         //将news转换为NewsFlow,直接传递给前面
         List<NewsFlow> newsFlows = new ArrayList<NewsFlow>();
-        for (News temp : list) {
-            NewsFlow nf = new NewsFlow();
-            nf.setNewsId(temp.getId());
-            nf.setAddition(temp.getAddition());
-            nf.setCreateTime(temp.getCreateTime());
-            nf.setMediaUrl(temp.getMediaUrl());
-            nf.setOriginContent(temp.getOriginContent());
-            nf.setTransContent(temp.getTransContent());
-            nf.setTopicName(temp.getTitle());
-            nf.setTopicName(topicService.getNameById(temp.getTopicId()));
-            //通过用户ID得到用户名和用户的个性签名  还有用户的头像
-            User user = userService.getUserById(temp.getUid());
-            nf.setPersonSignature(user.getPersonSignature());
-            nf.setHeadPortrait(user.getHeadPortrait());
-            nf.setUserName(user.getUsername());
-            newsFlows.add(nf);
-        }
+        assignNewsFlow(list, newsFlows);
         return newsFlows;
     }
 
@@ -127,6 +111,55 @@ public class NewsServiceImpl implements NewsService {
             c.setUserName(userService.getUserById(c.getUid()).getUsername());
         }
          return list;
+    }
+
+    @Override
+    public List<NewsFlow> getAllNews4S() {
+
+        List<News> list = newsDao.getAllNews4S();
+        //将news转换为NewsFlow,直接传递给前面
+        List<NewsFlow> newsFlows = new ArrayList<NewsFlow>();
+        assignNewsFlow(list, newsFlows);
+
+
+        return newsFlows;
+    }
+
+    private void assignNewsFlow(List<News> list, List<NewsFlow> newsFlows) {
+        for (News temp : list) {
+            NewsFlow nf = new NewsFlow();
+            nf.setNewsId(temp.getId());
+            if(temp.getAddition()!=null){
+                nf.setAddition(temp.getAddition());
+
+            }
+
+              nf.setCreateTime(temp.getCreateTime());
+            if(temp.getMediaUrl()!=null){
+                nf.setMediaUrl(temp.getMediaUrl());
+
+            }
+
+            nf.setOriginContent(temp.getOriginContent());
+            nf.setTransContent(temp.getTransContent());
+            if(temp.getTitle()!=null){
+                nf.setTopicName(temp.getTitle());
+            }
+            nf.setTopicName(topicService.getNameById(temp.getTopicId()));
+            //通过用户ID得到用户名和用户的个性签名  还有用户的头像
+            int uid = temp.getUid();
+            User user = userService.getUserById(uid);
+            if(user.getPersonSignature()!=null){
+                nf.setPersonSignature(user.getPersonSignature());
+
+            }
+            if(user.getHeadPortrait()!=null){
+                nf.setHeadPortrait(user.getHeadPortrait());
+
+            }
+            nf.setUserName(user.getUsername());
+            newsFlows.add(nf);
+        }
     }
 
 
