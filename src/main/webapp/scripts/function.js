@@ -351,3 +351,355 @@ function hideNews(obj) {
     console.log(1)
     obj.style.height = 200 + 'px';
 }*/
+
+
+/*用于影藏搜索智能提示*/
+function hideSearchRecom() {
+    $("#searchRecom").hide()
+}
+//用于在导航页面点击我的跳转到个人页面
+function navToPerson() {
+    var username = $.cookie("username");
+    location.href = "/yzone/mypage.html?username=" + username;
+}
+
+
+
+
+/*TODO 这里其实应该把弹出和赋值操作放在一起*/
+function assignToModal() {
+    var modalorigin = $("#origincontent").val();
+    var modaltrans = $("#transcontent").val();
+    $("#modalorigin").val(modalorigin);
+    $("#modaltrans").val(modaltrans);
+}
+
+
+
+
+
+//处理主页news
+
+
+function toPersonPage(userName) {
+    $.ajax({
+        url: '/yzone/user/person',
+        type: 'post',
+        data: {
+            userName: userName
+        },
+        success: function (data) {
+            if (data == "my") {
+                location.href = "/yzone/mypage.html?username=" + userName;
+            }
+            else if (data = "other") {
+                location.href = "/yzone/otherpage.html?username=" + userName;
+            }
+        },
+        error: function () {
+            alert("发生错误")
+        },
+    })
+}
+
+/*加载登陆之后页面的news流*/
+//加载所有动态
+function loadAllNews() {
+    $.ajax({
+        url: '/yzone/news/all',
+        type: 'post',
+        dataType: 'json',
+        success: function (data) {
+            for (var i = data.length - 1; i >= 0; i--) {
+                console.log(data[i].topicName)
+                //处理是否有权利删除
+                var closeId = "close" + data[i].newsId;
+                //处理是否有赞过
+                var likeId = "like" + data[i].newsId;
+                //处理是否踩过
+                var hateId = "hate" + data[i].newsId;
+                var commentId = "comment" + data[i].newsId;
+                var comment = data[i].userName + ',' + data[i].newsId;
+                var news = '<div class="feed-list-item clearfix">\n' +
+                    '\t\t\t\t\t\t\t<div class="feed-content"  >\n' +
+                    '\t\t\t\t\t\t\t\t<div class="topic-source" >来自话题：' + data[i].topicName + '<a  style="margin-right: 600px"></a>\n' +
+                    '                             <i onclick="deleteNews(this)" id=' + closeId + ' style="display: none"  class="fa fa-window-close icon-larger"></i></div>\n' +
+                    '\t\t\t\t\t\t\t\t<div class="feed-info"  \n' +
+                    '\t\t\t\t\t\t\t\t\t<a onclick="toPersonPage(\'' + data[i].userName + '\')" ><img src="' + data[i].headPortrait + '" class="portrait" /></a>\n' +
+                    '\t\t\t\t\t\t\t\t\t<span class="nickname">' + data[i].userName + '</span>，\n' +
+                    '\t\t\t\t\t\t\t\t\t<span class="userdesc">' + data[i].personSignature + '</span>\n' +
+                    '\t\t\t\t\t\t\t\t\t<h3 class="ContentItem-title">' + data[i].originContent + '</h3>\n' +
+                    '\t\t\t\t\t\t\t\t\t<span class="trans-content"  ><p>' + data[i].transContent + '</p>\n' +
+                    '\t\t\t\t\t\t\t\t\t<img src="' + data[i].mediaUrl + '" />\n' +
+                    '\t\t\t\t\t\t\t\t\t</span>\n' +
+                    '\t\t\t\t\t\t\t\t\t\n' +
+                    '\t\t\t\t\t\t\t\t\t\n' +
+                    '\t\t\t\t\t\t\t\t</div>\n' + '<p></p>' +
+                    '\t\t\t\t\t\t\t\t<div class="user-action"style="margin-top: 10px;" >\n' +
+                    '\t\t\t\t\t\t\t\t\t<a  onclick="like(this)" id=' + likeId + ' class="fa fa-thumbs-o-up icon-5x"></a>\n' +
+                    '\t\t\t\t\t\t\t\t\t&nbsp;&nbsp;&nbsp;\n' +
+                    '\t\t\t\t\t\t\t\t\t<a onclick="hate(this)" id=' + hateId + ' class="fa fa-thumbs-o-down"></a>\n' +
+                    '\t\t\t\t\t\t\t\t\t\t<a onclick="loadCommetById(' + data[i].newsId + ')" ><img src="img/chat.png" /><span >评论</span></a>\n' +
+                    '\t\t\t\t\t\t\t\t\t\t<a><img src="img/chat.png" /><span>收藏</span></a>\n' +
+                    '\t\t\t\t\t\t\t\t\t\t<a href="#"><img src="img/chat.png" /><span>举报</span></a>\n' + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
+                    '<div  style="display: inline-block;" onclick="showAll(this)" hidden="hidden" class="button button-rounded button-tiny">展示全部</div>' +
+                    '\t\t\t\t\t\t\t\t</div>\n' + '<p></p>' +
+                    '\t\t\t\t\t\t\t</div>\n   <div id="' + commentId + '" style="margin-bottom: 20px;margin-left: 20px; " ></div>' +
+                    '<input  placeholder="写下你的评论" style=" margin-left: 80px; margin-right: 10px;margin-bottom: 10px; width:600px;" type="text">' +
+                    '<a onclick="sendComment(\'' + data[i].newsId + '\',\'' + data[i].userName + '\',this)">发表</a></div>' +
+                    '\t\t\t\t\t\t</div>';
+                $("#feed-list").append(news);
+                //$('.feed-list').mouseover(showAll(document.getElementById(showAll())));
+                //判断是否有删除的权利,如果有就显示删除按钮
+                if (data[i].canDelete == true) {
+                    $("#" + closeId).show();
+                }
+                //判断是否为这个news点击过赞或者踩
+                if (data[i].like == true) {
+                    $("#" + likeId).css("color", "red");
+                }
+                if (data[i].hate == true) {
+                    $("#" + hateId).css("color", "red");
+                }
+            }
+        },
+        error: function () {
+
+            alert("发生错误")
+        },
+    })
+}
+
+
+function loadPageNews() {
+    $.ajax({
+        url: '/yzone/news/pageNews',
+        type: 'post',
+        data: {
+            pageNo: $("#currentPage").val()
+        },
+        dataType: 'json',
+        success: function (data) {
+            for (var i = data.length - 1; i >= 0; i--) {
+                console.log(data[i].topicName)
+                //处理是否有权利删除
+                var closeId = "close" + data[i].newsId;
+                //处理是否有赞过
+                var likeId = "like" + data[i].newsId;
+                //处理是否踩过
+                var hateId = "hate" + data[i].newsId;
+                var commentId = "comment" + data[i].newsId;
+                var comment = data[i].userName + ',' + data[i].newsId;
+                var news = '<div class="feed-list-item clearfix">\n' +
+                    '\t\t\t\t\t\t\t<div class="feed-content"  >\n' +
+                    '\t\t\t\t\t\t\t\t<div class="topic-source" >来自话题：' + data[i].topicName + '<a  style="margin-right: 600px"></a>\n' +
+                    '                             <i onclick="deleteNews(this)" id=' + closeId + ' style="display: none"  class="fa fa-window-close icon-larger"></i></div>\n' +
+                    '\t\t\t\t\t\t\t\t<div class="feed-info"  \n' +
+                    '\t\t\t\t\t\t\t\t\t<a onclick="toPersonPage(\'' + data[i].userName + '\')" ><img src="' + data[i].headPortrait + '" class="portrait" /></a>\n' +
+                    '\t\t\t\t\t\t\t\t\t<span class="nickname">' + data[i].userName + '</span>，\n' +
+                    '\t\t\t\t\t\t\t\t\t<span class="userdesc">' + data[i].personSignature + '</span>\n' +
+                    '\t\t\t\t\t\t\t\t\t<h3 class="ContentItem-title">' + data[i].originContent + '</h3>\n' +
+                    '\t\t\t\t\t\t\t\t\t<span class="trans-content"  ><p>' + data[i].transContent + '</p>\n' +
+                    '\t\t\t\t\t\t\t\t\t<img src="' + data[i].mediaUrl + '" />\n' +
+                    '\t\t\t\t\t\t\t\t\t</span>\n' +
+                    '\t\t\t\t\t\t\t\t\t\n' +
+                    '\t\t\t\t\t\t\t\t\t\n' +
+                    '\t\t\t\t\t\t\t\t</div>\n' + '<p></p>' +
+                    '\t\t\t\t\t\t\t\t<div class="user-action"style="margin-top: 10px;" >\n' +
+                    '\t\t\t\t\t\t\t\t\t<a  onclick="like(this)" id=' + likeId + ' class="fa fa-thumbs-o-up icon-5x"></a>\n' +
+                    '\t\t\t\t\t\t\t\t\t&nbsp;&nbsp;&nbsp;\n' +
+                    '\t\t\t\t\t\t\t\t\t<a onclick="hate(this)" id=' + hateId + ' class="fa fa-thumbs-o-down"></a>\n' +
+                    '\t\t\t\t\t\t\t\t\t\t<a onclick="loadCommetById(' + data[i].newsId + ')" ><img src="img/chat.png" /><span >评论</span></a>\n' +
+                    '\t\t\t\t\t\t\t\t\t\t<a><img src="img/chat.png" /><span>收藏</span></a>\n' +
+                    '\t\t\t\t\t\t\t\t\t\t<a href="#"><img src="img/chat.png" /><span>举报</span></a>\n' + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
+                    '<div  style="display: inline-block;" onclick="showAll(this)" hidden="hidden" class="button button-rounded button-tiny">展示全部</div>' +
+                    '\t\t\t\t\t\t\t\t</div>\n' + '<p></p>' +
+                    '\t\t\t\t\t\t\t</div>\n   <div id="' + commentId + '" style="margin-bottom: 20px;margin-left: 20px; " ></div>' +
+                    '<input  placeholder="写下你的评论" style=" margin-left: 80px; margin-right: 10px;margin-bottom: 10px; width:600px;" type="text">' +
+                    '<a onclick="sendComment(\'' + data[i].newsId + '\',\'' + data[i].userName + '\',this)">发表</a></div>' +
+                    '\t\t\t\t\t\t</div>';
+                $("#feed-list").append(news);
+                //$('.feed-list').mouseover(showAll(document.getElementById(showAll())));
+                //判断是否有删除的权利,如果有就显示删除按钮
+                if (data[i].canDelete == true) {
+                    $("#" + closeId).show();
+                }
+                //判断是否为这个news点击过赞或者踩
+                if (data[i].like == true) {
+                    $("#" + likeId).css("color", "red");
+                }
+                if (data[i].hate == true) {
+                    $("#" + hateId).css("color", "red");
+                }
+            }
+
+
+            //到这里表示加载成功了,改变当前页数
+            $("#currentPage").val(parseInt($("#currentPage").val())+1)
+        },
+        error: function () {
+
+            alert("发生错误")
+        },
+    })
+}
+
+
+//页面加载到尾部自动加载其他数据
+$(window).scroll(
+    function () {
+        var scrollTop = $(this).scrollTop();
+        var scrollHeight = $(document).height();
+        var windowHeight = $(this).height();
+        if (scrollTop + windowHeight == scrollHeight) {
+            //自动加载下一页..
+            loadPageNews()
+        }
+    });
+
+
+/*处理评论*/
+
+//加载评论
+
+function loadCommetById(newsId) {
+    $(this).next("input").show()
+    $.ajax({
+        url: '/yzone/news/getComment',
+        type: 'post',
+        data: {
+            newsId: newsId
+        },
+        dataType: "json",
+        success: function (data) {
+            for (var i = 0; i < data.length; i++) {
+                var com = '<div><a>' + data[i].userName + '</a>:<span>' + data[i].content + '</span></div>';
+                $("#comment" + newsId).append(com);
+            }
+        },
+        //表示失败 则不要修改颜色
+        error: function () {
+            alert("加载失败")
+        }
+    })
+}
+
+//发表评论
+function sendComment(newsId, userName, content) {
+    $.ajax({
+        url: '/yzone/news/comment',
+        type: 'post',
+
+        data: {
+            userName: userName,
+            newsId: newsId,
+            content: $(content).prev().val()
+        },
+        success: function (data) {
+            alert(data)
+            $(content).prev().val("");
+        },
+        //表示失败 则不要修改颜色
+        error: function () {
+            alert("评论失败")
+        }
+    })
+}
+
+/*点赞或者点踩来触发 TODO 其实这里的逻辑非常复杂,点击之后马上要出现效果,但是如果网络环境不好的话就再次把颜色退回去*/
+function like(obj) {
+    if ($(obj).css("color") == "rgb(255, 0, 0)") {
+        $(obj).css("color", "")
+    }
+    else {
+        $(obj).css("color", "red")
+    }
+    $.ajax({
+        url: '/yzone/news/like',
+        type: 'post',
+        data: {
+            userName: "john",
+            newsId: $(obj).attr("id").replace("like", "")
+        },
+        dataType: "json",
+        //TODO 答辩完就来修改
+        success: function (data) {
+            //表示失败 则不要修改颜色
+            /*if(data==no)
+            {
+
+            }*/
+        },
+        //表示失败 则不要修改颜色
+        error: function () {
+
+        }
+    })
+}
+
+function hate(obj) {
+    if ($(obj).css("color") == "rgb(255, 0, 0)") {
+        $(obj).css("color", "")
+    }
+    else {
+        $(obj).css("color", "red")
+    }
+    $.ajax({
+        url: '/yzone/news/hate',
+        type: 'post',
+        data: {
+            userName: "john",
+            newsId: $(obj).attr("id").replace("hate", "")
+        },
+        dataType: "json",
+        //TODO 答辩完就来修改
+        success: function (data) {
+            //表示失败 则不要修改颜色
+            /*if(data==no)
+            {
+
+            }*/
+        },
+        //表示失败 则不要修改颜色
+        error: function () {
+
+        }
+    })
+}
+
+//搜索下拉框推荐
+function showSerachRecom() {
+    $("#userrecom").children("div").remove();
+    $("#topicrecom").children("div").remove();
+    $("#contentrecom").children("div").remove();
+    $("#searchRecom").show()
+    /*清空上一次的*/
+
+    var key = $("#searchtext").val();
+    if (key != null && key != "") {
+        $.ajax({
+            url: '/yzone/search/recom',
+            type: 'post',
+            data: {
+                key: key
+            },
+            dataType: 'json',
+            success: function (data) {
+                var user = data.user;
+                if (user != null) {
+                    for (var i = 0; i < user.length; i++) {
+                        var userrecom = '<div  style="cursor: pointer;" onclick="toPersonPage(\'' + user[i].username + '\')">' + user[i].username + '</div>'
+                        $("#userrecom").append(userrecom);
+                    }
+                }
+                /*实现话题的提示*/
+                var topic = data.topic;
+                if (topic != null) {
+
+                }
+
+            }
+        })
+    }
+
+}

@@ -1,5 +1,7 @@
 package com.yzone.model;
 
+import com.yzone.service.impl.JedisClientPool;
+
 import java.util.Date;
 
 public class Topic
@@ -11,6 +13,15 @@ public class Topic
     private Date createTime;
     private Date modifyTime;
 
+    public int getActivity() {
+        return activity;
+    }
+
+    public void setActivity(int activity) {
+        this.activity = activity;
+    }
+
+    private int activity;
     public static void main(){
         
     }
@@ -63,4 +74,10 @@ public class Topic
     public void setModifyTime(Date modifyTime) {
         this.modifyTime = modifyTime;
     }
+
+
+
+
+
+
 }

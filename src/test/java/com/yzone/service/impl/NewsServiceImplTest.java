@@ -29,4 +29,10 @@ public class NewsServiceImplTest {
         List<NewsFlow> list =  newsService.getPageNews(1,3,1);
         System.out.println("========"+list.get(1).getTransContent());
     }
+
+
+    @Test
+    public String ttetete(){
+        return "redirect:/yzone/";
+    }
 }

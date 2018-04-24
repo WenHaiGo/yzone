@@ -1,21 +1,21 @@
 package com.yzone.controller;
 
-import com.google.gson.Gson;
 import com.yzone.model.Message;
 import com.yzone.model.User;
+import com.yzone.service.JedisClient;
 import com.yzone.service.MessageService;
 import com.yzone.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import redis.clients.jedis.JedisPool;
 
 import java.util.List;
 
 @Controller
 @RequestMapping("/message")
 public class MessageController {
-
 
     @Autowired
     MessageService messageService;
@@ -36,8 +36,24 @@ public class MessageController {
 
          m.setUserName((userService.getUserById(m.getUid())).getUsername());
         }
-
-
         return list;
     }
+
+
+
+
+/*
+
+    @Autowired
+   JedisClient jedisClient;
+
+    @RequestMapping("/test")
+    @ResponseBody
+    public void testRedis(){
+        JedisClient a = jedisPool.getResource();
+    }
+*/
+
+
+
 }

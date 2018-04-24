@@ -28,15 +28,24 @@ public class NewsServiceImpl implements NewsService {
         return newsDao.getShortByComplete(completeName);
     }
 
+    @Autowired
+    TopicService topicService;
     @Override
     public int save(News news) {
-        return newsDao.add(news);
+        JedisClientPool jedisClient= new JedisClientPool();
 
+        int isSave =  newsDao.add(news);
+
+        //是否在数据库保存成功
+        if(isSave==1){
+            //保存的时候就是直接按照这个来的,每次默认是1 ,
+            jedisClient.zincrby("hotTopic",1,topicService.getNameById(news.getTopicId()));
+        }
+        //这里不需要考虑redis是否保存成功了吗?
+        return isSave;
     }
 
 
-    @Autowired
-    TopicService topicService;
     @Autowired
     UserService userService;
 
@@ -63,7 +72,7 @@ public class NewsServiceImpl implements NewsService {
     public List<NewsFlow> getPageNews(int pageNo, int pageSize,int uid) {
         int startNo = (pageNo -1)*pageSize;
         Map<String,Integer> map = new HashMap<>();
-        map.put("pageNo",pageNo);
+        map.put("pageNo",startNo);
         map.put("pageSize",pageSize);
         map.put("uid",uid);
         List<News> list =  newsDao.getPageNews(map);

@@ -246,8 +246,22 @@
             <artifactId>lucene-highlighter</artifactId>
             <version>6.6.0</version>
         </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>RELEASE</version>
+        </dependency>
 
-    </dependencies>
+		<!-- https://mvnrepository.com/artifact/redis.clients/jedis -->
+		<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+			<version>2.7.2</version>
+		</dependency>
+
+
+
+	</dependencies>
 
 	<!--<build>-->
 		<!--<finalName>seckill</finalName>-->

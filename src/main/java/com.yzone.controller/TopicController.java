@@ -56,4 +56,12 @@ public class TopicController {
         List<Topic> readySet =  topicService.fuzzyQuery(key);
         return readySet;
     }
+
+    @RequestMapping("/hot")
+    @ResponseBody
+    public List<Topic> getHot(){
+
+        return null;
+    }
+
 }
