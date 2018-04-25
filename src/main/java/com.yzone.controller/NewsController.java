@@ -149,11 +149,6 @@ public class NewsController {
                 }
             }
         }
-
-        Gson gson = new Gson();
-
-        System.out.println(gson.toJson(newsService.getAllNews(uid)));
-
         //不知道怎么把topic name 加到json里面, 只好新建一个类作为展示到信息流的实体
         //返回用户自己的消息和   TODO已经关注人以及比较热门的消息
         List<NewsFlow> list = newsService.getAllNews(uid);
@@ -178,6 +173,14 @@ public class NewsController {
         return list;
     }
 
+
+    @RequestMapping("/manageAll")
+    @ResponseBody
+    public List<News> getAllNews() {
+        return newsService.getAllNews();
+    }
+
+
     @RequestMapping("/pageNews")
     @ResponseBody
     //这里直接固定了每一页展示多少个数据,所以就不传参数了
@@ -186,7 +189,7 @@ public class NewsController {
         String userName = UserUtils.getCurrentUserName(request);
         //不知道怎么把topic name 加到json里面, 只好新建一个类作为展示到信息流的实体
         //返回用户自己的消息和   TODO已经关注人以及比较热门的消息
-        List<NewsFlow> list = newsService.getPageNews(pageNo, pageSize,userService.getUserByUsername(userName).getId());
+        List<NewsFlow> list = newsService.getPageNews(pageNo, pageSize, userService.getUserByUsername(userName).getId());
         //遍历每一条消息,把是自己发的消息挑选出来,然后加上可以删除的属性.
         for (NewsFlow aNews : list
                 ) {
@@ -266,7 +269,6 @@ public class NewsController {
         }
         out.close();
     }
-
 
 
 }

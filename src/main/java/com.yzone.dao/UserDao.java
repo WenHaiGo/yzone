@@ -31,4 +31,8 @@ public interface UserDao {
     List<User> fuzzyQuery(String key);
 
     int followByUserName(Map<String,Integer> map);
+
+    List<User> getAll();
+
+    int deleteByUid(int uid);
 }

@@ -3,6 +3,7 @@ package com.yzone.service;
 import com.yzone.model.Topic;
 
 import java.util.List;
+import java.util.Set;
 
 public interface TopicService {
     int add(int uid,String topicName,String description);
@@ -15,4 +16,5 @@ public interface TopicService {
     String getNameById(int topicId);
 
 
+    List<Topic> getHot();
 }

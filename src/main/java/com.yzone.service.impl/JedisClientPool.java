@@ -164,7 +164,17 @@ public class JedisClientPool implements JedisClient {
 	@Override
 	public double zincrby(String key, double score, String member) {
 		Jedis jedis = jedisPool.getResource();
+
 		double result= jedis.zincrby(key,score,member);
+		jedis.close();
+		return result;
+	}
+
+	@Override
+	public Long zrem(String key, String member) {
+		Jedis jedis = jedisPool.getResource();
+		Long result= jedis.zrem(key,member);
+
 		jedis.close();
 		return result;
 	}

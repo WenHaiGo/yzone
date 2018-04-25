@@ -83,4 +83,15 @@ public class UserServiceImpl implements UserService {
         System.out.println("wode id"+uid+"别人的Id"+followUid);
         return userDao.followByUserName(map);
     }
+
+    @Override
+    public List<User> getAll() {
+        return userDao.getAll();
+    }
+
+    @Override
+    public int deleteByUid(int uid) {
+
+        return userDao.deleteByUid(uid);
+    }
 }

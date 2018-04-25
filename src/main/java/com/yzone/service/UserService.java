@@ -22,4 +22,8 @@ public interface UserService {
     List<User> fuzzyTuery(String key);
 
     int followByUserName(int uid,int followUid);
+
+    List<User> getAll();
+
+    int deleteByUid(int uid);
 }

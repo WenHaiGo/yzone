@@ -7,9 +7,7 @@ import com.yzone.service.TopicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class TopicServiceImpl implements TopicService {
@@ -57,5 +55,12 @@ public class TopicServiceImpl implements TopicService {
     @Override
     public String getNameById(int topicId) {
         return topicDao. getNameById(topicId);
+    }
+
+    @Override
+    public List<Topic> getHot() {
+        JedisClientPool jedisClient= new JedisClientPool();
+        List<Topic> list = new ArrayList(jedisClient.zrange("hotTopic",0L,10L));
+         return  list;
     }
 }

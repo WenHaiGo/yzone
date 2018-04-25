@@ -46,14 +46,14 @@ public class SearchController {
 
     //ajax调用这个方法
     @RequestMapping("/search.action")
-    public @ResponseBody AllSearchResult<NewsFlow> search() throws UnsupportedEncodingException {
+    public @ResponseBody AllSearchResult<NewsFlow> search(String keyWord,int pageNo) throws UnsupportedEncodingException {
 //        keyword = new String(keyword.getBytes("ISO-8859-1"),"UTF-8");
 //        System.out.println(" =====  " + keyword);
         //ModelAndView mv = new ModelAndView() ;
         //对结果进行了分页处理,但是如何来调用这是个问题
-        AllSearchResult<NewsFlow> lr = searchService.doSeacher("我", 2,8) ;
-//        mv.addObject("lr", lr) ;
-//        mv.setViewName("goodslist");
+        System.out.println(keyWord);
+        int pageSize = 5;
+        AllSearchResult<NewsFlow> lr = searchService.doSeacher(keyWord, 1,pageSize) ;
         return lr ;
     }
 

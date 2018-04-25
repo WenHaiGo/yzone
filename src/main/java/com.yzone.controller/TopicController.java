@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/topic")
@@ -60,8 +61,9 @@ public class TopicController {
     @RequestMapping("/hot")
     @ResponseBody
     public List<Topic> getHot(){
+List list = topicService.getHot();
+        return topicService.getHot();
 
-        return null;
     }
 
 }

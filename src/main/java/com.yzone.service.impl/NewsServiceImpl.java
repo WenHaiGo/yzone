@@ -39,7 +39,7 @@ public class NewsServiceImpl implements NewsService {
         //是否在数据库保存成功
         if(isSave==1){
             //保存的时候就是直接按照这个来的,每次默认是1 ,
-            jedisClient.zincrby("hotTopic",1,topicService.getNameById(news.getTopicId()));
+            jedisClient.zincrby("hotTopic",-1,topicService.getNameById(news.getTopicId()));
         }
         //这里不需要考虑redis是否保存成功了吗?
         return isSave;
@@ -183,5 +183,8 @@ public class NewsServiceImpl implements NewsService {
         }
     }
 
-
+    @Override
+    public List<News> getAllNews() {
+        return newsDao.getAllNewsManage();
+    }
 }

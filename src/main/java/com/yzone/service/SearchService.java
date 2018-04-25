@@ -29,6 +29,5 @@ public interface SearchService {
     public static final String INDEX_DIR = "D:\\index_dir";
     SearchRecomModel getSearchRecom(String key);
     void rebuildAllIndex() throws Exception;
-
     AllSearchResult<NewsFlow> doSeacher(String keyword, int pageNo, int pageSize);
 }

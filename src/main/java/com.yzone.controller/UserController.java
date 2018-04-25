@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 @Controller
 @RequestMapping("/user")
@@ -138,5 +139,21 @@ public class UserController {
         System.out.println(111111);
         PersonPage personPage =  userService.getPersonInfo(userName);
         return personPage;
+    }
+
+
+
+    @RequestMapping("/all")
+    @ResponseBody
+    public List<User> getAll(){
+        System.out.println("sasas"+userService.getAll().get(0).getCreateTime());
+       return userService.getAll();
+    }
+
+
+    @RequestMapping("/delete")
+    @ResponseBody
+    public String deleteByName(String userName){
+        return userService.deleteByUid(userService.getUserByUsername(userName).getId())==1?"yes":"no";
     }
 }

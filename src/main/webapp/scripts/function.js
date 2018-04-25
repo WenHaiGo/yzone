@@ -108,11 +108,26 @@ function loadAllUnreadMessage() {
         }
     })
 }
+//发送ajax到服务器去获取
+function loadHotTopic() {
+    $.ajax({
+        url: '/yzone/topic/hot',
+        type: 'post',
+        dataType: 'json',
+        success: function (data) {
+            for (var i = 0; i < data.length; i++) {
+                var topicItem = '<p>' + data[i] + '</p>';
+                $("#hotTopic").append(topicItem);
+            }
+        }
 
+    })
+}
 
 //读取所有支持的语言  因为onload不支持同时加载俩个方法,只好放在一起
 function language() {
 
+    loadHotTopic();
     //加载所有未处理消息
     loadAllUnreadMessage()
 //加载所有news

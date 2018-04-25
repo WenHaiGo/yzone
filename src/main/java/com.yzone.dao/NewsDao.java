@@ -35,4 +35,6 @@ public interface NewsDao {
     List<Comment> getCommentById(int newsId);
 
     List<News> getPageNews(Map<String,Integer> map);
+
+    List<News> getAllNewsManage();
 }

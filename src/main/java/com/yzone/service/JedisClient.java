@@ -1,5 +1,6 @@
 package com.yzone.service;
 
+import javax.xml.soap.SAAJResult;
 import java.util.List;
 import java.util.Set;
 
@@ -23,5 +24,6 @@ public interface JedisClient {
 	Long zadd(String key,double score,String memeber);
 	Set zrange(String key, Long start, Long end);
 	double zincrby(String key,double score,String member);
+	Long zrem(String key,String member);
 
 }

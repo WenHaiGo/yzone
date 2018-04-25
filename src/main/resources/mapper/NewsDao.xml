@@ -91,5 +91,9 @@
         WHERE uid = #{uid}) LIMIT #{pageNo},#{pageSize} ;
     </select>
 
+    <select id="getAllNewsManage" resultType="News">
+        SELECT * FROM news;
+    </select>
+
 </mapper>
     

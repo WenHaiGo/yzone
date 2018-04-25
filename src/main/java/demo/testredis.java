@@ -19,12 +19,7 @@ public class testredis {
 
     static JedisClientPool jedisClient= new JedisClientPool();
     public static void main(String[] args) {
-
-
-        jedisClient.set("12","飒飒");
-        System.out.println(jedisClient.get("12"));
-        jedisClient.zadd("test",12,"A");
-
+   System.out.println(jedisClient.zrange("hotTopic",0L,100L));
 
 
     }

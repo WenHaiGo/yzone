@@ -31,4 +31,7 @@ public interface NewsService {
     List<NewsFlow> getAllNews4S();
 
     List<NewsFlow> getPageNews(int pageNo, int pageSize,int uid);
+
+    //后台管理需要
+    List<News> getAllNews();
 }

@@ -57,5 +57,14 @@
     <insert id="followByUserName" parameterType="map">
         INSERT INTO follow_person (uid, follow_uid, create_time) VALUES (#{uid},#{followUid},now());
     </insert>
+
+    <select id="getAll" resultType="User">
+        SELECT  username,sex, create_time,address,school,profession FROM user;
+    </select>
+
+
+    <delete id="deleteByUid" parameterType="Integer">
+        DELETE FROM user WHERE id = #{uid}
+    </delete>
 </mapper>
 
