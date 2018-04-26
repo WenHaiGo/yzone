@@ -35,4 +35,22 @@ public class MenuServiceImpl implements MenuService {
         }
         return utilList;
     }
+
+
+    @Override
+    public List<MenuUtil> getMenuByRoleId(int roleId) {
+        List<Menu> fatherlist = menuDao.getByRoleId(roleId);
+
+        List<MenuUtil> utilList = new ArrayList<>();
+        for (int i = 0; i < fatherlist.size(); i++) {
+            MenuUtil menuUtil = new MenuUtil();
+            menuUtil.setList(menuDao.getByPid(fatherlist.get(i).getId()));
+            menuUtil.setName(fatherlist.get(i).getName());
+            //工具类还有得到id的必要吗
+            menuUtil.setId(fatherlist.get(i).getId());
+            menuUtil.setUrl(fatherlist.get(i).getUrl());
+            utilList.add(menuUtil);
+        }
+        return utilList;
+    }
 }

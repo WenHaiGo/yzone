@@ -599,7 +599,7 @@ function loadCommetById(newsId) {
     })
 }
 
-//发表评论
+//发表评论5ttr
 function sendComment(newsId, userName, content) {
     $.ajax({
         url: '/yzone/news/comment',

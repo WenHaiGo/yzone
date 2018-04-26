@@ -66,5 +66,12 @@
     <delete id="deleteByUid" parameterType="Integer">
         DELETE FROM user WHERE id = #{uid}
     </delete>
+
+
+    <select id="manageLogin" parameterType="map" resultType="ManageUser">
+
+        select `manage_user`.*,manage_role_user.role_id from manage_user join manage_role_user on `manage_user`.id=manage_role_user.uid  where name=#{username} and pwd=#{password}
+
+    </select>
 </mapper>
 

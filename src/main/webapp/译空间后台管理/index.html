@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="lib/font-awesome/css/font-awesome.css">
 
     <script src="lib/jquery-1.7.2.min.js" type="text/javascript"></script>
-
+    <script src="lib/manage.js"></script>
     <!-- Demo page code -->
 
     <style type="text/css">
@@ -102,43 +102,6 @@
 
 <!--处理侧边栏-->
 <div class="sidebar-nav" id="sidebar-nav">
-
-    <script>
-
-        function getMenu() {
-            $.ajax({
-                url: '/yzone/menu/all',
-                type: 'post',
-                dataType: "json",
-                success: function (data) {
-                    for (var i = 0; i < data.length; i++) {
-                        var fatherMenu = '<a href="#' + data[i].url + '" class="nav-header" data-toggle="collapse"><i class="icon-briefcase"></i>' + data[i].name + '</a>';
-                        $("#sidebar-nav").append(fatherMenu)
-                        var temp = data[i].list;
-                        var scraMenu = '<ul id="' + data[i].url + '" class="nav nav-list collapse">\n' +
-                            '</ul>';
-                        $("#sidebar-nav").append(scraMenu);
-                        for (var j = 0; j < temp.length; j++) {
-                            var sonMenu = '<li>\n' +
-                                '            <a href="' + temp[j].url + '">' + temp[j].name + '</a>\n' +
-                                '        </li>\n';
-
-                            $("#" + data[i].url).append(sonMenu);
-
-                        }
-
-                    }
-
-                },
-                error: function () {
-                    alert("发生错误")
-                },
-            })
-        }
-
-    </script>
-
-
 
 
 

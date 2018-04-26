@@ -45,7 +45,7 @@
     <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-
+    <script src="lib/manage.js"></script>
     <!-- Le fav and touch icons -->
     <link rel="shortcut icon" href="../assets/ico/favicon.ico">
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
@@ -64,7 +64,7 @@
 <body class="ie ie9 "> <![endif]-->
 <!--[if (gt IE 9)|!(IE)]><!-->
 
-<body onload="getAllUser()">
+<body onload="getMenu()">
 <!--<![endif]-->
 <!--处理导航栏-->
 <div class="navbar">
@@ -102,50 +102,7 @@
 
 <!--处理侧边栏-->
 <div class="sidebar-nav">
-    <a href="#accounts-menu" class="nav-header" data-toggle="collapse"><i class="icon-briefcase"></i>用户管理</a>
-    <ul id="accounts-menu" class="nav nav-list collapse">
-        <li>
-            <a href="user.html">查看所有用户</a>
-        </li>
-    </ul>
 
-    <a href="#error-menu" class="nav-header collapsed" data-toggle="collapse"><i class="icon-exclamation-sign"></i>内容管理
-        <i class="icon-chevron-up"></i></a>
-    <ul id="error-menu" class="nav nav-list collapse">
-        <li>
-            <a href="news.html">查看所有帖子</a>
-        </li>
-
-    </ul>
-
-    <a href="#legal-menu" class="nav-header" data-toggle="collapse"><i class="icon-legal"></i>发布广告</a>
-    <ul id="legal-menu" class="nav nav-list collapse">
-        <li>
-            <a href="privacy-policy.html">编辑广告</a>
-        </li>
-        <li>
-            <a href="privacy-policy.html">查看历史广告</a>
-        </li>
-
-    </ul>
-
-    <a href="#data-menu" class="nav-header" data-toggle="collapse"><i class="icon-legal"></i>数据中心</a>
-    <ul id="data-menu" class="nav nav-list collapse">
-        <li>
-            <a href="privacy-policy.html">查看数据</a>
-        </li>
-
-    </ul>
-
-    <a href="#system-menu" class="nav-header" data-toggle="collapse"><i class="icon-legal"></i>系统设置</a>
-    <ul id="system-menu" class="nav nav-list collapse">
-        <li>
-            <a href="privacy-policy.html">管理员</a>
-        </li>
-        <li>
-            <a href="privacy-policy.html">权限分配</a>
-        </li>
-    </ul>
 
 </div>
 
@@ -175,36 +132,7 @@
             <div class="well">
                 <script>
 
-                    function getAllUser() {
-                        $.ajax({
-                            url: '/yzone/user/all',
-                            type: 'post',
-                            success: function (data) {
-                                for (var i = 0; i < data.length; i++) {
-                                    var item = '<tr>\n' +
-                                        '                        <td>' + i + '</td>\n' +
-                                        '                        <td>' + data[i].username + '</td>\n' +
-                                        '                        <td>' + data[i].sex + '</td>\n' +
-                                        '                        <td>' + data[i].address + '</td>\n' +
-                                        '                        <td>' + data[i].profession + '</td>\n' +
-                                        '                        <td>' + data[i].school + '</td>\n' +
-                                        '                        <td>1</td>\n' +
-                                        '                        <td>' + (new Date(data[i].createTime)).toLocaleString() + '</td>\n' +
-                                        '\n' +
-                                        '                        <td>\n' +
-                                        '                            <a href="user.html"><i class="icon-pencil"></i></a>\n' +
-                                        '                            <a href="#myModal" role="button" data-toggle="modal"><i class="icon-remove"></i></a>\n' +
-                                        '                        </td>\n' +
-                                        '                    </tr>'
-                                    $("#allUser").append(item);
-                                }
 
-                            },
-                            error: function () {
-                                alert("发生错误")
-                            },
-                        })
-                    }
 
                     function deleteUser() {
                         $.ajax({

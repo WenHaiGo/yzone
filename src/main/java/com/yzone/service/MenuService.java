@@ -10,4 +10,5 @@ public interface MenuService {
     //读出父菜单
     List<MenuUtil>  getMenu();
 
+    List<MenuUtil> getMenuByRoleId(int roleId);
 }

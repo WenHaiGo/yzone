@@ -1,5 +1,6 @@
 package com.yzone.service;
 
+import com.yzone.model.ManageUser;
 import com.yzone.model.User;
 import com.yzone.utils.PersonPage;
 
@@ -26,4 +27,6 @@ public interface UserService {
     List<User> getAll();
 
     int deleteByUid(int uid);
+
+    ManageUser manageLogin(String username, String password);
 }

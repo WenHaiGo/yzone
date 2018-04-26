@@ -2,6 +2,7 @@ package com.yzone.controller;
 
 
 import com.google.gson.Gson;
+import com.yzone.model.ManageUser;
 import com.yzone.model.User;
 import com.yzone.service.UserService;
 import com.yzone.utils.PersonPage;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -103,6 +105,7 @@ public class UserController {
         }
         return "redirect:/";
     }
+
     @RequestMapping("/person")
     @ResponseBody
     public String getPerson(HttpServletRequest request, String userName) {
@@ -119,41 +122,53 @@ public class UserController {
             return "other";
         }
     }
+
     @RequestMapping("/follow")
     @ResponseBody
-    public String follow(String userName,HttpServletRequest request)
-    {
-        System.out.println("+++++++++++++++++++++++++"+"一寄给");
+    public String follow(String userName, HttpServletRequest request) {
+        System.out.println("+++++++++++++++++++++++++" + "一寄给");
         User followUser = userService.getUserByUsername(userName);
         User user = userService.getUserByUsername(UserUtils.getCurrentUserName(request));
-        int isFollow =  userService.followByUserName(user.getId(),followUser.getId());
-        return isFollow==1?"yes":"no";
+        int isFollow = userService.followByUserName(user.getId(), followUser.getId());
+        return isFollow == 1 ? "yes" : "no";
     }
 
 
-/*这个好像没有用*/
+    /*这个好像没有用*/
     //TODO 这里的命名不规范  一会user  一会儿person
     @RequestMapping("/personpage")
     @ResponseBody
     public PersonPage getPersonInfo(String userName) {
         System.out.println(111111);
-        PersonPage personPage =  userService.getPersonInfo(userName);
+        PersonPage personPage = userService.getPersonInfo(userName);
         return personPage;
     }
 
 
-
     @RequestMapping("/all")
     @ResponseBody
-    public List<User> getAll(){
-        System.out.println("sasas"+userService.getAll().get(0).getCreateTime());
-       return userService.getAll();
+    public List<User> getAll() {
+        System.out.println("sasas" + userService.getAll().get(0).getCreateTime());
+        return userService.getAll();
     }
 
 
     @RequestMapping("/delete")
     @ResponseBody
-    public String deleteByName(String userName){
-        return userService.deleteByUid(userService.getUserByUsername(userName).getId())==1?"yes":"no";
+    public String deleteByName(String userName) {
+        return userService.deleteByUid(userService.getUserByUsername(userName).getId()) == 1 ? "yes" : "no";
+    }
+
+
+    @RequestMapping("/manageLogin")
+    @ResponseBody
+    public String manageLogin(String username, String password, HttpSession httpSession) {
+        ManageUser isLoign = userService.manageLogin(username, password);
+        if (isLoign != null) {
+            httpSession.setAttribute("manageUser", isLoign);
+            return "yes";
+        } else
+            return "no";
+
     }
 }

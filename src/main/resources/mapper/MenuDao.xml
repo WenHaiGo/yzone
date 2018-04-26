@@ -6,8 +6,13 @@
 <mapper namespace="com.yzone.dao.MenuDao">
     <select id="getByPid" resultType="Menu">
         SELECT *
-        FROM menu WHERE pid = #{pid};
+        FROM manage_menu WHERE pid = #{pid};
     </select>
 
+
+    <select id="getByRoleId"  parameterType="Integer" resultType="Menu">
+        SELECT m.*
+        FROM manage_role_menu  r LEFT JOIN   manage_menu m on r.menu_id=m.id  WHERE role_id=#{roleId} ;
+    </select>
 
 </mapper>

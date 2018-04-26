@@ -1,6 +1,7 @@
 package com.yzone.service.impl;
 
 import com.yzone.dao.UserDao;
+import com.yzone.model.ManageUser;
 import com.yzone.model.User;
 import com.yzone.service.UserService;
 import com.yzone.utils.PersonPage;
@@ -93,5 +94,15 @@ public class UserServiceImpl implements UserService {
     public int deleteByUid(int uid) {
 
         return userDao.deleteByUid(uid);
+    }
+
+    @Override
+    public ManageUser manageLogin(String username, String password) {
+        Map<String ,String> map = new HashMap<>();
+        map.put("username",username);
+        map.put("password",password);
+        ManageUser a = userDao.manageLogin(map);
+
+        return a ;
     }
 }

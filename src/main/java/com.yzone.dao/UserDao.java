@@ -1,5 +1,6 @@
 package com.yzone.dao;
 
+import com.yzone.model.ManageUser;
 import com.yzone.model.User;
 
 import java.util.List;
@@ -35,4 +36,6 @@ public interface UserDao {
     List<User> getAll();
 
     int deleteByUid(int uid);
+
+    ManageUser manageLogin(Map<String, String> map);
 }
