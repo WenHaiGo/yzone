@@ -95,12 +95,11 @@ function loadAllUnreadMessage() {
         success: function (data) {
             $("#chatBadge").html(data.length);
 
-            for(var i = 0 ;i<data.length;i++)
-            {
+            for (var i = 0; i < data.length; i++) {
                 var abstract = '\n' +
                     '                            <li>\n' +
-                    '                                <h4><a href="/yzone/chat.html?name='+data[i].userName+'">'+data[i].userName+'</a></h4>\n' +
-                    '                                <span>'+data[i].send+'</span>\n' +
+                    '                                <h4><a href="/yzone/chat.html?name=' + data[i].userName + '">' + data[i].userName + '</a></h4>\n' +
+                    '                                <span>' + data[i].send + '</span>\n' +
                     '                            </li>';
                 $("#chatAbstract").append(abstract);
             }
@@ -108,6 +107,7 @@ function loadAllUnreadMessage() {
         }
     })
 }
+
 //发送ajax到服务器去获取
 function loadHotTopic() {
     $.ajax({
@@ -372,13 +372,12 @@ function hideNews(obj) {
 function hideSearchRecom() {
     $("#searchRecom").hide()
 }
+
 //用于在导航页面点击我的跳转到个人页面
 function navToPerson() {
     var username = $.cookie("username");
     location.href = "/yzone/mypage.html?username=" + username;
 }
-
-
 
 
 /*TODO 这里其实应该把弹出和赋值操作放在一起*/
@@ -388,9 +387,6 @@ function assignToModal() {
     $("#modalorigin").val(modalorigin);
     $("#modaltrans").val(modaltrans);
 }
-
-
-
 
 
 //处理主页news
@@ -418,7 +414,9 @@ function toPersonPage(userName) {
 }
 
 /*加载登陆之后页面的news流*/
+
 //加载所有动态
+/*
 function loadAllNews() {
     $.ajax({
         url: '/yzone/news/all',
@@ -484,6 +482,7 @@ function loadAllNews() {
         },
     })
 }
+*/
 
 
 function loadPageNews() {
@@ -495,7 +494,7 @@ function loadPageNews() {
         },
         dataType: 'json',
         success: function (data) {
-            for (var i = data.length - 1; i >= 0; i--) {
+            for (var i = 0; i <data.length; i++) {
                 console.log(data[i].topicName)
                 //处理是否有权利删除
                 var closeId = "close" + data[i].newsId;
@@ -521,7 +520,7 @@ function loadPageNews() {
                     '\t\t\t\t\t\t\t\t\t\n' +
                     '\t\t\t\t\t\t\t\t</div>\n' + '<p></p>' +
                     '\t\t\t\t\t\t\t\t<div class="user-action"style="margin-top: 10px;" >\n' +
-                    '\t\t\t\t\t\t\t\t\t<a  onclick="like(this)" id=' + likeId + ' class="fa fa-thumbs-o-up icon-5x"></a>\n' +
+                    '\t\t\t\t\t\t\t\t\t<a  onclick="like(this,\'' + data[i].userName + '\')" id=' + likeId + ' class="fa fa-thumbs-o-up icon-5x"></a>\n' +
                     '\t\t\t\t\t\t\t\t\t&nbsp;&nbsp;&nbsp;\n' +
                     '\t\t\t\t\t\t\t\t\t<a onclick="hate(this)" id=' + hateId + ' class="fa fa-thumbs-o-down"></a>\n' +
                     '\t\t\t\t\t\t\t\t\t\t<a onclick="loadCommetById(' + data[i].newsId + ')" ><img src="img/chat.png" /><span >评论</span></a>\n' +
@@ -547,10 +546,8 @@ function loadPageNews() {
                     $("#" + hateId).css("color", "red");
                 }
             }
-
-
             //到这里表示加载成功了,改变当前页数
-            $("#currentPage").val(parseInt($("#currentPage").val())+1)
+            $("#currentPage").val(parseInt($("#currentPage").val()) + 1)
         },
         error: function () {
 
@@ -568,7 +565,16 @@ $(window).scroll(
         var windowHeight = $(this).height();
         if (scrollTop + windowHeight == scrollHeight) {
             //自动加载下一页..
-            loadPageNews()
+            if ($("#isSearch").val() == 1) {
+                //加载普通页面
+                loadPageNews()
+            }
+            else if ($("#isSearch").val() == 0) {
+                //加载搜索页面
+                showSearchResult();
+
+            }
+
         }
     });
 
@@ -622,7 +628,9 @@ function sendComment(newsId, userName, content) {
 }
 
 /*点赞或者点踩来触发 TODO 其实这里的逻辑非常复杂,点击之后马上要出现效果,但是如果网络环境不好的话就再次把颜色退回去*/
-function like(obj) {
+function like(obj , userName) {
+    alert(userName)
+
     if ($(obj).css("color") == "rgb(255, 0, 0)") {
         $(obj).css("color", "")
     }
@@ -633,7 +641,7 @@ function like(obj) {
         url: '/yzone/news/like',
         type: 'post',
         data: {
-            userName: "john",
+            userName: userName,
             newsId: $(obj).attr("id").replace("like", "")
         },
         dataType: "json",
