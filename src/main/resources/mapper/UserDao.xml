@@ -73,5 +73,17 @@
         select `manage_user`.*,manage_role_user.role_id from manage_user join manage_role_user on `manage_user`.id=manage_role_user.uid  where name=#{username} and pwd=#{password}
 
     </select>
+
+
+    <select id="getFemale" resultType="Long">
+        select ifnull(count(*),0)
+        from user WHERE sex=0;
+    </select>
+
+<select id="getMale" resultType="Long">
+    select ifnull(count(*),0)
+    from user WHERE sex=1;
+</select>
+
 </mapper>
 

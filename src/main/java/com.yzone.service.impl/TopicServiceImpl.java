@@ -60,7 +60,7 @@ public class TopicServiceImpl implements TopicService {
     @Override
     public List<Topic> getHot() {
         JedisClientPool jedisClient= new JedisClientPool();
-        List<Topic> list = new ArrayList(jedisClient.zrange("hotTopic",0L,10L));
+        List<Topic> list = new ArrayList(jedisClient.zrange("hotTopic",0L,4L));
          return  list;
     }
 }

@@ -38,4 +38,8 @@ public interface UserDao {
     int deleteByUid(int uid);
 
     ManageUser manageLogin(Map<String, String> map);
+
+    Long getFemale();
+
+    Long getMale();
 }

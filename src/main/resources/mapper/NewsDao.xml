@@ -77,6 +77,7 @@
         WHERE news_id = #{newsId};
     </select>
 
+
     <select id="getAllNews4S" resultType="News">
         SELECT
             *
@@ -88,7 +89,7 @@
         from news  WHERE topic_id
         IN (SELECT topic_id
         FROM follow_topic
-        WHERE uid = #{uid}) LIMIT #{pageNo},#{pageSize} ;
+        WHERE uid = #{uid}) ORDER BY create_time DESC LIMIT #{pageNo},#{pageSize} ;
     </select>
 
     <select id="getAllNewsManage" resultType="News">

@@ -52,8 +52,9 @@ public class SearchController {
         //ModelAndView mv = new ModelAndView() ;
         //对结果进行了分页处理,但是如何来调用这是个问题
         System.out.println(keyWord);
-        int pageSize = 5;
-        AllSearchResult<NewsFlow> lr = searchService.doSeacher(keyWord, 1,pageSize) ;
+        System.err.println("哈哈"+pageNo);
+        int pageSize =3;
+        AllSearchResult<NewsFlow> lr = searchService.doSeacher(keyWord, pageNo,pageSize) ;
         return lr ;
     }
 

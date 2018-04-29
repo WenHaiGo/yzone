@@ -1,6 +1,7 @@
 package com.yzone.service;
 
 import com.yzone.model.ManageUser;
+import com.yzone.model.Sex;
 import com.yzone.model.User;
 import com.yzone.utils.PersonPage;
 
@@ -29,4 +30,6 @@ public interface UserService {
     int deleteByUid(int uid);
 
     ManageUser manageLogin(String username, String password);
+
+    Sex getSexNum();
 }

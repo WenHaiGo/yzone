@@ -39,11 +39,10 @@ function checkLogin() {
 
 
             if (data == "yes") {
-
                 location.href = "index.html";
             }
             else {
-                $("#loginMsg").html("密码错误")
+                $("#loginMsg").html("dfsdfdsfsd密码错误")
             }
         }
     })
@@ -66,7 +65,7 @@ function register() {
                 location.href = "index.html";
             }
             else {
-                alert("密码错误")
+
             }
         }
     })
@@ -408,7 +407,7 @@ function toPersonPage(userName) {
             }
         },
         error: function () {
-            alert("发生错误")
+           /* alert("发生错误")*/
         },
     })
 }
@@ -551,7 +550,7 @@ function loadPageNews() {
         },
         error: function () {
 
-            alert("发生错误")
+          /*  alert("发生错误")*/
         },
     })
 }
@@ -617,7 +616,7 @@ function sendComment(newsId, userName, content) {
             content: $(content).prev().val()
         },
         success: function (data) {
-            alert(data)
+
             $(content).prev().val("");
         },
         //表示失败 则不要修改颜色
@@ -629,7 +628,7 @@ function sendComment(newsId, userName, content) {
 
 /*点赞或者点踩来触发 TODO 其实这里的逻辑非常复杂,点击之后马上要出现效果,但是如果网络环境不好的话就再次把颜色退回去*/
 function like(obj , userName) {
-    alert(userName)
+
 
     if ($(obj).css("color") == "rgb(255, 0, 0)") {
         $(obj).css("color", "")

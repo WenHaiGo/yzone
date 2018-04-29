@@ -2,6 +2,7 @@ package com.yzone.service.impl;
 
 import com.yzone.dao.UserDao;
 import com.yzone.model.ManageUser;
+import com.yzone.model.Sex;
 import com.yzone.model.User;
 import com.yzone.service.UserService;
 import com.yzone.utils.PersonPage;
@@ -26,6 +27,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int checkLogin(String username, String password) {
+        System.out.println("传过来的是"+username+"密码是"+password);
         Map<String, String> map = new HashMap<String, String>();
         map.put("username", username);
         map.put("password", password);
@@ -54,7 +56,6 @@ public class UserServiceImpl implements UserService {
     }
 
 
-
     @Override
     public PersonPage getPersonInfo(String userName) {
 
@@ -77,11 +78,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int followByUserName(int uid,int followUid) {
-        HashMap<String,Integer> map = new HashMap();
-        map.put("uid",uid);
-        map.put("followUid",followUid);
-        System.out.println("wode id"+uid+"别人的Id"+followUid);
+    public int followByUserName(int uid, int followUid) {
+        HashMap<String, Integer> map = new HashMap();
+        map.put("uid", uid);
+        map.put("followUid", followUid);
+        System.out.println("wode id" + uid + "别人的Id" + followUid);
         return userDao.followByUserName(map);
     }
 
@@ -98,11 +99,22 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ManageUser manageLogin(String username, String password) {
-        Map<String ,String> map = new HashMap<>();
-        map.put("username",username);
-        map.put("password",password);
+        Map<String, String> map = new HashMap<>();
+        map.put("username", username);
+        map.put("password", password);
         ManageUser a = userDao.manageLogin(map);
 
-        return a ;
+        return a;
+    }
+
+
+    @Override
+    public Sex getSexNum() {
+
+        Sex sex = new Sex();
+        sex.setFemale(userDao.getFemale());
+
+        sex.setMale(userDao.getMale());
+        return sex;
     }
 }

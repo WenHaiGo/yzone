@@ -39,6 +39,7 @@ public class NewsController {
         //使用百度翻译api进行翻译
         final String APP_ID = "20180119000117102";
         final String SECURITY_KEY = "PrUuzyAWuXxi8Cpm4ubM";
+        //得到相应的翻译语言
         TransApi api = new TransApi(APP_ID, SECURITY_KEY);
         String shortOrigin = newsService.getShortByComplete(originLanguage);
         String shortTrans = newsService.getShortByComplete(transLanguage);
@@ -186,10 +187,12 @@ public class NewsController {
     //这里直接固定了每一页展示多少个数据,所以就不传参数了
     public List<NewsFlow> getPageNews(int pageNo, HttpServletRequest request) {
         int pageSize = 5;
+        System.out.println("输出页数"+pageNo);
         String userName = UserUtils.getCurrentUserName(request);
         //不知道怎么把topic name 加到json里面, 只好新建一个类作为展示到信息流的实体
         //返回用户自己的消息和   TODO已经关注人以及比较热门的消息
         List<NewsFlow> list = newsService.getPageNews(pageNo, pageSize, userService.getUserByUsername(userName).getId());
+
         //遍历每一条消息,把是自己发的消息挑选出来,然后加上可以删除的属性.
         for (NewsFlow aNews : list
                 ) {

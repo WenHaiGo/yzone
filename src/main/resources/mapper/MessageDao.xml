@@ -9,8 +9,8 @@
 
     </insert>
 
-    <update id="updateReadStateByUid" parameterType="java.lang.Integer">
-        UPDATE message SET is_read = 1 WHERE uid=#{uid}
+    <update id="updateReadStateByUid"  parameterType="java.lang.Integer" >
+        UPDATE message SET is_read = 1 WHERE other_uid=#{uid}
     </update>
 
     <select id="checkUnreadByUid" parameterType="java.lang.Integer" resultType="Message">

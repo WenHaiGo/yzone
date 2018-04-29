@@ -20,9 +20,9 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public int updateReadStateByUid(int uid) {
-
-        return messageDao.updateReadStateByUid(uid);
-
+        System.out.println("数据库总的是"+uid);
+       int a  = messageDao.updateReadStateByUid(uid);
+        return a;
     }
 
     @Override

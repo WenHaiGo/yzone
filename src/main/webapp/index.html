@@ -14,7 +14,6 @@
     <script src="https://cdn.bootcss.com/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"></script>
     <script type="text/javascript" src="scripts/function.js"></script>
     <title>译空间注册</title>
-    <script src="css/chat.js"></script>
 </head>
 
 
@@ -37,19 +36,25 @@
 
             <script>
 
-                //展示Lucene搜索结果
+                //TODO 最好统一加载  要使用load 还是 get 还是 show 展示Lucene搜索结果
                 function showSearchResult() {
+
+                    $("#isSearch").val(0);
                     $("#feed-list").html("")
                     $.ajax({
                         url: '/yzone/search/search.action',
                         type: 'post',
                         data: {
                             keyWord: $("#searchtext").val(),
-                            pageNo: 1
+                            pageNo: $("#searchCurrentPage").val()
                         },
                         success: function (adata) {
+
+                            $("#searchCurrentPage").val()
                             //先去清空当前页面
-                            $("#feed-list").html("")
+                            if ($("#isSearch").val() == 1) {
+                                $("#feed-list").html("")
+                            }
                             var data = adata.datas;
                             for (var i = data.length - 1; i >= 0; i--) {
                                 console.log(data[i].topicName)
@@ -90,7 +95,6 @@
                                     '<a onclick="sendComment(\'' + data[i].newsId + '\',\'' + data[i].userName + '\',this)">发表</a></div>' +
                                     '\t\t\t\t\t\t</div>';
                                 $("#feed-list").append(news);
-                                //$('.feed-list').mouseover(showAll(document.getElementById(showAll())));
                                 //判断是否有删除的权利,如果有就显示删除按钮
                                 if (data[i].canDelete == true) {
                                     $("#" + closeId).show();
@@ -103,9 +107,11 @@
                                     $("#" + hateId).css("color", "red");
                                 }
                             }
+                            //到这里表示加载成功了,改变当前页数
+                            $("#searchCurrentPage").val(parseInt($("#searchCurrentPage").val()) + 1)
                         },
                         error: function () {
-                            alert("发生错误")
+                           /* alert("发生错误")*/
                         },
                     })
                 }
@@ -123,7 +129,27 @@
                             }
 
                             function hideChatBadge() {
+                                //这里告诉数据库已读
+
                                 $("#chatBadge").hide();
+                                //这里告诉数据库已读
+                                $.ajax({
+                                    url: '/yzone/message/updateUnread',
+                                    type: 'post',
+
+                                    data: {
+                                        userName: $.cookie("username")
+
+                                    },
+                                    success: function (data) {
+
+
+                                    },
+                                    //表示失败 则不要修改颜色
+                                    error: function () {
+
+                                    }
+                                })
                             }
                         </script>
                         <img src="img/alert.png" class="dropdown-toggle" data-toggle="dropdown">
@@ -344,6 +370,9 @@
     </div>
 </div>
 </body>
-<!--隐藏-->
+<!--集中处理隐藏-->
 <input id="currentPage" value="1" hidden="hidden">
+<!--隐藏域来判断是搜索还是普通页面 默认是1 点击搜索按钮变为0-->
+<input id="isSearch" type="text" value="1" hidden="hidden">
+<input id="searchCurrentPage" value="1" hidden="hidden">
 </html>

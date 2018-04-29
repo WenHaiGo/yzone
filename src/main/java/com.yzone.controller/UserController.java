@@ -3,6 +3,7 @@ package com.yzone.controller;
 
 import com.google.gson.Gson;
 import com.yzone.model.ManageUser;
+import com.yzone.model.Sex;
 import com.yzone.model.User;
 import com.yzone.service.UserService;
 import com.yzone.utils.PersonPage;
@@ -34,7 +35,7 @@ public class UserController {
     @RequestMapping("/checkUserName")
     @ResponseBody
     public String isExist(String username) {
-        System.out.println("dsdsd" + userService.isExist(username));
+
         return userService.isExist(username) == 1 ? "yes" : "no";
     }
 
@@ -49,6 +50,7 @@ public class UserController {
     @ResponseBody
     public String checkLogin(HttpServletResponse response, String username, String password) {
         int isLogin = userService.checkLogin(username, password);
+        System.out.println(isLogin+"sasasasaa");
         if (isLogin == 1) {
             System.out.println("已经保存");
             //通过username获取user实体类
@@ -170,5 +172,18 @@ public class UserController {
         } else
             return "no";
 
+    }
+
+
+
+    @RequestMapping("/sex")
+    @ResponseBody
+    public Sex getSexNum()
+    {
+        System.out.println(1);
+
+
+
+        return userService.getSexNum();
     }
 }

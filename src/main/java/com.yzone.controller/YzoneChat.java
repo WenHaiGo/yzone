@@ -50,12 +50,14 @@ public class YzoneChat {
     MessageService messageService = (MessageService) SpringContextUtil.getBean(MessageService.class);
     UserService userService = (UserService) SpringContextUtil.getBean(UserService.class);
 
+
+    /*处理用户登陆时候的操作,登陆之后会把数据库未读的消息都推送给用户*/
     @OnOpen
     public void onOpen(@PathParam("fromName") String fromName, Session session) throws IOException {
-        String aString = session.getQueryString();
+//        String aString = session.getQueryString();
         System.out.println("用户" + fromName + "上线");
         this.session = session;
-        //用户上线之后马上检测是否是新用户,因为已经登录的用户是一直保存在webSocketMap中的
+        //用户上线之后马上检测是否是新用户,因为已经在线的用户是一直保存在webSocketMap中的
         if (webSocketMap.containsKey(fromName)) {
             int uid = userService.getUserByUsername(fromName).getId();
             List<Message> allUnread = messageService.checkUnreadByUid(uid);
@@ -65,27 +67,15 @@ public class YzoneChat {
                 webSocketMap.get(fromName).sendMessage(m.getSend()+"于"+m.getCreateTime()+"发送");
             }
         }
-
         //否则就把用户添加到当前map里面
         else {
             webSocketMap.put(fromName, this); // 加入map中}
-
             System.out.println(webSocketMap.get(fromName) + "========");
         }
 
         addOnlineCount(); // 在线数加1
-        System.out.println("有新连接加入！当前在线人数为" + getOnlineCount());
+        System.err.println("有新连接加入！当前在线人数为" + getOnlineCount());
 
-            // 群发消息
-//				for (YzoneChat item : webSocketSet) {
-//					try {
-//						item.sendMessage(session.toString()+"用户上线了");
-//					} catch (IOException e) {
-//						e.printStackTrace();
-//						//如果有一个挂了 还是要继续发送消息
-//						continue;
-//					}
-//				}
         }
 
         /**
@@ -93,11 +83,11 @@ public class YzoneChat {
          */
         @OnClose
         public void onClose (@PathParam("fromName") String fromName){
-            System.out.println("删除了" + fromName);
+            System.err.println("删除了" + fromName);
             //这里如何remove用户?
             webSocketMap.remove(fromName); // 从Map中删除
             subOnlineCount();
-            System.out.println("有一连接关闭！当前在线人数为" + getOnlineCount());
+            System.err.println("有一连接关闭！当前在线人数为" + getOnlineCount());
         }
 
         /**
@@ -112,7 +102,7 @@ public class YzoneChat {
         @OnMessage
         public void onMessage (@PathParam("fromName") String fromName, @PathParam("toName") String toName, Session
         session, String send) throws IOException {
-            System.out.println("进入了onmessage也卖弄");
+            System.err.println("进入了onmessage");
             //获取发送人的uid
             int uid = userService.getUserByUsername(fromName).getId();
             //发送接收人的uid
@@ -123,18 +113,17 @@ public class YzoneChat {
             m.setSend(send);
             //先保存到数据库  1表示保存成功  0表示保存失败
             int isSave = messageService.save(m);
-            System.out.println("保存" + isSave);
+            System.err.println("保存" + isSave);
             //从当前的map去查询是否有用户为toName的人,如果有的话就得到这个人的session 把消息发送给他
             if (webSocketMap.containsKey(toName)) {
-                System.out.println("当期那用户是否存在"+toName);
+                System.err.println("存在"+toName);
                 webSocketMap.get(toName).sendMessage(send);
                 //发送了之后就表明已读,所以现在就把数据库状态的改过来  TODO 其实现在也是不太好的,最好是用户点开看了之后就发送一条ajax告知
                 User user = userService.getUserByUsername(toName);
-                System.out.println("xiayibu");
                 messageService.updateReadStateByUid(user.getId());
             } else {
                 //也可以发送到对方的聊天框里  提示待会再来
-                System.out.println("该用户不再线");
+                System.err.println(toName+"该用户不再线");
             }
 
             // 群发消息
@@ -149,12 +138,7 @@ public class YzoneChat {
 //		}
         }
 
-        /*
-         * 私聊
-         * Object[] my = webSocketSet.toArray(); //发给第二个人 ((YzoneChat)
-         * my[1]).sendMessage(message);
-         *
-         */
+
 
         /**
          * 发生错误时调用
@@ -164,7 +148,7 @@ public class YzoneChat {
          */
         @OnError
         public void onError (Session session, Throwable error){
-            System.out.println("聊天发生错误");
+            System.err.println("聊天发生错误");
             error.printStackTrace();
         }
 
@@ -176,7 +160,7 @@ public class YzoneChat {
          */
         public void sendMessage (String message) throws IOException {
             //给谁发这里就是谁的session
-            System.out.println("正在发送");
+            System.err.println("正在发送");
             this.session.getBasicRemote().sendText(message);
             // this.session.getAsyncRemote().sendText(message);
         }

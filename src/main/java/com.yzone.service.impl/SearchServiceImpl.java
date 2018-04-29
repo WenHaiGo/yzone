@@ -209,7 +209,7 @@ public class SearchServiceImpl implements SearchService {
             // 查询前100000个结果  TODO如何直接查询所有
             TopDocs ts = searcher.search(query, 100000);
 
-            // 获取命中的数量TODO命中的数量代表什么?? 代表结果集中一共有多少数据吗
+            // 获取命中的数量 TODO 命中的数量代表什么?? 代表结果集中一共有多少数据吗
             lsr.setRecordCount(ts.totalHits);
 
 
@@ -228,6 +228,10 @@ public class SearchServiceImpl implements SearchService {
             if (pageCount > 0) {
                 start = (pageNo - 1) * pageSize;
                 end = start + pageSize;
+//                if(start>lsr.getRecordCount()||end>lsr.getRecordCount())
+//                {
+//                    start
+//                }
                 if (pageNo == pageCount) { // 处理最后一页的结束文档的编号
                     end = start + (lsr.getRecordCount() % pageSize);
                 }
