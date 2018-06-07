@@ -1,11 +1,13 @@
 package com.yzone.controller;
 
-import com.google.gson.JsonObject;
+//死锁就是A给B铅笔B才给A橡皮， 但同时B给A橡皮A才给B铅笔
 
 public class haha {
+    String a = "as";
 
-    public static void main(String[] args) {
-        String a = "{\"from\":\"zh\",\"to\":\"en\",\"trans_result\":[{\"src\":\"\\u5728\\u4f7f\\u5f97\\u4f7f\\u5f97\",\"dst\":\"In making\"}]}";
-
+    public haha(String a) {
+        a = a;
     }
+
+
 }

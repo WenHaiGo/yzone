@@ -160,10 +160,9 @@ function trans() {
             originLanguage: originlanguage,
             originContent: origincontent
         },
-        dataType: 'json',
+        dataType: 'text',
         success: function (data) {
-            $("#transcontent").val(data.trans_result[0].dst);
-            /*TODO这里最好是传过来一个单纯的结果*/
+            $("#transcontent").val(data);
         }
     })
 }
@@ -407,7 +406,7 @@ function toPersonPage(userName) {
             }
         },
         error: function () {
-           /* alert("发生错误")*/
+            /* alert("发生错误")*/
         },
     })
 }
@@ -493,7 +492,7 @@ function loadPageNews() {
         },
         dataType: 'json',
         success: function (data) {
-            for (var i = 0; i <data.length; i++) {
+            for (var i = 0; i < data.length; i++) {
                 console.log(data[i].topicName)
                 //处理是否有权利删除
                 var closeId = "close" + data[i].newsId;
@@ -550,7 +549,7 @@ function loadPageNews() {
         },
         error: function () {
 
-          /*  alert("发生错误")*/
+            /*  alert("发生错误")*/
         },
     })
 }
@@ -627,9 +626,7 @@ function sendComment(newsId, userName, content) {
 }
 
 /*点赞或者点踩来触发 TODO 其实这里的逻辑非常复杂,点击之后马上要出现效果,但是如果网络环境不好的话就再次把颜色退回去*/
-function like(obj , userName) {
-
-
+function like(obj, userName) {
     if ($(obj).css("color") == "rgb(255, 0, 0)") {
         $(obj).css("color", "")
     }
@@ -645,14 +642,6 @@ function like(obj , userName) {
         },
         dataType: "json",
         //TODO 答辩完就来修改
-        success: function (data) {
-            //表示失败 则不要修改颜色
-            /*if(data==no)
-            {
-
-            }*/
-        },
-        //表示失败 则不要修改颜色
         error: function () {
 
         }

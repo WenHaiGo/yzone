@@ -1,6 +1,7 @@
 package com.yzone.controller;
 
-import com.google.gson.Gson;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.yzone.model.*;
 import com.yzone.service.NewsAndTopicService;
 import com.yzone.service.NewsService;
@@ -44,13 +45,20 @@ public class NewsController {
         String shortOrigin = newsService.getShortByComplete(originLanguage);
         String shortTrans = newsService.getShortByComplete(transLanguage);
         String result = null;
+        //TODO 这里不要把大量代码放在trycatch里面
+        String ress = null;
         try {
             result = api.getTransResult(originContent, shortOrigin, shortTrans);
+            JSONObject json = JSONObject.parseObject(result);
+            JSONArray array = json.getJSONArray("trans_result");
+            JSONObject jo = array.getJSONObject(0);
+            ress = jo.getString("dst");
+            System.out.println(ress);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        System.out.println("翻译结构是" + result);
-        return result;
+
+        return ress;
     }
 
 
@@ -187,7 +195,7 @@ public class NewsController {
     //这里直接固定了每一页展示多少个数据,所以就不传参数了
     public List<NewsFlow> getPageNews(int pageNo, HttpServletRequest request) {
         int pageSize = 5;
-        System.out.println("输出页数"+pageNo);
+        System.out.println("输出页数" + pageNo);
         String userName = UserUtils.getCurrentUserName(request);
         //不知道怎么把topic name 加到json里面, 只好新建一个类作为展示到信息流的实体
         //返回用户自己的消息和   TODO已经关注人以及比较热门的消息

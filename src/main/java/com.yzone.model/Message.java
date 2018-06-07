@@ -7,6 +7,7 @@ public class Message {
     int id;
     int uid;
     int otherUid;
+    //表示发表的内容
     String send;
 
     public String getUserName() {
